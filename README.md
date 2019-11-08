@@ -36,6 +36,13 @@ php artisan route:cache
 php artisan cache:clear
 
 php artisan migrate:refresh --seed
+
+
+php artisan optimize
+composer dump-autoload
+
+php artisan optimize && composer dump-autoload
+
 ```
 
 ## Browser

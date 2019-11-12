@@ -16,11 +16,16 @@ class CreateTblUsersMasterTable extends Migration
         Schema::create('tbl_users_master', function (Blueprint $table) {
             $table->bigIncrements('id');
 	        $table->string('user_uuid', 30)->unique()->comment('사용자 uuid');
-	        $table->string('user_type', 6)->comment('사용자 타입');
+	        $table->string('user_type', 6)->default('A02001')->comment('사용자 타입');
 	        $table->string('user_state', 6)->default('A10000')->comment('사용자 상태');
 	        $table->string('user_level', 6)->default('A20000')->comment('사용자 레벨');
-	        $table->string('user_email', 100)->unique()->comment('사용자 레벨');
-	        $table->string('user_password', 255)->comment('사용자 레벨');
+
+	        $table->string('name');
+	        $table->string('email')->unique();
+	        $table->timestamp('email_verified_at')->nullable();
+	        $table->string('password');
+	        $table->rememberToken();
+
 	        $table->enum('user_state_flag', ['Y', 'N'])->default('Y')->comment('사용자 상태(정상인지 아닌지)');
             $table->timestamps();
 

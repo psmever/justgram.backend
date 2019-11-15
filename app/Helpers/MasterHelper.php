@@ -7,7 +7,7 @@ namespace App\Helpers;
 class MasterHelper
 {
 
-	private function uuid() {
+	private static function uuid() {
 
 		// Generate 128 bit random sequence
 		$randmax_bits = strlen(base_convert(mt_getrandmax(), 10, 2));  // how many bits is mt_getrandmax()
@@ -38,7 +38,7 @@ class MasterHelper
 			str_pad(base_convert($a['node_part'], 2, 16), 12, "0", STR_PAD_LEFT));
 	}
 
-	private function uuidSecure() {
+	private static function uuidSecure() {
 
 		$pr_bits = null;
 		$fp = @fopen('/dev/urandom','rb');

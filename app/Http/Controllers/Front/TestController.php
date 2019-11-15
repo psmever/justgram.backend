@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Helpers\MasterHelper;
+
 class TestController extends Controller
 {
     /**
@@ -107,6 +109,6 @@ class TestController extends Controller
 
     public function test()
     {
-        echo __FUNCTION__;
+        echo MasterHelper::GenerateUUID();
     }
 }

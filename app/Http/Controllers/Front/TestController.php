@@ -109,6 +109,17 @@ class TestController extends Controller
 
     public function test()
     {
-        echo MasterHelper::GenerateUUID();
+//    	echo "asdasd";
+//	    return response()->view('errors.404', array('message', "asdasd"), 401);
+//	    return Response::view('errors.404', array('message', "asdasd"), 404);;
+//	    return response();
+
+//	    return response()->json(['error' => 'Exception Handler.'], 500);
+
+//	    return Lang::get('message.test1');
+//	    return trans('message.success.registed');
+	    return  __('message.success.registed');
     }
+
+
 }

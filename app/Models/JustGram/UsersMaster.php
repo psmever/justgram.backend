@@ -1,14 +1,18 @@
 <?php
 
-namespace App;
+namespace App\Models\JustGram;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\BaseAuthModel as BaseAuthModel;
+use App\Traits\Model\BaseModelTrait;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
-class UsersMaster extends Authenticatable
+class UsersMaster extends BaseAuthModel
 {
-	use Notifiable;
+	use HasApiTokens, Notifiable;
+
+	protected $table = "tbl_users_master";
+//	public $incrementing = false;
 
 	/**
 	 * The attributes that are mass assignable.
@@ -17,6 +21,7 @@ class UsersMaster extends Authenticatable
 	 */
 	protected $fillable = [
 		'name', 'email', 'password',
+		'user_uuid',
 	];
 
 	/**

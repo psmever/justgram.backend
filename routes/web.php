@@ -16,3 +16,7 @@
 //});
 
 Route::get('/', 'HomeController@landing');
+
+
+route::get('error', 'ErrorController@defaultError');
+Route::post('login', 'Front\v1\LoginController@login')->name('login');

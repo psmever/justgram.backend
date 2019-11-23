@@ -95,6 +95,21 @@ return [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
         ],
+
+	    // TODO : Custom Channel Log
+	    'pdoexceptionlog' => [
+		    'driver' => 'daily',
+		    'path' => storage_path('logs/'.date('Y/m/').'pdoexceptionlog.log'),
+		    'level' => 'debug',
+		    'days' => 31,
+	    ],
+
+	    'oauthserverexceptionlog' => [
+		    'driver' => 'daily',
+		    'path' => storage_path('logs/'.date('Y/m/').'oauthserverexception.log'),
+		    'level' => 'debug',
+		    'days' => 31,
+	    ],
     ],
 
 ];

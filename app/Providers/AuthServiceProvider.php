@@ -28,12 +28,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // TODO: Passport::routes
-//	    Passport::routes(function ($router) {
-//		    $router->forAccessTokens();
-//		    $router->forPersonalAccessTokens();
-//		    $router->forTransientTokens();
-//	    });
-
 	    Passport::routes(function ($router) {
 		    $router->forAccessTokens();
 		    $router->forPersonalAccessTokens();
@@ -44,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
 //	    Passport::tokensExpireIn(Carbon::now()->addMinutes(10));
 //	    Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
 
-	    Passport::tokensExpireIn(Carbon::now()->addMinutes(10));
-	    Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(20));
+	    Passport::tokensExpireIn(Carbon::now()->addMinutes(1));
+	    Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(2));
     }
 }

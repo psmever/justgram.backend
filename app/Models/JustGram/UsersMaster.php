@@ -3,11 +3,12 @@
 namespace App\Models\JustGram;
 
 use App\Models\BaseAuthModel as BaseAuthModel;
-use App\Traits\Model\BaseModelTrait;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-class UsersMaster extends BaseAuthModel
+
+class UsersMaster extends BaseAuthModel implements MustVerifyEmail
 {
 	use HasApiTokens, Notifiable;
 
@@ -21,7 +22,7 @@ class UsersMaster extends BaseAuthModel
 	 */
 	protected $fillable = [
 		'name', 'email', 'password',
-		'user_uuid',
+		'user_uuid', 'user_type'
 	];
 
 	/**
@@ -41,4 +42,10 @@ class UsersMaster extends BaseAuthModel
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 	];
+
+
+	public function emailauth()
+	{
+		return $this->hasOne('App\Models\JustGram\EmailAuth', 'user_uuid', 'user_uuid');
+	}
 }

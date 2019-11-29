@@ -16,5 +16,15 @@ return [
 	'login' => [
 		'failed' => '정확한 로그인 정보가 아닙니다.',
 		'success' => '로그인이 완료 되었습니다.',
-	]
+		'not_active_user' => '중지된 사용자 입니다.',
+		'wait_user' => '인증 대기 중인 사용자 입니다.',
+	],
+	'email_auth' => [
+		'failed_auth_email_code' => '존재 하지 않은 인증 코드 입니다.',
+		'already_verified' => '이미 인증 완료된 인증코드 입니다.',
+		'user_not_active' => '정상적인 사용자가 아닙니다.',
+		'verified_false' => '처리중 문제가 생겼습니다.',
+		'verified_true' => '인증 처리가 완료 되었습니다.',
+	],
+
 ];

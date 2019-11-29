@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Validator;
 use Carbon\Carbon;
 
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Route;
+
 use App\Repositories\Api\v1\PassportRepositoryInterface;
 
 class PassportController extends BaseController
@@ -30,8 +34,9 @@ class PassportController extends BaseController
 
 		if($result['state'])
 		{
-			return $this->defaultSueecssResponse([
-				'message' => __('messages.success.registed')
+			return $this->defaultSuccessResponse([
+				'message' => __('messages.success.registed'),
+				'info' => $result['data']
 			]);
 		}
 		else
@@ -44,19 +49,17 @@ class PassportController extends BaseController
 
 	public function login(Request $request)
 	{
-		$result = $this->passport->attemptLogin($request->all());
+
+		$result = $this->passport->attemptLogin($request);
 
 		if($result['state'])
 		{
-			return $this->defaultSueecssResponse([
-				'message' => __('auth.login.success'),
-				'data' => $result['data'],
-			]);
+			return response()->json($result['data'], 200);
 		}
 		else
 		{
 			return $this->defaultErrorResponse([
-				'message' => __('auth.login.failed'),
+				'message' => (isset($result['message']) && $result['message']) ? $result['message'] : __('auth.login.failed'),
 				'code' => 401
 			]);
 		}

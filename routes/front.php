@@ -16,6 +16,7 @@ Route::get('test', ['as' => 'test', 'uses' => 'TestController@test']);
 Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
 
     Route::get('login', 'LoginController@login')->name('login');
+	Route::get('/auth/email_auth', 'AuthController@email_auth')->name('emailauth');
 
     Route::group(['middleware' => ['auth']], function () {
 

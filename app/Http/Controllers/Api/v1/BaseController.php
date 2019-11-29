@@ -12,7 +12,7 @@ class BaseController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function defaultSueecssResponse(array $params)
+	public function defaultSuccessResponse(array $params)
 	{
 		$response = [
 			'message' => (isset($params['message']) && $params['message']) ? $params['message'] : __('messages.default.success')
@@ -24,11 +24,15 @@ class BaseController extends Controller
 			$response['data'] = $params['data'];
 		}
 
+		if(isset($params['info']) && $params['info'])
+		{
+			$response['info'] = $params['info'];
+		}
+
 		$code = (isset($params['code']) && $params['code']) ? $params['code'] : 200;
 
 		return response()->json($response, $code);
 	}
-
 
 	/**
 	 * return error response.

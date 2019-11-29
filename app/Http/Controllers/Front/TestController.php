@@ -6,119 +6,50 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Helpers\MasterHelper;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+use App\Mail\v1\EmailMaster;
+
+use App\Models\JustGram\EmailAuth;
 
 class TestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+	public function test()
+	{
+		$auth_code = "IpgQbNdZEAo1hhn0V7fhxFXrFo2RYkmB3rdtlWfzcw3Du9MutCPPebBrySaKsx9lE0VL9mAnWu6jbhtA";
+
+		$emailObject = new \stdClass();
+		$emailObject->category = "user_email_auth";
+		$emailObject->receiverName = "psmever";
+		$emailObject->receiver = "psmever@gmail.com";
+		$emailObject->auth_code = $auth_code;
+		$emailObject->auth_url = url('/front/v1/auth/email_auth?code='.$auth_code);
+
+		Mail::to("psmever@gmail.com")->send(new EmailMaster($emailObject));
+
+	}
+
+    public function test_mail()
     {
-        //
 
-        echo __FUNCTION__;
-    }
+	    $auth_code = Str::random(80);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-
-        echo __FUNCTION__;
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-
-        echo __FUNCTION__;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-
-        echo __FUNCTION__;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-
-        echo __FUNCTION__;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-
-        echo __FUNCTION__;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-
-        echo __FUNCTION__;
-    }
+	    EmailAuth::create([
+		    'user_uuid' => 'ac5c8f12-8b92-40be-8606-03154eef626c',
+		    'auth_code' => $auth_code,
+	    ]);
 
 
-    public function activate()
-    {
-        //
+	    $viewData = [
+	    	'title' => "이메일을 인증해 주세요.",
+	    	'auth_url' => url('/front/v1/auth/email_auth?code='.$auth_code)
+	    ];
 
-        echo __FUNCTION__;
-    }
-
-    public function test()
-    {
-//    	echo "asdasd";
-//	    return response()->view('errors.404', array('message', "asdasd"), 401);
-//	    return Response::view('errors.404', array('message', "asdasd"), 404);;
-//	    return response();
-
-//	    return response()->json(['error' => 'Exception Handler.'], 500);
-
-//	    return Lang::get('message.test1');
-//	    return trans('message.success.registed');
-	    return  __('message.success.registed');
+	    Mail::send('emails.email', $viewData, function($message) {
+		    $message->to('psmever@gmail.com', 'psmever')
+			    ->subject('이메일을 인증해 주세요.');
+	    });
     }
 
 

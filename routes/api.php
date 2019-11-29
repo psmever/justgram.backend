@@ -18,11 +18,15 @@ use Illuminate\Http\Request;
 //});
 
 
-
+//Auth::routes(['verify' => true]);
 Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
 
 	Route::post('register', 'PassportController@register')->name('register');
 	Route::post('login', 'PassportController@login')->name('login');
 //	Route::post('login', 'PassportController@login')->name('login');
+
+	Route::group(['middleware' => ['auth:api']], function () {
+		Route::get('me', 'UserController@me')->name('me');
+	});
 
 });

@@ -23,7 +23,7 @@ class UserController extends BaseController
 
 	    if($result['state'])
 	    {
-		    return $this->defaultSueecssResponse([
+		    return $this->defaultSuccessResponse([
 			    'data' => $result['data']
 		    ]);
 	    }

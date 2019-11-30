@@ -16,6 +16,7 @@ use Validator;
 use GuzzleHttp\Client;
 use App\Mail\v1\EmailMaster;
 
+
 class PassportRepository implements PassportRepositoryInterface
 {
 
@@ -24,9 +25,9 @@ class PassportRepository implements PassportRepositoryInterface
 
 	}
 
-	public function attemptRegister(array $registerData)
+	public function attemptRegister(Request $request)
 	{
-		$validator = Validator::make($registerData, [
+		$validator = Validator::make($request->all(), [
 			'name' => 'required',
 			'email' => 'required|email|unique:tbl_users_master',
 			'password' => 'required',
@@ -45,10 +46,10 @@ class PassportRepository implements PassportRepositoryInterface
 
 		$createResult = UsersMaster::create([
 			'user_uuid' => $newUserUUID,
-			'user_type' => 'A02001',
-			'name' => $registerData['name'],
-			'email' => $registerData['email'],
-			'password' => bcrypt($registerData['password']),
+			'user_type' => $request->header('request-client-type'),
+			'name' => $request->input('name'),
+			'email' => $request->input('email'),
+			'password' => bcrypt($request->input('password')),
 		]);
 
 		if($createResult->wasRecentlyCreated)
@@ -63,8 +64,8 @@ class PassportRepository implements PassportRepositoryInterface
 			// TODO: 사용자 등록시 인증 메일
 			$emailObject = new \stdClass();
 			$emailObject->category = "user_email_auth";
-			$emailObject->receiverName = $registerData['name'];
-			$emailObject->receiver = $registerData['email'];
+			$emailObject->receiverName = $request->input('name');
+			$emailObject->receiver = $request->input('email');
 			$emailObject->auth_code = $auth_code;
 			$emailObject->auth_url = url('/front/v1/auth/email_auth?code='.$auth_code);
 
@@ -128,7 +129,7 @@ class PassportRepository implements PassportRepositoryInterface
 			$request->request->add([
 				'grant_type' => 'password',
 				'client_id' => "2",
-				'client_secret' => "i1LrowYTrY8xF9iAYp46uMNUVv75OryuyzY6RGsb",
+				'client_secret' => "q7vTZEbH6Le5cw0tcxW0kKTeLkkHaBGQR945zSWt",
 				'username' => $request->input('email'),
 				'password' => $request->input('password'),
 				'scope' => '',

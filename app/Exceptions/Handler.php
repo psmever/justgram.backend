@@ -15,7 +15,13 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        // TODO : Exception DontReport
+	    \Illuminate\Auth\AuthenticationException::class,
+	    \Illuminate\Auth\Access\AuthorizationException::class,
+	    \Symfony\Component\HttpKernel\Exception\HttpException::class,
+	    \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+	    \Illuminate\Session\TokenMismatchException::class,
+	    \Illuminate\Validation\ValidationException::class,
     ];
 
     /**
@@ -59,7 +65,11 @@ class Handler extends ExceptionHandler
 	    {
 			$logMessage = "ID:{$logid} Code:{$exception->getCode()} Message:{$exception->getMessage()} File:{$exception->getFile()} Line:{$exception->getLine()}";
 			Log::channel('pdoexceptionlog')->error($logMessage);
+	    } else if ($exception instanceof \App\Exceptions\CustomException)  {
+		    return $exception->render($request, $exception);
 	    }
+
+
 
 	    if ($this->isHttpException($exception)) {
 

@@ -23,10 +23,22 @@ Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function ()
 
 	Route::post('register', 'PassportController@register')->name('register');
 	Route::post('login', 'PassportController@login')->name('login');
+	Route::post('gettoken', 'PassportController@gettoken')->name('getoken'); // 토큰 요청 (테스트)
 //	Route::post('login', 'PassportController@login')->name('login');
 
-	Route::group(['middleware' => ['auth:api']], function () {
-		Route::get('me', 'UserController@me')->name('me');
+	Route::group([
+		'middleware' => [
+			'auth:api',
+			'auth:api',
+			'apiafter'
+		]
+
+	], function () {
+		Route::get('me', 'UserController@me');
+
+
+
+
 	});
 
 });

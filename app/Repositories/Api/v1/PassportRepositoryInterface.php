@@ -9,6 +9,6 @@ interface PassportRepositoryInterface
 	// 로그 아웃.
 
 	public function start();
-	public function attemptRegister(array $registerData);
+	public function attemptRegister(Request $request);
 	public function attemptLogin(Request $request);
 }

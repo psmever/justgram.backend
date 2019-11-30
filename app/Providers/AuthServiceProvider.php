@@ -35,10 +35,10 @@ class AuthServiceProvider extends ServiceProvider
 	    }, ['prefix' => 'api/v1/oauth']);
 
 	    // TODO: TokenTime Test...
-//	    Passport::tokensExpireIn(Carbon::now()->addMinutes(10));
-//	    Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
+	    Passport::tokensExpireIn(Carbon::now()->addMinutes(30));
+	    Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
 
-	    Passport::tokensExpireIn(Carbon::now()->addMinutes(1));
-	    Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(2));
+//	    Passport::tokensExpireIn(Carbon::now()->addMinutes(1));
+//	    Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(2));
     }
 }

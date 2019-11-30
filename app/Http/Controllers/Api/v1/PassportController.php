@@ -30,7 +30,10 @@ class PassportController extends BaseController
 	public function register(Request $request)
 	{
 
-		$result = $this->passport->attemptRegister($request->all());
+//		$result = $this->passport->attemptRegister($request->all());
+		$result = $this->passport->attemptRegister($request);
+
+//		print_r($request->header('request-client-type'));
 
 		if($result['state'])
 		{
@@ -63,7 +66,25 @@ class PassportController extends BaseController
 				'code' => 401
 			]);
 		}
-
 	}
 
+	public function gettoken(Request $request)
+	{
+
+		$result = $this->passport->attemptLogin($request);
+
+
+
+		if($result['state'])
+		{
+			return response()->json($result['data'], 200);
+		}
+		else
+		{
+			return $this->defaultErrorResponse([
+				'message' => (isset($result['message']) && $result['message']) ? $result['message'] : __('auth.login.failed'),
+				'code' => 401
+			]);
+		}
+	}
 }

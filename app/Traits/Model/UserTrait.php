@@ -6,6 +6,11 @@ use App\Traits\Model\BaseModelTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * 사용자 관련 Trait 모음.
+ * Trait UserTrait
+ * @package App\Traits\Model
+ */
 trait UserTrait
 {
 	use BaseModelTrait;

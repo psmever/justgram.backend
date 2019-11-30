@@ -10,6 +10,11 @@ trait BaseModelTrait
 		echo __FUNCTION__;
 	}
 
+	/**
+	 * mysql 결과 처리.
+	 * @param $params
+	 * @return array
+	 */
 	public static function controlOneDataResult($params) : array
 	{
 

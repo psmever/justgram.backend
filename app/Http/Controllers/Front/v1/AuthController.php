@@ -12,6 +12,11 @@ class AuthController extends BaseController
 {
 	use UserTrait;
 
+	/**
+	 * 이메일 인증 프론트 페이지
+	 * @param Request $request
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
 	public function email_auth(Request $request)
 	{
 		$viewData = array();

@@ -55,23 +55,21 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 
-	    $logid = date('Ymdhis');
+	    $logid = date('Ymdhis'); // 로그 고유값.
 
     	//TODO: Exception Control
-//		print_r(get_class($exception));
-//		var_dump($exception->getStatusCode($exception));
-
-	    if ($exception instanceof \PDOException)
+	    if ($exception instanceof \PDOException)  // mysql Exception 따로 기록.
 	    {
 			$logMessage = "ID:{$logid} Code:{$exception->getCode()} Message:{$exception->getMessage()} File:{$exception->getFile()} Line:{$exception->getLine()}";
 			Log::channel('pdoexceptionlog')->error($logMessage);
-	    } else if ($exception instanceof \App\Exceptions\CustomException)  {
+
+	    }
+	    else if ($exception instanceof \App\Exceptions\CustomException) // 기타 Exception
+	    {
 		    return $exception->render($request, $exception);
 	    }
 
-
-
-	    if ($this->isHttpException($exception)) {
+	    if ($this->isHttpException($exception)) {  // 일 반 웹 요청 일떄.
 
 		    if (view()->exists('errors.'.$exception->getStatusCode($exception)))
 		    {
@@ -86,6 +84,7 @@ class Handler extends ExceptionHandler
 	    }
 	    else
 	    {
+	    	// ajax 요청 일떄.
 		    if(config('app.debug'))
 		    {
 			    return response()->json([

@@ -15,9 +15,6 @@ class ApiAfterMiddleware
      */
     public function handle($request, Closure $next)
     {
-//    	echo "ApiAfterMiddleware";
-//        return $next($request);
-
 	    $response = $next($request);
 
 	    return $response;
@@ -25,6 +22,6 @@ class ApiAfterMiddleware
 
 	public function terminate($request, $response)
 	{
-		// TODO:: ApiAfterMiddleware terminate
+		// TODO:: ApiAfterMiddleware 응답 끝났을떄.
 	}
 }

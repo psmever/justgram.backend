@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class BaseController extends Controller
 {
 	/**
-	 * success response method.
+	 * 리본 성공 응답
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
@@ -35,11 +35,10 @@ class BaseController extends Controller
 	}
 
 	/**
-	 * return error response.
+	 * 리본 에러 응답
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-//	public function defaultErrorResponse($error, $errorMessages = [], $code = 404)
 	public function defaultErrorResponse(array $params)
 	{
 

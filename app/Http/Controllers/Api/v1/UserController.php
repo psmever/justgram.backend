@@ -17,6 +17,11 @@ class UserController extends BaseController
     	$this->user = $user;
     }
 
+	/**
+	 * 임시 테스트용 사용자 정보.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
     public function me()
     {
 		$result = $this->user->getMeTestData();

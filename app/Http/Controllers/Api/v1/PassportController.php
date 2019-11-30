@@ -27,6 +27,11 @@ class PassportController extends BaseController
 //		$this->middleware('auth');
 	}
 
+	/**
+	 * 사용자 가입 처리
+	 * @param Request $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function register(Request $request)
 	{
 
@@ -50,6 +55,11 @@ class PassportController extends BaseController
 		}
 	}
 
+	/**
+	 * 사용자 로그인 처리
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+	 */
 	public function login(Request $request)
 	{
 
@@ -68,6 +78,11 @@ class PassportController extends BaseController
 		}
 	}
 
+	/**
+	 * 토큰 리턴.. ( 임시 , 테스트)
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+	 */
 	public function gettoken(Request $request)
 	{
 

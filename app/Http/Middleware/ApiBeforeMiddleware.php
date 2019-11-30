@@ -6,13 +6,16 @@ use Closure;
 
 class ApiBeforeMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
+	/**
+	 * 요청 처리 체크
+	 *
+	 * TODO: 요청 체크
+	 *
+	 * @param $request
+	 * @param Closure $next
+	 * @return mixed
+	 * @throws \App\Exceptions\CustomException
+	 */
     public function handle($request, Closure $next)
     {
 	    $clientType = $request->header('request-client-type');

@@ -4,6 +4,12 @@ namespace App\Exceptions;
 
 use Exception;
 
+/**
+ * 기타 Exception 처리.
+ *
+ * Class CustomException
+ * @package App\Exceptions
+ */
 class CustomException extends Exception
 {
 	/**

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\JustGram\v1;
 
-use App\Http\Controllers\Api\v1\BaseController as BaseController;
+use App\Http\Controllers\Api\JustGram\v1\BaseController as BaseController;
 use Illuminate\Http\Request;
 
 use Validator;
@@ -22,7 +22,7 @@ class PassportController extends BaseController
 	{
 		$this->passport = $passport;
 
-		$this->middleware('guest');
+//		$this->middleware('guest');
 //		$this->middleware('auth:api');
 //		$this->middleware('auth');
 	}
@@ -101,5 +101,15 @@ class PassportController extends BaseController
 				'code' => 401
 			]);
 		}
+	}
+
+	public function token_refresh(Request $request)
+	{
+		$result = $this->passport->attemptTokenRefresh($request);
+
+
+		return response()->json($result['data'], 200);
+
+//		$result = $this->passport->attemptTokenRefresh();
 	}
 }

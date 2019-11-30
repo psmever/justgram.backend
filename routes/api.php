@@ -19,26 +19,21 @@ use Illuminate\Http\Request;
 
 
 //Auth::routes(['verify' => true]);
-Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
+Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgram.'], function () {
+	Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
 
-	Route::post('register', 'PassportController@register')->name('register');
-	Route::post('login', 'PassportController@login')->name('login');
-	Route::post('gettoken', 'PassportController@gettoken')->name('getoken'); // 토큰 요청 (테스트)
-//	Route::post('login', 'PassportController@login')->name('login');
+		Route::post('register', 'PassportController@register')->name('register');
+		Route::post('login', 'PassportController@login')->name('login');
+		Route::post('gettoken', 'PassportController@gettoken')->name('getoken'); // 토큰 요청 (테스트)
 
-	Route::group([
-		'middleware' => [
-			'auth:api',
-			'auth:api',
-			'apiafter'
-		]
-
-	], function () {
-		Route::get('me', 'UserController@me');
+		Route::group(['middleware' => 'auth:api'], function () {
+			Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 요청 (테스트)
+			Route::get('me', 'UserController@test')->name('me');
 
 
-
-
+			Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+				Route::post('profile/update', 'UserController@profile_update')->name('profile.update'); // 토큰 요청 (테스트)
+			});
+		});
 	});
-
 });

@@ -24,6 +24,7 @@ class CreateTblUsersMasterTable extends Migration
 	        $table->string('email')->unique();
 
 	        $table->string('password');
+	        $table->string('profile_image', 255)->nullable();
 	        $table->rememberToken();
 
 	        $table->enum('user_active', ['Y', 'N'])->default('Y')->comment('사용자 상태(정상인지 아닌지)');

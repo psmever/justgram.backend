@@ -163,37 +163,42 @@ class PassportRepository implements PassportRepositoryInterface
 				'message' => __('auth.failed')
 			];
 		}
-
-
-
-
-//		if(Auth::attempt(['email' => $loginData['email'], 'password' => $loginData['password']])){
-//			$user = Auth::user();
-//			$tokenResult = $user->createToken('Personal Access Token');
-//			$token = $tokenResult->token;
-//
-//			if(isset($loginData['remember_me']) && $loginData['remember_me'])
-//			{
-//				$token->expires_at = Carbon::now()->addWeeks(1);
-//			}
-//
-//			$token->save();
-//
-//			return [
-//				'state' => true,
-//				'data' => [
-//					'token_type' => 'Bearer',
-//					'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
-//					'access_token' => $tokenResult->accessToken,
-//				],
-//			];
-//
-//		} else {
-//
-//			return [
-//				'state' => false,
-//				'message' => __('auth.login.failed')
-//			];
-//		}
 	}
+
+	public function attemptTokenRefresh(Request $request) : array
+	{
+
+		$UserData = Auth::user();
+
+		if($UserData)
+		{
+
+			$request->request->add([
+				'grant_type' => 'refresh_token',
+				'client_id' => env('PASSPORT_PASSWORD_GRANT_CLIENT_ID'),
+				'client_secret' => env('PASSPORT_PASSWORD_GRANT_CLIENT_SECRET'),
+				'refresh_token' => $request->input('refresh_token'),
+				'scope' => '',
+			]);
+
+			$tokenRequest = $request->create(
+				url('/api/v1/oauth/token'),
+				'post'
+			);
+
+			return [
+				'state' => true,
+				'data' => json_decode(\Route::dispatch($tokenRequest)->getContent())
+			];
+
+		}
+
+
+
+		return [
+			'state' => true
+		];
+
+	}
+
 }

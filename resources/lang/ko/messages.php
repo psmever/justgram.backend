@@ -8,6 +8,7 @@ return [
 	*/
 	'default' => [
 		'success' => '정상 전송 하였습니다.',
+		'do_success' => '정상 처리 하였습니다.',
 		'error' => '처리중 문제가 발생했습니다.',
 	],
 

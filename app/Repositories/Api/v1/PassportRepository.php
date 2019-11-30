@@ -25,6 +25,11 @@ class PassportRepository implements PassportRepositoryInterface
 
 	}
 
+	/**
+	 * 사용자 등록.
+	 * @param Request $request
+	 * @return array
+	 */
 	public function attemptRegister(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
@@ -98,7 +103,12 @@ class PassportRepository implements PassportRepositoryInterface
 		}
 	}
 
-	public function attemptLogin(Request $request)
+	/**
+	 * 사용자 로그인.
+	 * @param Request $request
+	 * @return array
+	 */
+	public function attemptLogin(Request $request) : array
 	{
 
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
@@ -128,8 +138,8 @@ class PassportRepository implements PassportRepositoryInterface
 			// request 를 생성해서 해야 하는데 그게 안됨.. 이유를 모르겠음.. 무한 뻉뻉이 돔?
 			$request->request->add([
 				'grant_type' => 'password',
-				'client_id' => "2",
-				'client_secret' => "q7vTZEbH6Le5cw0tcxW0kKTeLkkHaBGQR945zSWt",
+				'client_id' => env('PASSPORT_PASSWORD_GRANT_CLIENT_ID'),
+				'client_secret' => env('PASSPORT_PASSWORD_GRANT_CLIENT_SECRET'),
 				'username' => $request->input('email'),
 				'password' => $request->input('password'),
 				'scope' => '',

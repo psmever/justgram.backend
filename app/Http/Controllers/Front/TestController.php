@@ -17,17 +17,8 @@ class TestController extends Controller
 {
 	public function test()
 	{
-		$auth_code = "IpgQbNdZEAo1hhn0V7fhxFXrFo2RYkmB3rdtlWfzcw3Du9MutCPPebBrySaKsx9lE0VL9mAnWu6jbhtA";
-
-		$emailObject = new \stdClass();
-		$emailObject->category = "user_email_auth";
-		$emailObject->receiverName = "psmever";
-		$emailObject->receiver = "psmever@gmail.com";
-		$emailObject->auth_code = $auth_code;
-		$emailObject->auth_url = url('/front/v1/auth/email_auth?code='.$auth_code);
-
-		Mail::to("psmever@gmail.com")->send(new EmailMaster($emailObject));
-
+		echo "client_id".env('PASSPORT_PASSWORD_GRANT_CLIENT_ID').PHP_EOL;
+		echo "secret".env('PASSPORT_PASSWORD_GRANT_CLIENT_SECRET').PHP_EOL;
 	}
 
     public function test_mail()

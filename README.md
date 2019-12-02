@@ -1,8 +1,8 @@
 # JsutGram.Backend
 
-## Installation
+## Installation.
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [composer](https://getcomposer.org/) to install foobar.
 
 ```bash
 echo "# justgram.backend" >> README.md
@@ -13,19 +13,19 @@ git remote add origin https://github.com/psmever/justgram.backend.git
 git push -u origin master
 ```
 
-### Git Clone
+## Git Clone.
 
 ```bash
 git clone https://github.com/psmever/justgram.backend.git Backend
 ```
 
-## Composer
+## Composer.
 ```bash
 composer install
 
 ```
 
-## First Config
+## First Config.
 ```bash
 cp .env.example .env
 sh init.sh
@@ -33,7 +33,7 @@ sh init.sh
 ```
 
 
-## Config
+## 기타 설정.
 ```bash
 php artisan config:clear
 php artisan config:cache
@@ -53,13 +53,13 @@ php artisan optimize && composer dump-autoload
 
 ```
 
-## Usage
+## Usage.
 
 ```bash
 php artisan serve
 ```
 
-## Browser
+## Browser.
 ```bash
 http://127.0.0.1:8000 || http://localhost:8000/
 ```

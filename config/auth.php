@@ -41,11 +41,16 @@ return [
             'provider' => 'users',
         ],
 
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ],
+//        'api' => [
+//            'driver' => 'token',
+//            'provider' => 'users',
+//            'hash' => false,
+//        ],
+	    'api' => [
+		    'driver' => 'passport',
+		    'provider' => 'users',
+		    'hash' => false,
+	    ],
     ],
 
     /*
@@ -78,13 +83,13 @@ return [
 
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Model\UsersMaster::class,
+            'model' => App\Models\JustGram\UsersMaster::class,
         ],
 
-	     'users' => [
-	         'driver' => 'database',
-	         'table' => 'tbl_users_master',
-	     ],
+//		'users' => [
+//			'driver' => 'database',
+//			'table' => 'tbl_users_master',
+//		],
     ],
 
     /*

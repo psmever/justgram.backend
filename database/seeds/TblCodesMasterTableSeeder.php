@@ -72,6 +72,7 @@ class TblCodesMasterTableSeeder extends Seeder
 		    [ 'group_id' => 'A02', 'group_name' => '사용자 타입(가입)' ],
 		    [ 'group_id' => 'A10', 'group_name' => '사용자 상태' ],
 		    [ 'group_id' => 'A20', 'group_name' => '사용자 레벨' ],
+		    [ 'group_id' => 'A21', 'group_name' => '사용자 성멸' ],
 	    ];
 
     }
@@ -106,6 +107,12 @@ class TblCodesMasterTableSeeder extends Seeder
 					[ 'code_id' => '000', 'code_name' => '일반 사용자' ],
 					[ 'code_id' => '900', 'code_name' => '일반 관리자' ],
 					[ 'code_id' => '999', 'code_name' => '최고 관리자' ],
+				],
+			'A21' =>
+				[
+					[ 'code_id' => '000', 'code_name' => '비공개' ],
+					[ 'code_id' => '010', 'code_name' => '남성' ],
+					[ 'code_id' => '020', 'code_name' => '여성' ],
 				],
 		];
 

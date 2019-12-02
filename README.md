@@ -53,7 +53,7 @@ php artisan optimize && composer dump-autoload
 
 ```
 
-## Usage.
+## Local Develop Server.
 
 ```bash
 php artisan serve

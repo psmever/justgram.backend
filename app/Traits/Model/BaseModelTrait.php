@@ -22,7 +22,7 @@ trait BaseModelTrait
 		{
 			return [
 				'state' => true,
-//				'data' => $params->first()->attributesToArray()
+//				'data' => $params->first()->attributesToArray() // ??????
 				'data' => $params->toArray()
 			];
 		}

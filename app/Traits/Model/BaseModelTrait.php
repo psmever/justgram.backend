@@ -11,7 +11,7 @@ trait BaseModelTrait
 	}
 
 	/**
-	 * mysql 결과 처리.
+	 * mysql ?? ?? ??.
 	 * @param $params
 	 * @return array
 	 */

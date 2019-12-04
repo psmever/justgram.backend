@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait UserTrait
 {
-	use BaseModelTrait;
+	// use BaseModelTrait;
 
 	use BaseModelTrait {
 		BaseModelTrait::controlOneDataResult as controlOneDataResult;

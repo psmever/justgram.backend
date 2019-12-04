@@ -49,7 +49,7 @@ php artisan migrate:refresh --seed
 php artisan optimize
 composer dump-autoload
 
-php artisan optimize && composer dump-autoload
+php artisan config:clear && php artisan optimize && composer dump-autoload
 
 ```
 

@@ -15,6 +15,7 @@ trait UserTrait
 {
 	// use BaseModelTrait;
 
+    // 모델 공통 Trait
 	use BaseModelTrait {
 		BaseModelTrait::controlOneDataResult as controlOneDataResult;
 	}

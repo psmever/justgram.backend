@@ -17,10 +17,9 @@ trait BaseModelTrait
 	 */
 	public static function controlOneDataResult($params) : array
 	{
-
 		if($params->isNotEmpty())
 		{
-			return [
+			return [ // ??? ???
 				'state' => true,
 //				'data' => $params->first()->attributesToArray() // ??????
 				'data' => $params->toArray()
@@ -28,7 +27,7 @@ trait BaseModelTrait
 		}
 		else
 		{
-			return [
+			return [ // ??? ???.
 				'state' => false
 			];
 		}

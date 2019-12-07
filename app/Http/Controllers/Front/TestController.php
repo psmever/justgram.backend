@@ -23,7 +23,7 @@ class TestController extends Controller
 
     public function test_mail()
     {
-
+        // 메일 테스트
 	    $auth_code = Str::random(80);
 
 	    EmailAuth::create([

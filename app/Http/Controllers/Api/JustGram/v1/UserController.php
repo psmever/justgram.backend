@@ -29,7 +29,7 @@ class UserController extends BaseController
 	    if($result['state'])
 	    {
 		    return $this->defaultSuccessResponse([
-			    'data' => $result['data']
+			    'info' => $result['data']
 		    ]);
 	    }
 	    else
@@ -47,8 +47,6 @@ class UserController extends BaseController
 	 */
     public function profile_update(Request $request)
     {
-
-
 	    $result = $this->user->attemptUserProfileUpdate($request);
 
 	    if($result['state'])

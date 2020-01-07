@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class BaseController extends Controller
 {
 	/**
-	 * 리본 성공 응답
+	 * 기본 성공 응답
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
@@ -34,8 +34,18 @@ class BaseController extends Controller
 		return response()->json($response, $code);
 	}
 
+    /**
+     * 기본 성공 응답 ( 바디만 처리 )
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function firstSuccessResponse(array $params)
+    {
+        return response()->json($params['data'], 200);
+    }
+
 	/**
-	 * 리본 에러 응답
+	 * 기본 에러 응답
 	 *
 	 * @return \Illuminate\Http\Response
 	 */

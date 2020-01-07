@@ -34,11 +34,7 @@ class PassportController extends BaseController
 	 */
 	public function register(Request $request)
 	{
-
-//		$result = $this->passport->attemptRegister($request->all());
 		$result = $this->passport->attemptRegister($request);
-
-//		print_r($request->header('request-client-type'));
 
 		if($result['state'])
 		{
@@ -62,12 +58,13 @@ class PassportController extends BaseController
 	 */
 	public function login(Request $request)
 	{
-
 		$result = $this->passport->attemptLogin($request);
 
 		if($result['state'])
 		{
-			return response()->json($result['data'], 200);
+            return $this->firstSuccessResponse([
+                'data' => $result['data']
+            ]);
 		}
 		else
 		{
@@ -85,10 +82,7 @@ class PassportController extends BaseController
 	 */
 	public function gettoken(Request $request)
 	{
-
 		$result = $this->passport->attemptLogin($request);
-
-
 
 		if($result['state'])
 		{
@@ -107,9 +101,6 @@ class PassportController extends BaseController
 	{
 		$result = $this->passport->attemptTokenRefresh($request);
 
-
 		return response()->json($result['data'], 200);
-
-//		$result = $this->passport->attemptTokenRefresh();
 	}
 }

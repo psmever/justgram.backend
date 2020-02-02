@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Seoul',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ko',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,6 +165,12 @@ return [
         /*
          * Package Service Providers...
          */
+
+        // TODO: v1BackendServiceProvider
+	    App\Repositories\v1BackendServiceProvider::class,
+
+        //TODO: PassportServiceProvider
+	    Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...

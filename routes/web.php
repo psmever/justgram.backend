@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::get('/', 'HomeController@landing');
+
+
+route::get('error', 'ErrorController@defaultError');
+Route::post('login', 'Front\v1\LoginController@login')->name('login');

@@ -69,7 +69,8 @@ class PassportController extends BaseController
 		else
 		{
 			return $this->defaultErrorResponse([
-				'message' => (isset($result['message']) && $result['message']) ? $result['message'] : __('auth.login.failed'),
+//				'message' => (isset($result['message']) && $result['message']) ? $result['message'] : __('auth.login.failed'),
+				'message' => __('auth.login.failed'),
 				'code' => 401
 			]);
 		}
@@ -91,7 +92,8 @@ class PassportController extends BaseController
 		else
 		{
 			return $this->defaultErrorResponse([
-				'message' => (isset($result['message']) && $result['message']) ? $result['message'] : __('auth.login.failed'),
+//				'message' => (isset($result['message']) && $result['message']) ? $result['message'] : __('auth.login.failed'),
+				'message' => __('auth.login.failed'),
 				'code' => 401
 			]);
 		}

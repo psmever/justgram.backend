@@ -23,8 +23,6 @@ class CreateTblUsersProfileMasterTable extends Migration
 	        $table->string('telephone', 255)->nullable();
 	        $table->string('gender', 6)->nullable();
 
-
-
             $table->timestamps();
 
 	        $table->foreign('user_uuid')->references('user_uuid')->on('tbl_users_master')->onDelete('cascade');

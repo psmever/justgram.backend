@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TblCodesMasterTableSeeder extends Seeder
 {
@@ -11,8 +12,6 @@ class TblCodesMasterTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-
         $this->init();
     }
 
@@ -46,9 +45,10 @@ class TblCodesMasterTableSeeder extends Seeder
 
 			    DB::table('tbl_codes_master')->insert([
 				    'group_id' => $group_id,
-				    'group_name' => $group_name,
+				    'group_name' => NULL,
 				    'code_id' => $endCodeid,
-				    'code_name' => $code_name,
+                    'code_name' => $code_name,
+                    'active' => 'Y',
 				    'created_at' => \Carbon\Carbon::now(),
 				    'updated_at' => \Carbon\Carbon::now(),
 			    ]);
@@ -72,7 +72,8 @@ class TblCodesMasterTableSeeder extends Seeder
 		    [ 'group_id' => 'A02', 'group_name' => '사용자 타입(가입)' ],
 		    [ 'group_id' => 'A10', 'group_name' => '사용자 상태' ],
 		    [ 'group_id' => 'A20', 'group_name' => '사용자 레벨' ],
-		    [ 'group_id' => 'A21', 'group_name' => '사용자 성멸' ],
+            [ 'group_id' => 'A21', 'group_name' => '사용자 성별' ],
+            [ 'group_id' => 'S01', 'group_name' => '시스템' ],
 	    ];
 
     }
@@ -113,6 +114,11 @@ class TblCodesMasterTableSeeder extends Seeder
 					[ 'code_id' => '000', 'code_name' => '비공개' ],
 					[ 'code_id' => '010', 'code_name' => '남성' ],
 					[ 'code_id' => '020', 'code_name' => '여성' ],
+                ],
+            'S01' =>
+				[
+					[ 'code_id' => '000', 'code_name' => '비사용' ],
+					[ 'code_id' => '001', 'code_name' => '사용' ],
 				],
 		];
 

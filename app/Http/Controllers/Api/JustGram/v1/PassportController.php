@@ -12,13 +12,13 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Route;
 
-use App\Repositories\Api\v1\PassportRepositoryInterface;
+use App\Repositories\Api\v1\PassportRepository;
 
 class PassportController extends BaseController
 {
 	protected $passport;
 
-	public function __construct(PassportRepositoryInterface $passport)
+	public function __construct(PassportRepository $passport)
 	{
 		$this->passport = $passport;
 
@@ -58,7 +58,7 @@ class PassportController extends BaseController
 	 */
 	public function login(Request $request)
 	{
-		$result = $this->passport->attemptLogin($request);
+        $result = $this->passport->attemptLogin($request);
 
 		if($result['state'])
 		{
@@ -69,7 +69,6 @@ class PassportController extends BaseController
 		else
 		{
 			return $this->defaultErrorResponse([
-//				'message' => (isset($result['message']) && $result['message']) ? $result['message'] : __('auth.login.failed'),
 				'message' => __('auth.login.failed'),
 				'code' => 401
 			]);

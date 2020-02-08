@@ -1,12 +1,11 @@
 <?php
-
-
 namespace App\Repositories\Api\v1;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
+
 use App\Traits\Model\UserTrait;
-use Validator;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -41,7 +40,12 @@ class UserRepository implements UserRepositoryInterface
 		}
 	}
 
-
+    /**
+     * 사용자 프로필 내용 업데이트.
+     *
+     * @param Request $request
+     * @return array
+     */
 	public function attemptUserProfileUpdate(Request $request) : array
 	{
 
@@ -49,7 +53,7 @@ class UserRepository implements UserRepositoryInterface
 
 		if($UserData)
 		{
-			$validator = Validator::make($request->all(), [
+			$validator = FacadesValidator::make($request->all(), [
                 'name' => 'required',
                 'web_site' => 'required',
                 'bio' => 'required',

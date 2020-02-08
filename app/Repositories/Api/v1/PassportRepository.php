@@ -33,7 +33,7 @@ class PassportRepository implements PassportRepositoryInterface
 	public function attemptRegister(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
-			'name' => 'required',
+			'username' => 'required',
 			'email' => 'required|email|unique:tbl_users_master',
 			'password' => 'required',
 			'confirm_password' => 'required|same:password',
@@ -41,9 +41,13 @@ class PassportRepository implements PassportRepositoryInterface
 
 		if( $validator->fails() )
 		{
+            $errorMessage = "";
+            foreach($validator->messages()->all() as $element):
+                $errorMessage .= $element."\n";
+            endforeach;
 			return [
 				'state' => false,
-				'message' => $validator->errors()
+				'message' => $errorMessage
 			];
 		}
 
@@ -52,7 +56,7 @@ class PassportRepository implements PassportRepositoryInterface
 		$createResult = UsersMaster::create([
 			'user_uuid' => $newUserUUID,
 			'user_type' => $request->header('request-client-type'),
-			'name' => $request->input('name'),
+			'user_name' => $request->input('username'),
 			'email' => $request->input('email'),
 			'password' => bcrypt($request->input('password')),
 		]);
@@ -150,10 +154,12 @@ class PassportRepository implements PassportRepositoryInterface
 				'post'
 			);
 
+            $data = json_decode(\Route::dispatch($tokenRequest)->getContent());
+            $data->user_name = $user['user_name'];
 
 			return [
 				'state' => true,
-				'data' => json_decode(\Route::dispatch($tokenRequest)->getContent())
+				'data' => $data
 			];
 
 

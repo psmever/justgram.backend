@@ -21,7 +21,7 @@ class UserPrifile extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_uuid', 'real_name', 'web_site', 'about', 'telephone', 'gender'
+		'user_uuid', 'name', 'web_site', 'bio', 'phone_number', 'gender'
 	];
 
 

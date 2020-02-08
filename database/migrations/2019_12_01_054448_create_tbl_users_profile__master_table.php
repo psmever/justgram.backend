@@ -17,10 +17,10 @@ class CreateTblUsersProfileMasterTable extends Migration
 
 	        $table->string('user_uuid', 50)->primary()->comment('사용자 uuid');
 
-	        $table->string('real_name', 255)->nullable();
+	        $table->string('name', 255)->nullable();
 	        $table->string('web_site', 255)->nullable();
-	        $table->text('about')->nullable();
-	        $table->string('telephone', 255)->nullable();
+	        $table->text('bio')->nullable();
+	        $table->string('phone_number', 255)->nullable();
 	        $table->string('gender', 6)->nullable();
 
             $table->timestamps();

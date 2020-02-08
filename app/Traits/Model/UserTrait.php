@@ -115,7 +115,7 @@ trait UserTrait
 	public function saveUserProfile(string $user_uuid, array $profileInfo) : array
 	{
 		// 있으면 업데이트 없으면 생성.
-		$result = \App\Models\JustGram\UserPrifile::updateOrCreate(
+		$result = \App\Models\JustGram\UserProfiles::updateOrCreate(
 			[
                 'user_uuid' => $user_uuid
             ],[

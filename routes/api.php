@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,14 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
 		Route::post('register', 'PassportController@register')->name('register');
 		Route::post('login', 'PassportController@login')->name('login');
 		Route::post('gettoken', 'PassportController@gettoken')->name('getoken'); // 토큰 요청 (테스트)
+
+        Route::post('login', 'PassportController@login')->name('login');
+
+        Route::group(['prefix' => 'system', 'as' => 'system.'], function () {
+            Route::get('server', 'SystemController@server')->name('server'); // 토큰 요청 (테스트)
+            Route::get('notice', 'SystemController@notice')->name('notice'); // 토큰 요청 (테스트)
+            Route::get('sitedata', 'SystemController@sitedata')->name('sitedata'); // 토큰 요청 (테스트)
+        });
 
 		Route::group(['middleware' => 'auth:api'], function () {
 			Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 요청 (테스트)

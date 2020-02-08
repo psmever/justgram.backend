@@ -49,9 +49,12 @@ class UserRepository implements UserRepositoryInterface
 
 		if($UserData)
 		{
-
 			$validator = Validator::make($request->all(), [
-				'real_name' => 'required',
+                'name' => 'required',
+                'web_site' => 'required',
+                'bio' => 'required',
+                'phone_number' => 'required',
+                'gender' => 'required',
 			]);
 
 			if( $validator->fails() )
@@ -62,16 +65,13 @@ class UserRepository implements UserRepositoryInterface
 				];
 			}
 
-
-			$input = $request->only(
-				'real_name',
-				'web_site',
-				'about',
-				'telephone',
-				'gender'
-			);
-
-			$result = $this->saveUserProfile($UserData->user_uuid, $input);
+            $result = $this->saveUserProfile($UserData->user_uuid, [
+                'name' => $request->get('name'),
+                'web_site' => $request->get('web_site'),
+                'bio' => $request->get('bio'),
+                'phone_number' => $request->get('phone_number'),
+                'gender' => $request->get('gender'),
+            ]);
 
 			if($result['state'])
 			{
@@ -86,8 +86,6 @@ class UserRepository implements UserRepositoryInterface
 					'message' => _('messages.default.error')
 				];
 			}
-
-
 		}
 		else
 		{

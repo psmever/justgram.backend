@@ -51,10 +51,11 @@ class BaseController extends Controller
 	 */
 	public function defaultErrorResponse(array $params)
 	{
+        $errorMessages = "";
 
 		if(isset($params['message']) && $params['message'])
 		{
-			$response['message'] = $params['message'];
+			$response['error_message'] = $params['message'];
 		}
 		else
 		{

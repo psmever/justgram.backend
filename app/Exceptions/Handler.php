@@ -96,7 +96,7 @@ class Handler extends ExceptionHandler
 		    else
 		    {
 			    return response()->json([
-				    'error' => 'Server Error',
+				    'error_message' => $exception->getMessage(),
 			    ], 500);
 		    }
 	    }

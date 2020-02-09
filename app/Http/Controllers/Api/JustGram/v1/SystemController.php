@@ -24,14 +24,17 @@ class SystemController extends BaseController
     }
 
     /**
-     * 공지 사항.
+     * 공지 사항 체크.
      */
     public function notice(Request $request)
     {
-        $notice = "공지 사항이 존재 하지 않습니다.";
+        $notice = [
+            'notice_exits' => false,
+            'notice' => "로그인 이 되지 않을떄는 잠수후에 다시 이용해 주세요."
+        ];
 
-        return $this->defaultErrorResponse([
-            'message' => $notice
+        return $this->firstSuccessResponse([
+            'data' => $notice
         ]);
     }
 
@@ -42,7 +45,7 @@ class SystemController extends BaseController
     {
         $getCodeList = $this->system->getSiteBasicData();
 
-        return $this->defaultSuccessResponse([
+        return $this->firstSuccessResponse([
             'data' => $getCodeList
         ]);
     }

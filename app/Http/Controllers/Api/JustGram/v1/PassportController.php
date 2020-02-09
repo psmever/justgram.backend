@@ -4,14 +4,6 @@ namespace App\Http\Controllers\Api\JustGram\v1;
 
 use App\Http\Controllers\Api\JustGram\v1\BaseController as BaseController;
 use Illuminate\Http\Request;
-
-use Validator;
-use Carbon\Carbon;
-
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Route;
-
 use App\Repositories\Api\v1\PassportRepository;
 
 class PassportController extends BaseController
@@ -69,7 +61,7 @@ class PassportController extends BaseController
 		else
 		{
 			return $this->defaultErrorResponse([
-				'message' => __('auth.login.failed'),
+				'message' => (isset($result['message']) && $result['message']) ? $result['message'] : __('auth.login.failed'),
 				'code' => 401
 			]);
 		}

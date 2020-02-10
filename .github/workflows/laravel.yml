@@ -1,4 +1,4 @@
-name: Laravel
+name: JustGram.Backend
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     - develop
 
 jobs:
-  justgram_backend-tests:
+  laravel-tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

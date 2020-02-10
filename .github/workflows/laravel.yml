@@ -7,7 +7,7 @@ on:
     - develop
 
 jobs:
-  laravel-tests:
+  justgram.backend-tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

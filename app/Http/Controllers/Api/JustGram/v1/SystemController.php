@@ -13,6 +13,7 @@ class SystemController extends BaseController
     public function __construct(SystemRepository $system)
     {
         $this->system = $system;
+
     }
 
     /**

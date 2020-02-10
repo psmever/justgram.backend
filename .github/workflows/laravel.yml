@@ -7,7 +7,7 @@ on:
     - develop
 
 jobs:
-  justgram.backend-tests:
+  justgram_backend-tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

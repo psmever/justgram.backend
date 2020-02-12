@@ -118,6 +118,7 @@ class PassportRepository implements PassportRepositoryInterface
             $user_name = $user['user_name'];
 			$user_state = $user['user_state'];
             $user_active = $user['user_active'];
+            $profile_active = $user['profile_active'];
 
 
 			if($user_active != 'Y') // 사용자 상태 체크
@@ -153,6 +154,7 @@ class PassportRepository implements PassportRepositoryInterface
 
             $data = json_decode(FacadesRoute::dispatch($tokenRequest)->getContent());
             $data->user_name = $user_name;
+            $data->profile_active = $profile_active;
 
 			return [
 				'state' => true,

@@ -4,3 +4,6 @@ php artisan migrate:refresh --seed
 php artisan passport:install --force
 php artisan optimize
 /usr/local/bin/composer dump-autoload
+
+
+# test.

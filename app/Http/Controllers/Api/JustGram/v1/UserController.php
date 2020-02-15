@@ -61,6 +61,24 @@ class UserController extends BaseController
 			    'message' => $result['message']
 		    ]);
 	    }
+    }
+
+    public function profile_me(Request $request)
+    {
+        $result = $this->user->getProfileInfo($request);
+
+        if($result['state'])
+	    {
+		    return $this->firstSuccessResponse([
+                'data' => $result['data']
+		    ]);
+	    }
+	    else
+	    {
+		    return $this->defaultErrorResponse([
+			    'message' => $result['message']
+		    ]);
+	    }
 
     }
 }

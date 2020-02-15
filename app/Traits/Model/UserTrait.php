@@ -128,18 +128,44 @@ trait UserTrait
 
 		if($result)
 		{
-			return [
-				'state' => true
-			];
+			return ['state' => true];
 		}
 		else
 		{
-			return [
-				'state' => false
-			];
+			return ['state' => false];
 		}
+    }
 
-	}
+    public function updateUsersProfileActive(string $user_uuid)
+    {
+        $result = \App\Models\JustGram\UsersMaster::where("user_uuid", $user_uuid)->update(["profile_active" => "Y"]);
+
+        if($result)
+		{
+			return ['state' => true];
+		}
+		else
+		{
+			return ['state' => false];
+		}
+    }
+
+    public function getUserProfileData(string $user_uuid) : array
+    {
+        $result = \App\Models\JustGram\UserProfiles::where("user_uuid", $user_uuid);
+
+        if($result->get()->isNotEmpty())
+		{
+            return [
+                'state' => true,
+                'data' => $result->first()->toArray()
+            ];
+        }
+        else
+        {
+            return ['state' => false];
+        }
+    }
 
 
 

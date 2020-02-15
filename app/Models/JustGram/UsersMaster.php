@@ -21,7 +21,7 @@ class UsersMaster extends BaseAuthModel implements MustVerifyEmail
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_name', 'email', 'password', 'user_uuid', 'user_type'
+		'user_name', 'email', 'password', 'user_uuid', 'user_type', 'profile_active'
 	];
 
 	/**

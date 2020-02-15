@@ -56,7 +56,8 @@ class SystemRepository implements SystemRepositoryInterface
         $codelists = $this->getCombinCodesList();
 
         return [
-            'code_list' => json_encode($codelists)
+            // 'code_list' => json_encode($codelists)
+            'code_list' => $codelists
         ];
     }
 }

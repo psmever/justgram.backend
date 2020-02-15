@@ -73,12 +73,14 @@ class UserRepository implements UserRepositoryInterface
                 'name' => $request->get('name'),
                 'web_site' => $request->get('web_site'),
                 'bio' => $request->get('bio'),
-                'phone_number' => $request->get('phone_number'),
+                'phone_number' => encrypt($request->get('phone_number')),
                 'gender' => $request->get('gender'),
             ]);
 
 			if($result['state'])
 			{
+                $this->updateUsersProfileActive($UserData->user_uuid);
+
 				return [
 					'state' => true
 				];
@@ -97,12 +99,51 @@ class UserRepository implements UserRepositoryInterface
 				'state' => false,
 				'message' => '잘못된 정보 입니다.'
 			];
+		}
+    }
+
+    public function getProfileInfo(Request $request)
+    {
+        $UserData = Auth::user();
+
+        if($UserData)
+		{
+            $profileInfo = $this->getUserProfileData($UserData->user_uuid);
+
+            if($profileInfo['state'] === true)
+            {
+                $data = $profileInfo['data'];
+
+                return [
+                    'state' => true,
+                    'data' => [
+                        'user_name' => $UserData->user_name,
+                        'name' => (isset($data['name']) && $data['name']) ? $data['name'] : '',
+                        'web_site' => (isset($data['web_site']) && $data['web_site']) ? $data['web_site'] : '',
+                        'bio' => (isset($data['bio']) && $data['bio']) ? $data['bio'] : '',
+                        'phone_number' => (isset($data['phone_number']) && $data['phone_number']) ? decrypt($data['phone_number']) : '',
+                        'gender' => (isset($data['gender']) && $data['gender']) ? $data['gender'] : '',
+                    ]
+                ];
+            }
+            else
+            {
+                return [
+                    'state' => true,
+                    'data' => []
+                ];
+            }
+
 
 		}
+		else
+		{
+			return [
+				'state' => false,
+				'message' => '잘못된 정보 입니다.'
+			];
+		}
 
-
-
-
-	}
+    }
 
 }

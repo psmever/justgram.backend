@@ -115,7 +115,7 @@ trait UserTrait
 	public function saveUserProfile(string $user_uuid, array $profileInfo) : array
 	{
 		// 있으면 업데이트 없으면 생성.
-		$result = \App\Models\JustGram\UserPrifile::updateOrCreate(
+		$result = \App\Models\JustGram\UserProfiles::updateOrCreate(
 			[
                 'user_uuid' => $user_uuid
             ],[
@@ -128,18 +128,44 @@ trait UserTrait
 
 		if($result)
 		{
-			return [
-				'state' => true
-			];
+			return ['state' => true];
 		}
 		else
 		{
-			return [
-				'state' => false
-			];
+			return ['state' => false];
 		}
+    }
 
-	}
+    public function updateUsersProfileActive(string $user_uuid)
+    {
+        $result = \App\Models\JustGram\UsersMaster::where("user_uuid", $user_uuid)->update(["profile_active" => "Y"]);
+
+        if($result)
+		{
+			return ['state' => true];
+		}
+		else
+		{
+			return ['state' => false];
+		}
+    }
+
+    public function getUserProfileData(string $user_uuid) : array
+    {
+        $result = \App\Models\JustGram\UserProfiles::where("user_uuid", $user_uuid);
+
+        if($result->get()->isNotEmpty())
+		{
+            return [
+                'state' => true,
+                'data' => $result->first()->toArray()
+            ];
+        }
+        else
+        {
+            return ['state' => false];
+        }
+    }
 
 
 

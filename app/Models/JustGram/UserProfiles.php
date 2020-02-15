@@ -4,7 +4,7 @@ namespace App\Models\JustGram;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserPrifile extends Model
+class UserProfiles extends Model
 {
 	protected $table = "tbl_users_profile_master";
 
@@ -23,7 +23,6 @@ class UserPrifile extends Model
 	protected $fillable = [
 		'user_uuid', 'name', 'web_site', 'bio', 'phone_number', 'gender'
 	];
-
 
 	/**
 	 * The attributes that should be cast to native types.

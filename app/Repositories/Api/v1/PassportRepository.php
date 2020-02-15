@@ -1,21 +1,17 @@
 <?php
-
-
 namespace App\Repositories\Api\v1;
-
 
 use App\Helpers\MasterHelper;
 use App\Models\JustGram\EmailAuth;
 use App\Models\JustGram\UsersMaster;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Validator;
-use GuzzleHttp\Client;
-use App\Mail\v1\EmailMaster;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
 
+use App\Mail\v1\EmailMaster;
+use Illuminate\Support\Facades\Route as FacadesRoute;
 
 class PassportRepository implements PassportRepositoryInterface
 {
@@ -32,7 +28,7 @@ class PassportRepository implements PassportRepositoryInterface
 	 */
 	public function attemptRegister(Request $request)
 	{
-		$validator = Validator::make($request->all(), [
+		$validator = FacadesValidator::make($request->all(), [
 			'username' => 'required',
 			'email' => 'required|email|unique:tbl_users_master',
 			'password' => 'required',
@@ -42,7 +38,7 @@ class PassportRepository implements PassportRepositoryInterface
 		if( $validator->fails() )
 		{
             $errorMessage = "";
-            foreach($validator->messages()->all() as $element):
+            foreach($validator->getMessageBag()->all() as $element):
                 $errorMessage .= $element."\n";
             endforeach;
 			return [
@@ -117,10 +113,13 @@ class PassportRepository implements PassportRepositoryInterface
 
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
 
-			$user = Auth::user();
+            $user = Auth::user();
 
+            $user_name = $user['user_name'];
 			$user_state = $user['user_state'];
-			$user_active = $user['user_active'];
+            $user_active = $user['user_active'];
+            $profile_active = $user['profile_active'];
+
 
 			if($user_active != 'Y') // 사용자 상태 체크
 			{
@@ -138,7 +137,6 @@ class PassportRepository implements PassportRepositoryInterface
 				];
 			}
 
-
 			// request 를 생성해서 해야 하는데 그게 안됨.. 이유를 모르겠음.. 무한 뻉뻉이 돔?
 			$request->request->add([
 				'grant_type' => 'password',
@@ -152,10 +150,11 @@ class PassportRepository implements PassportRepositoryInterface
 			$tokenRequest = $request->create(
 				url('/api/v1/oauth/token'),
 				'post'
-			);
+            );
 
-            $data = json_decode(\Route::dispatch($tokenRequest)->getContent());
-            $data->user_name = $user['user_name'];
+            $data = json_decode(FacadesRoute::dispatch($tokenRequest)->getContent());
+            $data->user_name = $user_name;
+            $data->profile_active = $profile_active;
 
 			return [
 				'state' => true,
@@ -173,12 +172,10 @@ class PassportRepository implements PassportRepositoryInterface
 
 	public function attemptTokenRefresh(Request $request) : array
 	{
-
 		$UserData = Auth::user();
 
 		if($UserData)
 		{
-
 			$request->request->add([
 				'grant_type' => 'refresh_token',
 				'client_id' => env('PASSPORT_PASSWORD_GRANT_CLIENT_ID'),
@@ -194,12 +191,9 @@ class PassportRepository implements PassportRepositoryInterface
 
 			return [
 				'state' => true,
-				'data' => json_decode(\Route::dispatch($tokenRequest)->getContent())
+				'data' => json_decode(FacadesRoute::dispatch($tokenRequest)->getContent())
 			];
-
-		}
-
-
+        }
 
 		return [
 			'state' => true

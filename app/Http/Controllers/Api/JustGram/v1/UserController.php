@@ -6,13 +6,13 @@ namespace App\Http\Controllers\Api\JustGram\v1;
 use App\Http\Controllers\Api\JustGram\v1\BaseController as BaseController;
 use Illuminate\Http\Request;
 
-use App\Repositories\Api\v1\UserRepositoryInterface;
+use App\Repositories\Api\v1\UserRepository;
 
 class UserController extends BaseController
 {
     protected $user;
 
-    public function __construct(UserRepositoryInterface $user)
+    public function __construct(UserRepository $user)
     {
     	$this->user = $user;
     }
@@ -53,6 +53,24 @@ class UserController extends BaseController
 	    {
 		    return $this->defaultSuccessResponse([
 
+		    ]);
+	    }
+	    else
+	    {
+		    return $this->defaultErrorResponse([
+			    'message' => $result['message']
+		    ]);
+	    }
+    }
+
+    public function profile_me(Request $request)
+    {
+        $result = $this->user->getProfileInfo($request);
+
+        if($result['state'])
+	    {
+		    return $this->firstSuccessResponse([
+                'data' => $result['data']
 		    ]);
 	    }
 	    else

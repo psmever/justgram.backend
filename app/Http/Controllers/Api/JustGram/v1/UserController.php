@@ -63,9 +63,33 @@ class UserController extends BaseController
 	    }
     }
 
+    /**
+     * 내 프로필 정보
+     *
+     * @param Request $request
+     * @return void
+     */
     public function profile_me(Request $request)
     {
         $result = $this->user->getProfileInfo($request);
+
+        if($result['state'])
+	    {
+		    return $this->firstSuccessResponse([
+                'data' => $result['data']
+		    ]);
+	    }
+	    else
+	    {
+		    return $this->defaultErrorResponse([
+			    'message' => $result['message']
+		    ]);
+	    }
+    }
+
+    public function profile_image_update(Request $request)
+    {
+        $result = $this->user->profile_image_update($request);
 
         if($result['state'])
 	    {

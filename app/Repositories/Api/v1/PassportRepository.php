@@ -29,21 +29,18 @@ class PassportRepository implements PassportRepositoryInterface
 	public function attemptRegister(Request $request)
 	{
 		$validator = FacadesValidator::make($request->all(), [
-			'username' => 'required',
-			'email' => 'required|email|unique:tbl_users_master',
+            'email' => 'required|email|unique:tbl_users_master',
 			'password' => 'required',
-			'confirm_password' => 'required|same:password',
-		]);
+            'confirm_password' => 'required|same:password',
+            'username' => 'required',
+        ]);
 
 		if( $validator->fails() )
 		{
-            $errorMessage = "";
-            foreach($validator->getMessageBag()->all() as $element):
-                $errorMessage .= $element."\n";
-            endforeach;
+            $errorMessage = $validator->getMessageBag()->all();
 			return [
 				'state' => false,
-				'message' => $errorMessage
+				'message' => $errorMessage[0]
 			];
 		}
 

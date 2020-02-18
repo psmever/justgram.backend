@@ -6,6 +6,7 @@ use App\Traits\Model\BaseModelTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 
+
 /**
  * 사용자 관련 Trait 모음.
  * Trait UserTrait
@@ -136,6 +137,25 @@ trait UserTrait
 		}
     }
 
+
+    public function updateUserProfileImage($user_id = NULL, $file_path = NULL)
+    {
+        $task = \App\Models\JustGram\UsersMaster::find($user_id);
+
+        $task->profile_image = $file_path;
+
+        $result = $task->save();
+
+        if($result)
+		{
+			return ['state' => true];
+		}
+		else
+		{
+			return ['state' => false];
+		}
+    }
+
     public function updateUsersProfileActive(string $user_uuid)
     {
         $result = \App\Models\JustGram\UsersMaster::where("user_uuid", $user_uuid)->update(["profile_active" => "Y"]);
@@ -166,8 +186,4 @@ trait UserTrait
             return ['state' => false];
         }
     }
-
-
-
-
 }

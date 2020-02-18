@@ -42,7 +42,8 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
 
 			Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
                 Route::get('profile/me', 'UserController@profile_me')->name('profile.me'); // 사용자 프로필 업데이트
-				Route::post('profile/update', 'UserController@profile_update')->name('profile.update'); // 사용자 프로필 업데이트
+                Route::post('profile/update', 'UserController@profile_update')->name('profile.update'); // 사용자 프로필 업데이트
+                Route::post('profile/image/update', 'UserController@profile_image_update')->name('profile.image.update'); // 사용자 프로필 업데이트
 			});
 		});
 	});

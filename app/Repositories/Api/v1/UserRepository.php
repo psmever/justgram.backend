@@ -4,6 +4,8 @@ namespace App\Repositories\Api\v1;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 use App\Traits\Model\UserTrait;
 
@@ -102,7 +104,13 @@ class UserRepository implements UserRepositoryInterface
 		}
     }
 
-    public function getProfileInfo(Request $request)
+    /**
+     * 사용저 프로필 정보 전달.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getProfileInfo(Request $request) : array
     {
         $UserData = Auth::user();
 
@@ -110,31 +118,19 @@ class UserRepository implements UserRepositoryInterface
 		{
             $profileInfo = $this->getUserProfileData($UserData->user_uuid);
 
-            if($profileInfo['state'] === true)
-            {
-                $data = $profileInfo['data'];
+            $data = (isset($profileInfo['data']) && $profileInfo['data']) ? $profileInfo['data'] : [];
 
-                return [
-                    'state' => true,
-                    'data' => [
-                        'user_name' => $UserData->user_name,
-                        'name' => (isset($data['name']) && $data['name']) ? $data['name'] : '',
-                        'web_site' => (isset($data['web_site']) && $data['web_site']) ? $data['web_site'] : '',
-                        'bio' => (isset($data['bio']) && $data['bio']) ? $data['bio'] : '',
-                        'phone_number' => (isset($data['phone_number']) && $data['phone_number']) ? decrypt($data['phone_number']) : '',
-                        'gender' => (isset($data['gender']) && $data['gender']) ? $data['gender'] : '',
-                    ]
-                ];
-            }
-            else
-            {
-                return [
-                    'state' => true,
-                    'data' => []
-                ];
-            }
-
-
+            return [
+                'state' => true,
+                'data' => [
+                    'user_name' => $UserData->user_name,
+                    'name' => (isset($data['name']) && $data['name']) ? $data['name'] : '',
+                    'web_site' => (isset($data['web_site']) && $data['web_site']) ? $data['web_site'] : '',
+                    'bio' => (isset($data['bio']) && $data['bio']) ? $data['bio'] : '',
+                    'phone_number' => (isset($data['phone_number']) && $data['phone_number']) ? decrypt($data['phone_number']) : '',
+                    'gender' => (isset($data['gender']) && $data['gender']) ? $data['gender'] : '',
+                ]
+            ];
 		}
 		else
 		{
@@ -143,6 +139,61 @@ class UserRepository implements UserRepositoryInterface
 				'message' => '잘못된 정보 입니다.'
 			];
 		}
+    }
+
+    public function saveProfileImage(UploadedFile $uploadedFile, $target_directory = NULL, $disk = 'public', $filename = NULL)
+    {
+        $targetName = !is_null($filename) ? $filename : Str::random(25);
+
+        return $uploadedFile->storeAs($target_directory, $targetName.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+    }
+
+    public function profile_image_update(Request $request) : array
+    {
+        $UserData = Auth::user();
+
+        $validator = FacadesValidator::make($request->all(), [
+			'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if( $validator->fails() )
+		{
+            $errorMessage = $validator->getMessageBag()->all();
+			return [
+				'state' => false,
+				'message' => $errorMessage[0]
+			];
+		}
+
+        if($UserData)
+		{
+            $uploadFileName = $this->saveProfileImage($request->file('profile_image'), "/uploads/images/profile", 'public', $UserData['user_uuid']);
+
+            if($uploadFileName)
+            {
+                $this->updateUserProfileImage($UserData['id'], $uploadFileName);
+            }
+
+            return [
+                'state' => true,
+                'data' => [
+                    "file_name" => $uploadFileName,
+                    "file_url" => asset("storage/".$uploadFileName)
+                ]
+            ];
+		}
+		else
+		{
+			return [
+				'state' => false,
+				'message' => '잘못된 정보 입니다.'
+			];
+		}
+
+
+        return [
+
+        ];
 
     }
 

@@ -63,7 +63,8 @@
             "php artisan clear-compiled",
             "chmod -R 777 storage",
             "php artisan passport:keys",
-            "php artisan storage:link"
+            "php artisan storage:link",
+            "chmod -R 777 public/"
         ]
     }
 }

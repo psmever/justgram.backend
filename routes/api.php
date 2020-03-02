@@ -37,11 +37,14 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
 			Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 리프레쉬 요청 (테스트).
 			Route::get('me', 'UserController@test')->name('me');
 
+            Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+                Route::get('', 'ProfileController@me')->name('get'); // 사용자 프로필 데이터 전달.
+                Route::put('', 'ProfileController@update')->name('update'); // 사용자 프로필 정보 업데이트.
+                Route::put('image', 'ProfileController@image_update')->name('image.update'); // 사용자 프로필 업데이트.
+			});
 
 			Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-                Route::get('profile/me', 'UserController@profile_me')->name('profile.me'); // 사용자 프로필 업데이트
-                Route::post('profile/update', 'UserController@profile_update')->name('profile.update'); // 사용자 프로필 업데이트
-                Route::post('profile/image/update', 'UserController@profile_image_update')->name('profile.image.update'); // 사용자 프로필 업데이트
+
 			});
 		});
 	});

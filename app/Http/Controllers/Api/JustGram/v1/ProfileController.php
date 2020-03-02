@@ -17,8 +17,69 @@ class ProfileController extends BaseController
 		$this->profile = $profile;
 	}
 
-    public function test()
+    /**
+	 * 사용자 프로필 업데이트.
+	 * @param Request $request
+	 * @return \Illuminate\Http\Response
+	 */
+    public function update(Request $request)
     {
-    	echo __FUNCTION__;
+	    $result = $this->profile->attemptUserProfileUpdate($request);
+
+	    if($result['state'])
+	    {
+		    return $this->defaultSuccessResponse([
+
+		    ]);
+	    }
+	    else
+	    {
+		    return $this->defaultErrorResponse([
+			    'message' => $result['message']
+		    ]);
+	    }
+    }
+
+    /**
+     * 내 프로필 정보
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function me(Request $request)
+    {
+        $result = $this->profile->getProfileInfo($request);
+
+        if($result['state'])
+	    {
+		    return $this->firstSuccessResponse([
+                'data' => $result['data']
+		    ]);
+	    }
+	    else
+	    {
+		    return $this->defaultErrorResponse([
+			    'message' => $result['message']
+		    ]);
+	    }
+    }
+
+    public function image_update(Request $request)
+    {
+        $result = $this->profile->profile_image_update($request);
+
+        if($result['state'])
+	    {
+		    return $this->firstSuccessResponse([
+                'data' => $result['data']
+		    ]);
+	    }
+	    else
+	    {
+		    return $this->defaultErrorResponse([
+			    'message' => $result['message']
+		    ]);
+	    }
+
     }
 }

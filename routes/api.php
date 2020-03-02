@@ -27,8 +27,6 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
 		Route::post('login', 'PassportController@login')->name('login');
 		Route::post('gettoken', 'PassportController@gettoken')->name('getoken'); // 토큰 요청 (테스트)
 
-        Route::post('login', 'PassportController@login')->name('login');
-
         Route::group(['prefix' => 'system', 'as' => 'system.'], function () {
             Route::get('server', 'SystemController@server')->name('server'); // 서버 상태 확인.
             Route::get('notice', 'SystemController@notice')->name('notice'); // 서버 공지 사항 확인.

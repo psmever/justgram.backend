@@ -148,7 +148,21 @@ class UserRepository implements UserRepositoryInterface
         return $uploadedFile->storeAs($target_directory, $targetName.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
     }
 
-    public function profile_image_update(Request $request) : array
+    public function profile_image_update(Request $request)
+    {
+
+    }
+
+    /**
+     * 프로필 이미지 업로드.
+     *
+     * 서버에 직접 업로드 하려고 했으나 cdn 으로 전환.
+     * 그냥 csn 정보만 테이블에 저장으로 변경.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function profile_image_update_bak(Request $request) : array
     {
         $UserData = Auth::user();
 
@@ -189,12 +203,6 @@ class UserRepository implements UserRepositoryInterface
 				'message' => '잘못된 정보 입니다.'
 			];
 		}
-
-
-        return [
-
-        ];
-
     }
 
 }

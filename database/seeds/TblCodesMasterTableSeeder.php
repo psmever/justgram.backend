@@ -73,6 +73,7 @@ class TblCodesMasterTableSeeder extends Seeder
 		    [ 'group_id' => 'A10', 'group_name' => '사용자 상태' ],
 		    [ 'group_id' => 'A20', 'group_name' => '사용자 레벨' ],
             [ 'group_id' => 'A21', 'group_name' => '사용자 성별' ],
+            [ 'group_id' => 'A22', 'group_name' => 'cloudinary 이미지 구분' ],
             [ 'group_id' => 'S01', 'group_name' => '시스템' ],
 	    ];
 
@@ -114,6 +115,12 @@ class TblCodesMasterTableSeeder extends Seeder
 					[ 'code_id' => '000', 'code_name' => '비공개' ],
 					[ 'code_id' => '010', 'code_name' => '남성' ],
 					[ 'code_id' => '020', 'code_name' => '여성' ],
+                ],
+            'A22' =>
+				[
+					[ 'code_id' => '000', 'code_name' => '없음' ],
+					[ 'code_id' => '010', 'code_name' => '프로필 이미지' ],
+					[ 'code_id' => '020', 'code_name' => 'post 이미지' ],
                 ],
             'S01' =>
 				[

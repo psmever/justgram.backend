@@ -107,7 +107,6 @@ class PassportRepository implements PassportRepositoryInterface
 	 */
 	public function attemptLogin(Request $request) : array
 	{
-
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
 
             $user = Auth::user();
@@ -134,7 +133,7 @@ class PassportRepository implements PassportRepositoryInterface
 				];
 			}
 
-			// request 를 생성해서 해야 하는데 그게 안됨.. 이유를 모르겠음.. 무한 뻉뻉이 돔?
+            // request 를 생성해서 해야 하는데 그게 안됨.. 이유를 모르겠음.. 무한 뻉뻉이 돔?
 			$request->request->add([
 				'grant_type' => 'password',
 				'client_id' => env('PASSPORT_PASSWORD_GRANT_CLIENT_ID'),

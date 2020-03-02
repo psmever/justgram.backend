@@ -17,7 +17,7 @@ class PassportController extends BaseController
 //		$this->middleware('guest');
 //		$this->middleware('auth:api');
 //		$this->middleware('auth');
-	}
+    }
 
 	/**
 	 * 사용자 가입 처리

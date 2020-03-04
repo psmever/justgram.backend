@@ -25,7 +25,7 @@ class CreateTblCloudinaryImagesMaster extends Migration
             $table->char('format', 20)->nullable(false)->comment('이미지 포멧.');
             $table->string('original_filename', 100)->nullable(false)->comment('오리지날 이미지 명.');
             $table->string('url', 255)->nullable(false)->comment('이미지 일반 URL');
-            $table->string('usecure_url', 255)->nullable(false)->comment('이미지 ssl URL');
+            $table->string('secure_url', 255)->nullable(false)->comment('이미지 ssl URL');
             $table->biginteger('bytes')->nullable(false)->comment('용향(bytes)');
             $table->string('server_time', 50)->nullable(false)->comment('서버 시간.');
 

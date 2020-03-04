@@ -24,7 +24,6 @@ class CreateTblUsersMasterTable extends Migration
 	        $table->string('email')->unique();
 
 	        $table->string('password');
-	        $table->string('profile_image', 255)->nullable();
 	        $table->rememberToken();
 
             $table->enum('user_active', ['Y', 'N'])->default('Y')->comment('사용자 상태(정상인지 아닌지)');
@@ -32,10 +31,10 @@ class CreateTblUsersMasterTable extends Migration
 	        $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
 
-
 	        $table->foreign('user_type')->references('code_id')->on('tbl_codes_master')->onDelete('cascade');
 	        $table->foreign('user_state')->references('code_id')->on('tbl_codes_master')->onDelete('cascade');
-	        $table->foreign('user_level')->references('code_id')->on('tbl_codes_master')->onDelete('cascade');
+            $table->foreign('user_level')->references('code_id')->on('tbl_codes_master')->onDelete('cascade');
+
         });
     }
 

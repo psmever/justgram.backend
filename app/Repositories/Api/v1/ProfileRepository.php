@@ -66,13 +66,14 @@ class ProfileRepository implements ProfileRepositoryInterface
 
 			if( $validator->fails() )
 			{
+                $errorMessage = $validator->getMessageBag()->all();
 				return [
 					'state' => false,
-					'message' => $validator->errors()
+					'message' => $errorMessage[0]
 				];
 			}
 
-            $result = $this->saveUserProfile($UserData->user_uuid, [
+            $result = self::saveUserProfile($UserData->user_uuid, [
                 'name' => $request->get('name'),
                 'web_site' => $request->get('web_site'),
                 'bio' => $request->get('bio'),
@@ -82,7 +83,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
 			if($result['state'])
 			{
-                $this->updateUsersProfileActive($UserData->user_uuid);
+                self::updateUsersProfileActive($UserData->user_uuid);
 
 				return [
 					'state' => true
@@ -117,7 +118,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
         if($UserData)
 		{
-            $profileInfo = $this->getUserProfileData($UserData->user_uuid);
+            $profileInfo = self::getUserProfileData($UserData->user_uuid);
 
             $data = (isset($profileInfo['data']) && $profileInfo['data']) ? $profileInfo['data'] : [];
 
@@ -149,8 +150,75 @@ class ProfileRepository implements ProfileRepositoryInterface
         return $uploadedFile->storeAs($target_directory, $targetName.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
     }
 
-    public function profile_image_update(Request $request)
+    /**
+     * 사용자 프로필 사진 업데이트.
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function cloudinary_profile_image_update(Request $request) : array
     {
+        $UserData = Auth::user();
+
+        if ($UserData) {
+
+            $validator = FacadesValidator::make($request->all(), [
+                'public_id' => 'required',
+                'version' => 'required',
+                'signature' => 'required',
+                'width' => 'required',
+                'height' => 'required',
+                'format' => 'required',
+                'resource_type' => 'required',
+                'created_at' => 'required',
+                'tags' => 'required',
+                'bytes' => 'required',
+                'type' => 'required',
+                'etag' => 'required',
+                'placeholder' => 'required',
+                'url' => 'required',
+                'secure_url' => 'required',
+                'access_mode' => 'required',
+                'original_filename' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                $errorMessage = $validator->getMessageBag()->all();
+                return [
+                    'state' => false,
+                    'message' => $errorMessage[0]
+                ];
+            }
+
+            $params = $request->all();
+            $params['user_uuid'] = $UserData->user_uuid;
+
+            $result = self::setUserProfileImageCloudinaryData($params);
+
+            if($result['state'] == true) {
+
+                self::updateUsersMasterProfileImage([
+                    "user_uuid" => $UserData->user_uuid,
+                    "id" => $result['id']
+                ]);
+
+                return [
+                    'state' => true,
+                    'message' => _('messages.default.do_success')
+                ];
+
+            } else {
+
+            }
+
+            var_dump($result);
+        } else {
+            return [
+                'state' => false,
+                'message' => _('messages.default.error')
+            ];
+        }
+
 
     }
 
@@ -201,7 +269,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 		{
 			return [
 				'state' => false,
-				'message' => '잘못된 정보 입니다.'
+				'message' => _('messages.default.error')
 			];
 		}
     }

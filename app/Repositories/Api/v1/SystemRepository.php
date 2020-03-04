@@ -22,7 +22,7 @@ class SystemRepository implements SystemRepositoryInterface
     {
         $returnData = array();
 
-        $codes = $this->getCodesList();
+        $codes = self::getCodesList();
 
         if($codes['state'])
         {

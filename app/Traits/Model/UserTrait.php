@@ -6,6 +6,8 @@ use App\Traits\Model\BaseModelTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 
+use \App\Models\JustGram\UsersMaster;
+use \App\Models\JustGram\CloudinaryImageMaster;
 
 /**
  * 사용자 관련 Trait 모음.
@@ -29,7 +31,12 @@ trait UserTrait
 	public function __destruct()
 	{
 //		echo "1";
-	}
+    }
+
+    public function test()
+    {
+        echo "UserTrait test()";
+    }
 
 	public function printQueryLog()
 	{
@@ -138,7 +145,7 @@ trait UserTrait
     }
 
 
-    public function updateUserProfileImage($user_id = NULL, $file_path = NULL)
+    public function updateUserProfileImage($user_id = NULL, $file_path = NULL) : array
     {
         $task = \App\Models\JustGram\UsersMaster::find($user_id);
 
@@ -156,7 +163,7 @@ trait UserTrait
 		}
     }
 
-    public function updateUsersProfileActive(string $user_uuid)
+    public function updateUsersProfileActive(string $user_uuid) : array
     {
         $result = \App\Models\JustGram\UsersMaster::where("user_uuid", $user_uuid)->update(["profile_active" => "Y"]);
 
@@ -186,4 +193,83 @@ trait UserTrait
             return ['state' => false];
         }
     }
+
+    public function setUserProfileImageCloudinaryData(array $params) : array
+    {
+        // 있으면 업데이트 없으면 생성.
+		$task = \App\Models\JustGram\CloudinaryImageMaster::updateOrCreate(
+			[
+                'user_uuid' => $params['user_uuid']
+            ],[
+                'image_category' => USER_PROFILE_IMAGE,
+                'public_id' => $params['public_id'],
+                'signature' => $params['signature'],
+                'version' => $params['version'],
+                'width' => $params['width'],
+                'height' => $params['height'],
+                'format' => $params['format'],
+                'original_filename' => $params['original_filename'],
+                'url' => $params['url'],
+                'secure_url' => $params['secure_url'],
+                'bytes' => $params['bytes'],
+                'server_time' => $params['created_at'],
+            ]);
+
+		if($task)
+		{
+			return [
+                'state' => true,
+                'id' => $task->id,
+            ];
+		}
+		else
+		{
+			return ['state' => false];
+		}
+    }
+
+
+    /**
+     * 사용자 프로필 업데이트.
+     *
+     * @param array $params
+     * @return array
+     */
+    public function updateUsersMasterProfileImage(array $params) : array {
+        $task = UsersMaster::where("user_uuid", $params['user_uuid'])->update(['profile_image' => $params['id']]);
+
+        if($task)
+		{
+			return ['state' => true];
+		}
+		else
+		{
+			return ['state' => false];
+		}
+    }
+
+    public function getUserProfileImageUrl(string $id) {
+        $task = CloudinaryImageMaster::where("id", $id);
+
+        if($task)
+		{
+
+            $resultArray = $task->first()->toArray();
+
+            // print_r($resultArray["secure_url"]);
+
+            return [
+                'state' => true,
+                'data' => [
+                    'url' => $resultArray["url"],
+                    'secure_url' => $resultArray["secure_url"],
+                ]
+            ];
+		}
+		else
+		{
+			return ['state' => false];
+		}
+    }
+
 }

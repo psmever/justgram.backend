@@ -64,15 +64,20 @@ class ProfileController extends BaseController
 	    }
     }
 
+    /**
+     * 사용자 프로필 사진 업데이트 ( cloudinary ).
+     *
+     *
+     * @param Request $request
+     * @return void
+     */
     public function image_update(Request $request)
     {
-        $result = $this->profile->profile_image_update($request);
+        $result = $this->profile->cloudinary_profile_image_update($request);
 
         if($result['state'])
 	    {
-		    return $this->firstSuccessResponse([
-                'data' => $result['data']
-		    ]);
+		    return $this->defaultSuccessResponse([]);
 	    }
 	    else
 	    {

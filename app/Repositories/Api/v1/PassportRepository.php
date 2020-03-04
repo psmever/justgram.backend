@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\Validator as FacadesValidator;
 use App\Mail\v1\EmailMaster;
 use Illuminate\Support\Facades\Route as FacadesRoute;
 
+use App\Traits\Model\UserTrait;
+
 class PassportRepository implements PassportRepositoryInterface
 {
+    use UserTrait;
 
 	public function start()
 	{
@@ -115,7 +118,7 @@ class PassportRepository implements PassportRepositoryInterface
 			$user_state = $user['user_state'];
             $user_active = $user['user_active'];
             $profile_active = $user['profile_active'];
-
+            $profile_image = $user['profile_image'];
 
 			if($user_active != 'Y') // 사용자 상태 체크
 			{
@@ -148,15 +151,30 @@ class PassportRepository implements PassportRepositoryInterface
 				'post'
             );
 
-            $data = json_decode(FacadesRoute::dispatch($tokenRequest)->getContent());
-            $data->user_name = $user_name;
-            $data->profile_active = $profile_active;
+            if($tokenRequest) {
+                $data = json_decode(FacadesRoute::dispatch($tokenRequest)->getContent());
+                $data->user_name = $user_name;
+                $data->profile_active = $profile_active;
+                $data->profile_image_url = NULL;
 
-			return [
-				'state' => true,
-				'data' => $data
-			];
+                if(!empty($profile_image)) {
+                    $profileImageResult = self::getUserProfileImageUrl($profile_image);
+                    if($profileImageResult['state'] == true) {
+                        $data->profile_image_url = $profileImageResult["data"]["secure_url"];
+                    }
+                }
 
+                return [
+                    'state' => true,
+                    'data' => $data
+                ];
+
+            } else {
+                return [
+                    'state' => false,
+                    'message' => __('auth.failed')
+                ];
+            }
 
 		} else {
 			return [

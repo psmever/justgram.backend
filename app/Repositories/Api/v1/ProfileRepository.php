@@ -171,7 +171,7 @@ class ProfileRepository implements ProfileRepositoryInterface
                 'format' => 'required',
                 'resource_type' => 'required',
                 'created_at' => 'required',
-                'tags' => 'required',
+                // 'tags' => 'required',
                 'bytes' => 'required',
                 'type' => 'required',
                 'etag' => 'required',
@@ -218,8 +218,6 @@ class ProfileRepository implements ProfileRepositoryInterface
                 'message' => _('messages.default.error')
             ];
         }
-
-
     }
 
     /**
@@ -272,5 +270,20 @@ class ProfileRepository implements ProfileRepositoryInterface
 				'message' => _('messages.default.error')
 			];
 		}
+    }
+
+    public function profile_page_info() : array {
+        $UserData = Auth::user();
+
+        if($UserData) {
+
+
+        } else {
+            return [
+				'state' => false,
+				'message' => _('messages.default.error')
+			];
+        }
+
     }
 }

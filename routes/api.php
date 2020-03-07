@@ -41,6 +41,8 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
                 Route::get('', 'ProfileController@me')->name('get'); // 사용자 프로필 데이터 전달.
                 Route::put('', 'ProfileController@update')->name('update'); // 사용자 프로필 정보 업데이트.
                 Route::put('image', 'ProfileController@image_update')->name('image.update'); // 사용자 프로필 업데이트.
+
+                Route::get('page/{id}', ['uses' => 'ProfileController@page_info'])->name('page.get'); // 사용자 프로필 페이지 상단 데이터 전달.
 			});
 
 			Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

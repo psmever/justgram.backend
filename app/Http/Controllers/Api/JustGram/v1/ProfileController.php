@@ -85,6 +85,12 @@ class ProfileController extends BaseController
 			    'message' => $result['message']
 		    ]);
 	    }
+    }
 
+    public function page_info($id) {
+
+        // echo $id;
+
+        return $this->defaultSuccessResponse([]);
     }
 }

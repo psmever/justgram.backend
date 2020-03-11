@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Api\JustGram\v1;
-
-
 use App\Http\Controllers\Api\JustGram\v1\BaseController as BaseController;
+
 use Illuminate\Http\Request;
 
 use App\Repositories\Api\v1\UserRepository;
@@ -17,26 +16,32 @@ class UserController extends BaseController
     	$this->user = $user;
     }
 
-	/**
-	 * 임시 테스트용 사용자 정보.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-    public function test()
-    {
-		$result = $this->user->getMeTestData();
+    /**
+     * 사용자 기본 프로필 정보 전달.
+     * 프로필 페이지 정보.
+     *
+     * @param string $user_name
+     * @return void
+     */
+    public function profile(string $user_name) {
 
-	    if($result['state'])
-	    {
-		    return $this->defaultSuccessResponse([
-			    'info' => $result['data']
-		    ]);
-	    }
-	    else
-	    {
-		    return $this->defaultErrorResponse([
-			    'message' => $result['message']
-		    ]);
-	    }
+        $task = $this->user->checkuser($user_name);
+
+        if($task['state'] == false) {
+            return BaseController::defaultBadRequest([
+				'message' => $task['message']
+			]);
+        }
+
+        $task = $this->user->getUserProfileData();
+        if($task['state'] == false) {
+            return BaseController::defaultBadRequest([
+				'message' => $task['message']
+			]);
+        }
+
+        return BaseController::firstSuccessResponse([
+            'data' => $task['data']
+        ]);
     }
 }

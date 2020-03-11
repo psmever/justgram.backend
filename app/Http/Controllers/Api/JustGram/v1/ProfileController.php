@@ -87,9 +87,9 @@ class ProfileController extends BaseController
 	    }
     }
 
-    public function page_info($id) {
+    public function page_info($user_uuid) {
 
-        // echo $id;
+        echo $user_uuid;
 
         return $this->defaultSuccessResponse([]);
     }

@@ -35,6 +35,6 @@ class UserProfiles extends Model
 
 	public function users()
 	{
-		return $this->belongsTo('App\Models\JustGram\UsersMaster', 'user_uuid' , 'user_uuid');
-	}
+		return $this->belongsTo(UserProfiles::class, 'user_uuid' , 'user_uuid');
+    }
 }

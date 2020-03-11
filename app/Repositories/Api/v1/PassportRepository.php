@@ -52,7 +52,7 @@ class PassportRepository implements PassportRepositoryInterface
 		$createResult = UsersMaster::create([
 			'user_uuid' => $newUserUUID,
 			'user_type' => $request->header('request-client-type'),
-			'user_name' => $request->input('username'),
+			'user_name' => preg_replace("/[^a-z0-9]/i", "", strtolower($request->input('username'))), // 소문자, 및 숫자만.
 			'email' => $request->input('email'),
 			'password' => bcrypt($request->input('password')),
 		]);

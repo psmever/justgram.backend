@@ -6,7 +6,7 @@ use App\Models\BaseAuthModel as BaseAuthModel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-
+use App\Models\JustGram\UsersProfiles;
 
 class UsersMaster extends BaseAuthModel implements MustVerifyEmail
 {
@@ -42,9 +42,25 @@ class UsersMaster extends BaseAuthModel implements MustVerifyEmail
 		'email_verified_at' => 'datetime',
 	];
 
-
-	public function emailauth()
-	{
+    /**
+     * 이메일 인증 테이블.
+     *
+     * @return void
+     */
+	public function emailauth() {
 		return $this->hasOne('App\Models\JustGram\EmailAuth', 'user_uuid', 'user_uuid');
-	}
+    }
+
+    /**
+     * 사용자 프로필 정보 테이블.
+     *
+     * @return void
+     */
+    public function profile() {
+        return $this->hasOne('App\Models\JustGram\UserProfiles', 'user_uuid', 'user_uuid');
+    }
+
+    public function profileImage() {
+        return $this->hasOne('App\Models\JustGram\CloudinaryImageMaster', 'user_uuid', 'user_uuid');
+    }
 }

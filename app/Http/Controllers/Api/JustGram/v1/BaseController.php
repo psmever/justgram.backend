@@ -69,5 +69,30 @@ class BaseController extends Controller
 		}
 
 		return response()->json($response, $code);
-	}
+    }
+
+    /**
+     * 400 기본 에러.
+     *
+     * @param array $params
+     * @return void
+     */
+    public function defaultBadRequest(array $params) {
+        $errorMessages = "";
+
+		if(isset($params['message']) && $params['message'])
+		{
+			$response['error_message'] = $params['message'];
+		}
+		else
+		{
+			$response['error'] = __('messages.default.error');
+		}
+
+		if(!empty($errorMessages)){
+			$response['data'] = $errorMessages;
+		}
+
+		return response()->json($response, 400);
+    }
 }

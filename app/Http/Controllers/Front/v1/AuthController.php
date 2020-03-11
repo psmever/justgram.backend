@@ -23,7 +23,7 @@ class AuthController extends BaseController
 
 		$input = $request->only('code');
 
-		$result = $this->getEmailAuthCodeInfo($input['code']);   // 인증 코드 조회.
+		$result = self::getEmailAuthCodeInfo($input['code']);   // 인증 코드 조회.
 
 		if($result['state'])
 		{
@@ -53,7 +53,7 @@ class AuthController extends BaseController
 
 		if($viewData['state'])
 		{
-			if($this->doEmailAuthVertified($input['code'])) // 인증 처리.
+			if(self::doEmailAuthVertified($input['code'])) // 인증 처리.
 			{
 				// 인증 처기 성공.
 				$viewData['state'] = true;

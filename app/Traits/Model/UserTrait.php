@@ -215,6 +215,11 @@ trait UserTrait {
                     'url' => $UserProfileInfo['profile_image']['url'],
                     'secure_url' => $UserProfileInfo['profile_image']['secure_url'],
                 ],
+                'count_info' => [ // 임시
+                    'posts' => rand(0,100),
+                    'followers' => rand(0,1000),
+                    'following' => rand(0,100),
+                ],
                 'profile' => [
                     'name' => $UserProfileInfo['profile']['name'],
                     'web_site' => $UserProfileInfo['profile']['web_site'],

@@ -52,6 +52,8 @@ class PassportController extends BaseController
 	{
         $result = $this->passport->attemptLogin($request);
 
+        // return response()->view('hello'); // response body 를 뷰로 해볼까?
+
 		if($result['state'])
 		{
             return $this->firstSuccessResponse([

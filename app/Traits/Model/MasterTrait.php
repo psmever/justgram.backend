@@ -11,15 +11,6 @@ trait MasterTrait
 		BaseModelTrait::controlOneDataResult as controlOneDataResult;
 	}
 
-	public function __construct()
-	{
-		DB::enableQueryLog();
-	}
-
-	public function __destruct()
-	{
-    }
-
     /**
      * 공통 코드 전달.
      *

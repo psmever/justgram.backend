@@ -25,14 +25,6 @@ trait UserTrait {
 		BaseModelTrait::controlOneDataResult as controlOneDataResult;
 	}
 
-	public function __construct() {
-		DB::enableQueryLog();
-	}
-
-	public function __destruct() {
-
-    }
-
     public function test() {
         echo "UserTrait test()";
     }
@@ -214,6 +206,11 @@ trait UserTrait {
                 'profile_image' => [
                     'url' => $UserProfileInfo['profile_image']['url'],
                     'secure_url' => $UserProfileInfo['profile_image']['secure_url'],
+                ],
+                'count_info' => [ // 임시
+                    'posts' => rand(0,100),
+                    'followers' => rand(0,1000),
+                    'following' => rand(0,100),
                 ],
                 'profile' => [
                     'name' => $UserProfileInfo['profile']['name'],

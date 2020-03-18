@@ -33,20 +33,15 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
             Route::get('sitedata', 'SystemController@sitedata')->name('sitedata'); // 기본 싸이트 데이터.
         });
 
-        // Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
-        //     Route::get('', 'ProfileController@me')->name('get'); // 사용자 프로필 데이터 전달.
-        //     Route::put('', 'ProfileController@update')->name('update'); // 사용자 프로필 정보 업데이트.
-        //     Route::put('image', 'ProfileController@image_update')->name('image.update'); // 사용자 프로필 업데이트.
-        //     Route::get('page/{user_uuid}', ['uses' => 'ProfileController@page_info'])->name('page.get'); // 사용자 프로필 페이지 상단 데이터 전달.
-        // });
-
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             Route::get('{user_uuid}/profile', 'UserController@profile')->name('profile'); // 사용자 프로필 데이터 전달.
         });
 
 
 		Route::group(['middleware' => 'auth:api'], function () {
-			Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 리프레쉬 요청 (테스트).
+            Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 리프레쉬 요청 (테스트).
+
+            Route::post('post', 'PostController@create')->name('post.create'); // 글등록.
 
             Route::group(['prefix' => 'my', 'as' => 'my.'], function () {
                 Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {

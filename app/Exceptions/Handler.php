@@ -71,11 +71,11 @@ class Handler extends ExceptionHandler
 
 	    if ($this->isHttpException($exception)) {  // 일 반 웹 요청 일떄.
 
-		    if (view()->exists('errors.'.$exception->getStatusCode($exception)))
+		    if (view()->exists('errors.'.$exception->getCode()))
 		    {
-			    return response()->view('errors.'.$exception->getStatusCode($exception), [
+			    return response()->view('errors.'.$exception->getCode(), [
 			    	'message' => config('app.debug') ? $exception->getMessage() : ''
-			    ], $exception->getStatusCode($exception));
+			    ], $exception->getCode());
 		    }
 
 		    return response()->view('errors.500', [

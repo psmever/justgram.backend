@@ -11,7 +11,7 @@ trait BaseModelTrait
 	}
 
 	/**
-	 * mysql ?? ?? ??.
+	 * mysql
 	 * @param $params
 	 * @return array
 	 */
@@ -19,17 +19,33 @@ trait BaseModelTrait
 	{
 		if($params->isNotEmpty())
 		{
-			return [ // ??? ???
+			return [
 				'state' => true,
-//				'data' => $params->first()->attributesToArray() // ??????
 				'data' => $params->toArray()
 			];
 		}
 		else
 		{
-			return [ // ??? ???.
+			return [
 				'state' => false
 			];
 		}
-	}
+    }
+
+    public static function controlDataObjectResult($params)
+    {
+        if($params->isNotEmpty())
+		{
+			return [
+				'state' => true,
+				'data' => $params->toArray()
+			];
+		}
+		else
+		{
+			return [
+				'state' => false
+			];
+		}
+    }
 }

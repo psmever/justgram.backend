@@ -15,8 +15,8 @@ class CreateTblPostsMasterTable extends Migration
     {
         Schema::create('tbl_posts_master', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('user_uuid', 50)->nullable()->comment('사용자 uuid');
-            $table->text('contents')->nullable()->comment('글 내용.');
+            $table->string('user_uuid', 50)->nullable(false)->comment('사용자 uuid');
+            $table->text('contents')->nullable(false)->comment('글 내용.');
             $table->enum('post_active', ['Y', 'N'])->default('Y')->comment('글상태.');
             $table->timestamps();
 

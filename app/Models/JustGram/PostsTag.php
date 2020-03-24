@@ -6,7 +6,7 @@ use App\Models\BaseModel as BaseModel;
 
 class PostsTag extends BaseModel
 {
-    protected $table = "tbl_email_auth_master";
+    protected $table = "tbl_posts_tag_master";
 
     /**
      * The attributes that are mass assignable.

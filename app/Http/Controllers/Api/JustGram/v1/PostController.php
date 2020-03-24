@@ -27,4 +27,20 @@ class PostController extends BaseController
 		    ]);
 	    }
     }
+
+    public function index(Request $request)
+    {
+        $task = $this->post->attemptGetPostList($request);
+
+        if($task['state']) {
+		    return BaseController::firstSuccessResponse([
+                'data' => $task['data']
+            ]);
+	    } else {
+		    return BaseController::defaultErrorResponse([
+			    'message' => $task['message']
+		    ]);
+	    }
+
+    }
 }

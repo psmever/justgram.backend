@@ -29,5 +29,22 @@ class Posts extends BaseModel
 	 *
 	 * @var array
 	 */
-	protected $casts =  [];
+    protected $casts =  [];
+
+    public function user()
+    {
+        return $this->hasOne(UsersMaster::class, 'user_uuid', 'user_uuid');
+    }
+
+    public function tag()
+    {
+        return $this->hasOne(PostsTag::class, 'post_id', 'id');
+    }
+
+    public function image()
+    {
+        return $this->hasOne(PostsImage::class, 'post_id', 'id');
+    }
+
+
 }

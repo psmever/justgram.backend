@@ -15,7 +15,7 @@ class CreateTblPostsImageMasterTable extends Migration
     {
         Schema::create('tbl_posts_image_master', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('post_id')->nullable()->index()->comment('post id.');
+            $table->unsignedBigInteger('post_id')->nullable(false)->index()->comment('post id.');
             $table->unsignedBigInteger('image_id')->nullable()->index()->comment('post id.');
             $table->timestamps();
 

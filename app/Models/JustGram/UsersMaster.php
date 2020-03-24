@@ -61,6 +61,6 @@ class UsersMaster extends BaseAuthModel implements MustVerifyEmail
     }
 
     public function profileImage() {
-        return $this->hasOne('App\Models\JustGram\CloudinaryImageMaster', 'user_uuid', 'user_uuid');
+        return $this->hasOne('App\Models\JustGram\CloudinaryImageMaster', 'id', 'profile_image');
     }
 }

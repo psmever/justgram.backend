@@ -9,10 +9,13 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 use App\Traits\Model\UserTrait;
+use App\Traits\Model\CloudinaryTrait;
 
 class ProfileRepository implements ProfileRepositoryInterface
 {
-    use UserTrait;
+    use UserTrait,CloudinaryTrait {
+        UserTrait::saveUserProfile as saveUserProfile;
+    }
 
 	public function start()
 	{

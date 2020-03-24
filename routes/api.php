@@ -37,6 +37,10 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
             Route::get('{user_uuid}/profile', 'UserController@profile')->name('profile'); // 사용자 프로필 데이터 전달.
         });
 
+        Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
+            Route::get('', 'PostController@index')->name('index');
+        });
+
 
 		Route::group(['middleware' => 'auth:api'], function () {
             Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 리프레쉬 요청 (테스트).

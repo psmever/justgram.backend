@@ -25,17 +25,6 @@ trait UserTrait {
 		BaseModelTrait::controlOneDataResult as controlOneDataResult;
 	}
 
-    public function test() {
-        echo "UserTrait test()";
-    }
-
-	public function printQueryLog() {
-		$query = DB::getQueryLog();
-//		$query = end($query);
-		print_r($query);
-	}
-
-
 	public function getEmailAuthCodeInfo(string $authCode = NULL) {
 //		$result = \App\Models\JustGram\EmailAuth::whereHas('users',function (Builder $query) {
 //			$query->where('user_state', 'A10000');
@@ -222,36 +211,6 @@ trait UserTrait {
                 'posts' => []
             ]
         ];
-    }
-
-    public function setUserProfileImageCloudinaryData(array $params) : array
-    {
-        // 있으면 업데이트 없으면 생성.
-		$task = CloudinaryImageMaster::updateOrCreate([
-                'user_uuid' => $params['user_uuid']
-            ],[
-                'image_category' => USER_PROFILE_IMAGE,
-                'public_id' => $params['public_id'],
-                'signature' => $params['signature'],
-                'version' => $params['version'],
-                'width' => $params['width'],
-                'height' => $params['height'],
-                'format' => $params['format'],
-                'original_filename' => $params['original_filename'],
-                'url' => $params['url'],
-                'secure_url' => $params['secure_url'],
-                'bytes' => $params['bytes'],
-                'server_time' => $params['created_at'],
-            ]);
-
-		if($task) {
-			return [
-                'state' => true,
-                'id' => $task->id,
-            ];
-		} else {
-			return ['state' => false];
-		}
     }
 
     /**

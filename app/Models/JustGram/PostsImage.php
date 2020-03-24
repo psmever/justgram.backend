@@ -6,7 +6,7 @@ use App\Models\BaseModel as BaseModel;
 
 class PostsImage extends BaseModel
 {
-    protected $table = "tbl_email_auth_master";
+    protected $table = "tbl_posts_image_master";
 
     /**
      * The attributes that are mass assignable.
@@ -30,4 +30,9 @@ class PostsImage extends BaseModel
      * @var array
      */
     protected $casts = [];
+
+    public function cloudinary()
+    {
+        return $this->hasOne(CloudinaryImageMaster::class, 'id', 'image_id');
+    }
 }

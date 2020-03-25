@@ -41,6 +41,18 @@ class PostController extends BaseController
 			    'message' => $task['message']
 		    ]);
 	    }
+    }
 
+    public function comment_create(Request $request)
+    {
+        $task = $this->post->attemptCommentCreate($request);
+
+        if($task['state']) {
+		    return BaseController::defaultSuccessResponse([]);
+	    } else {
+		    return BaseController::defaultErrorResponse([
+			    'message' => $task['message']
+		    ]);
+	    }
     }
 }

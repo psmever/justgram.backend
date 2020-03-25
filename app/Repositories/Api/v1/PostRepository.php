@@ -137,7 +137,7 @@ class PostRepository implements PostRepositoryInterface
 
 
         $returnObject = array_map( function ($element) {
-
+            // print_r($element);
             $user = function($user) {
                 return [
                     'user_id' => $user['id'],
@@ -171,6 +171,26 @@ class PostRepository implements PostRepositoryInterface
                 ];
             };
 
+            $comment = function($comment) {
+                return array_map(function($element) {
+
+                    $user = function($user) {
+                        return [
+                            'user_name' => $user['user_name'],
+                        ];
+                    };
+
+                    return [
+                        'comment_id' => $element['id'],
+                        'user_uuid' => $element['user_uuid'],
+                        'contents' => $element['contents'],
+                        'created_at' => $element['created_at'],
+                        'user' => $user($element['user'])
+                    ];
+
+                }, $comment);
+            };
+
             return [
                 'post_id' => $element['id'],
                 'user_uuid' => $element['user_uuid'],
@@ -186,6 +206,7 @@ class PostRepository implements PostRepositoryInterface
                     'update_at_string' => Carbon::parse($element['updated_at'])->format('Y년 m월 d일 H시:s분'),
                     'update_time_string' => MasterHelper::convertTimeToString(strtotime($element['updated_at'])),
                 ],
+                'comments' => $comment($element['comment'])
             ];
         }, $posts['data']);
 
@@ -194,5 +215,38 @@ class PostRepository implements PostRepositoryInterface
             'state' => true,
             'data' => $returnObject
         ];
+    }
+
+    public function attemptCommentCreate($request)
+    {
+        $validator = FacadesValidator::make($request->all(), [
+            'post_id' => 'required',
+            'contents' => 'required',
+        ]);
+
+        if( $validator->fails() ) {
+            $errorMessage = $validator->getMessageBag()->all();
+			return [
+				'state' => false,
+				'message' => $errorMessage[0]
+			];
+        }
+
+        $User = Auth::user();
+
+        $createTask = self::createPostsComment([
+            'post_id' => $request->input('post_id'),
+            'user_uuid' => $User->user_uuid,
+            'contents' => $request->input('contents'),
+        ]);
+
+        if(!$createTask) {
+            return [
+                'state' => false,
+                'message' => __('messages.default.error')
+            ];
+        }
+
+        return ['state' => true];
     }
 }

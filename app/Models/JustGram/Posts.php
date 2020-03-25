@@ -46,5 +46,10 @@ class Posts extends BaseModel
         return $this->hasOne(PostsImage::class, 'post_id', 'id');
     }
 
+    public function comment()
+    {
+        return $this->hasMany(PostsComments::class, 'post_id', 'id');
+    }
+
 
 }

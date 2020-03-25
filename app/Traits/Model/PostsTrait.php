@@ -6,10 +6,10 @@ use App\Traits\Model\BaseModelTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 
-
 use \App\Models\JustGram\Posts;
 use \App\Models\JustGram\PostsTag;
 use \App\Models\JustGram\PostsImage;
+use \App\Models\JustGram\PostsComments;
 
 /**
  * posts 관련 트레이트.
@@ -68,6 +68,23 @@ trait PostsTrait {
     {
         return self::controlDataObjectResult(Posts::with(['user', 'user.profileImage' => function($query) {
             $query->where('image_category', 'A22010');
-        }, 'tag', 'image', 'image.cloudinary'])->where('post_active', 'Y')->latest()->get());
+        }, 'tag', 'image', 'image.cloudinary', 'comment' => function($query) {
+            $query->orderBy('id', 'desc');
+        }, 'comment.user'])->where('post_active', 'Y')->latest()->get());
+    }
+
+    public function createPostsComment(array $params)
+    {
+        $task = PostsComments::create([
+            'post_id' => $params['post_id'],
+            'user_uuid' => $params['user_uuid'],
+            'contents' => $params['contents'],
+        ]);
+
+        if(!$task) {
+            return false;
+        }
+
+        return $task->id;
     }
 }

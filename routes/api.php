@@ -46,6 +46,7 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
             Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 리프레쉬 요청 (테스트).
 
             Route::post('post', 'PostController@create')->name('post.create'); // 글등록.
+            Route::post('post/comment', 'PostController@comment_create')->name('post.comment.create'); // 포스트 댓글 등록.
 
             Route::group(['prefix' => 'my', 'as' => 'my.'], function () {
                 Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {

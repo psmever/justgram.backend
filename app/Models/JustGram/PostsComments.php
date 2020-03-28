@@ -14,7 +14,7 @@ class PostsComments extends Model
      * @var array
      */
     protected $fillable = [
-        'post_id', 'user_uuid', 'contents', 'active'
+        'post_id', 'user_id', 'contents', 'active'
     ];
 
     /**
@@ -32,6 +32,6 @@ class PostsComments extends Model
     protected $casts = [];
 
     public function user() {
-        return $this->hasOne(UsersMaster::class, 'user_uuid', 'user_uuid');
+        return $this->hasOne(UsersMaster::class, 'id', 'user_id');
     }
 }

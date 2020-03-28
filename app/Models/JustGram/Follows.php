@@ -4,9 +4,10 @@ namespace App\Models\JustGram;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserProfiles extends Model
+class Follows extends Model
 {
-	protected $table = "tbl_users_profile_master";
+    protected $table = "tbl_follows_master";
+    public $timestamps = false;
 
 	/**
 	 * The primary key associated with the table.
@@ -21,7 +22,7 @@ class UserProfiles extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_id', 'name', 'web_site', 'bio', 'phone_number', 'gender'
+		'user_id', 'target_id'
 	];
 
 	/**
@@ -31,10 +32,15 @@ class UserProfiles extends Model
 	 */
 	protected $casts = [
 //		'verified_at' => 'datetime',
-	];
+    ];
 
-	public function users()
-	{
-		return $this->belongsTo(UserProfiles::class, 'user_id' , 'user_id');
+    /**
+     * 팔로우 타겟 관계.
+     *
+     * @return void
+     */
+    public function target()
+    {
+        return $this->hasOne(UsersMaster::class, 'id', 'target_id');
     }
 }

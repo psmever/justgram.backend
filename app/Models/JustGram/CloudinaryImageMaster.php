@@ -14,7 +14,7 @@ class CloudinaryImageMaster extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-        'user_uuid',
+        'user_id',
         'image_category',
         'public_id',
         'signature',

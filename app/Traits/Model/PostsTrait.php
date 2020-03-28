@@ -25,7 +25,7 @@ trait PostsTrait {
     public function createPost(array $params)
     {
         $task = Posts::create([
-            'user_uuid' => $params['user_uuid'],
+            'user_id' => $params['user_id'],
             'contents' => $params['contents'],
         ]);
 
@@ -77,7 +77,7 @@ trait PostsTrait {
     {
         $task = PostsComments::create([
             'post_id' => $params['post_id'],
-            'user_uuid' => $params['user_uuid'],
+            'user_id' => $params['user_id'],
             'contents' => $params['contents'],
         ]);
 

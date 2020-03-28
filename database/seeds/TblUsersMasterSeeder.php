@@ -16,7 +16,7 @@ class TblUsersMasterSeeder extends Seeder
     public function run()
     {
         $this->adminUser();
-        $this->normalUser();
+        // $this->normalUser();
     }
 
     public function adminUser()
@@ -35,16 +35,17 @@ class TblUsersMasterSeeder extends Seeder
             'email_verified_at' => date('Y-m-d H:i:s'),
         ];
         DB::table('tbl_users_master')->insert($userMaster);
+        $user_id = DB::getPdo()->lastInsertId();
 
         $emailAuth = [
-            'user_uuid' => $uuid,
+            'user_id' => $user_id,
             'auth_code' => Str::random(80),
             'verified_at' => date('Y-m-d H:i:s'),
         ];
         DB::table('tbl_email_auth_master')->insert($emailAuth);
 
         $profileMaster = [
-            'user_uuid' => $uuid,
+            'user_id' => $user_id,
             'name' => 'Site Administrator',
             'web_site' => 'http://www.justgram.pe.kr',
             'bio' => "귀하다고 생각하고 귀하게 여기면 귀하지 않은 것이 없고,\n\n
@@ -72,17 +73,17 @@ class TblUsersMasterSeeder extends Seeder
             'profile_active' => 'Y',
             'email_verified_at' => date('Y-m-d H:i:s'),
         ];
-        DB::table('tbl_users_master')->insert($userMaster);
+        $user_id = DB::table('tbl_users_master')->insertGetId($userMaster);
 
         $emailAuth = [
-            'user_uuid' => $uuid,
+            'user_id' => $user_id,
             'auth_code' => Str::random(80),
             'verified_at' => date('Y-m-d H:i:s'),
         ];
         DB::table('tbl_email_auth_master')->insert($emailAuth);
 
         $profileMaster = [
-            'user_uuid' => $uuid,
+            'user_id' => $user_id,
             'name' => 'Park SungMin',
             'web_site' => 'http://www.justgram.pe.kr',
             'bio' => "귀하다고 생각하고 귀하게 여기면 귀하지 않은 것이 없고,\n\n

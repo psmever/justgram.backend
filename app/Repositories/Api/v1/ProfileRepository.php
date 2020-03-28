@@ -76,7 +76,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 				];
 			}
 
-            $result = self::saveUserProfile($UserData->user_uuid, [
+            $result = self::saveUserProfile($UserData->id, [
                 'name' => $request->get('name'),
                 'web_site' => $request->get('web_site'),
                 'bio' => $request->get('bio'),
@@ -86,7 +86,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
 			if($result['state'])
 			{
-                self::updateUsersProfileActive($UserData->user_uuid);
+                self::updateUsersProfileActive($UserData->id);
 
 				return [
 					'state' => true
@@ -121,7 +121,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
         if($UserData)
 		{
-            $profileInfo = self::getUserProfileData($UserData->user_uuid);
+            $profileInfo = self::getUserProfileData(Auth::id());
 
             $data = (isset($profileInfo['data']) && $profileInfo['data']) ? $profileInfo['data'] : [];
 
@@ -194,14 +194,14 @@ class ProfileRepository implements ProfileRepositoryInterface
             }
 
             $params = $request->all();
-            $params['user_uuid'] = $UserData->user_uuid;
+            $params['user_id'] = $UserData->id;
 
             $result = self::setUserProfileImageCloudinaryData($params);
 
             if($result['state'] == true) {
 
                 self::updateUsersMasterProfileImage([
-                    "user_uuid" => $UserData->user_uuid,
+                    "user_id" => Auth::id(),
                     "id" => $result['id']
                 ]);
 
@@ -251,7 +251,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
         if($UserData)
 		{
-            $uploadFileName = $this->saveProfileImage($request->file('profile_image'), "/uploads/images/profile", 'public', $UserData['user_uuid']);
+            $uploadFileName = $this->saveProfileImage($request->file('profile_image'), "/uploads/images/profile", 'public', $UserData['id']);
 
             if($uploadFileName)
             {

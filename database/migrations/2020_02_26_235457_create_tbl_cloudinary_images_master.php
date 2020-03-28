@@ -15,7 +15,7 @@ class CreateTblCloudinaryImagesMaster extends Migration
     {
         Schema::create('tbl_cloudinary_images_master', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('user_uuid', 50)->nullable(false)->comment('사용자 uuid.');
+            $table->unsignedBigInteger('user_id')->nullable(false)->comment('사용자 id.');
             $table->string('image_category', 6)->nullable(false)->comment('이미지 구분');
             $table->string('public_id', 50)->nullable(false)->comment('public_id.');
             $table->string('signature', 50)->nullable(false)->comment('signature.');
@@ -30,7 +30,7 @@ class CreateTblCloudinaryImagesMaster extends Migration
             $table->string('server_time', 50)->nullable(false)->comment('서버 시간.');
 
             $table->timestamps();
-            $table->foreign('user_uuid')->references('user_uuid')->on('tbl_users_master')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('tbl_users_master')->onDelete('cascade');
             $table->foreign('image_category')->references('code_id')->on('tbl_codes_master')->onDelete('cascade');
 
         });

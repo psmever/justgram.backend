@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route as FacadesRoute;
 
 use App\Traits\Model\UserTrait;
 use App\Traits\OauthTrait;
+use Illuminate\Support\Facades\DB;
 
 class PassportRepository implements PassportRepositoryInterface
 {
@@ -67,11 +68,12 @@ class PassportRepository implements PassportRepositoryInterface
 				'message' => __('messages.default.error')
 			];
         }
+        $user_id = DB::getPdo()->lastInsertId();
 
         $auth_code = Str::random(80);
 
         EmailAuth::create([
-            'user_uuid' => $newUserUUID,
+            'user_id' => $user_id,
             'auth_code' => $auth_code,
         ]);
 

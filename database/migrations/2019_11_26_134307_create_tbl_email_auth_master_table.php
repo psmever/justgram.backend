@@ -15,14 +15,14 @@ class CreateTblEmailAuthMasterTable extends Migration
     {
         Schema::create('tbl_email_auth_master', function (Blueprint $table) {
             $table->bigIncrements('id');
-	        $table->string('user_uuid', 50)->unique()->comment('사용자 uuid');
+	        $table->unsignedBigInteger('user_id')->unique()->comment('사용자 id');
 	        $table->string('auth_code', 80)->unique()->comment('이메일 인증 코드');
 
 	        $table->timestamp('verified_at')->nullable();
 	        $table->timestamps();
 
 
-	        $table->foreign('user_uuid')->references('user_uuid')->on('tbl_users_master')->onDelete('cascade');
+	        $table->foreign('user_id')->references('id')->on('tbl_users_master')->onDelete('cascade');
         });
     }
 

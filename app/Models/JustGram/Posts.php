@@ -14,7 +14,7 @@ class Posts extends BaseModel
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_uuid', 'contents', 'post_active'
+		'user_id', 'contents', 'post_active'
 	];
 
     /**
@@ -33,7 +33,7 @@ class Posts extends BaseModel
 
     public function user()
     {
-        return $this->hasOne(UsersMaster::class, 'user_uuid', 'user_uuid');
+        return $this->hasOne(UsersMaster::class, 'id', 'user_id');
     }
 
     public function tag()

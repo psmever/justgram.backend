@@ -28,7 +28,7 @@ trait CloudinaryTrait {
     {
         // 있으면 업데이트 없으면 생성.
 		$task = CloudinaryImageMaster::updateOrCreate([
-                'user_uuid' => $params['user_uuid']
+                'user_id' => $params['user_id']
             ],[
                 'image_category' => USER_PROFILE_IMAGE,
                 'public_id' => $params['public_id'],
@@ -58,7 +58,7 @@ trait CloudinaryTrait {
     {
         // 있으면 업데이트 없으면 생성.
 		$task = CloudinaryImageMaster::create([
-            'user_uuid' => $params['user_uuid'],
+            'user_id' => $params['user_id'],
             'image_category' => USER_POST_IMAGE,
             'public_id' => $params['public_id'],
             'signature' => $params['signature'],

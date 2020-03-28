@@ -15,7 +15,7 @@ class EmailAuth extends BaseModel
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_uuid', 'auth_code'
+		'user_id', 'auth_code'
 	];
 
 
@@ -28,12 +28,9 @@ class EmailAuth extends BaseModel
 		'verified_at' => 'datetime',
 	];
 
-//	public $primaryKey = 'user_uuid';
-//	protected  $primaryKey = 'user_uuid';
-
 	public function users()
 	{
-		return $this->belongsTo('App\Models\JustGram\UsersMaster', 'user_uuid' , 'user_uuid');
+		return $this->belongsTo('App\Models\JustGram\UsersMaster', 'user_id' , 'id');
 	}
 
 

@@ -32,5 +32,15 @@ class Follows extends Model
 	 */
 	protected $casts = [
 //		'verified_at' => 'datetime',
-	];
+    ];
+
+    /**
+     * 팔로우 타겟 관계.
+     *
+     * @return void
+     */
+    public function target()
+    {
+        return $this->hasOne(UsersMaster::class, 'id', 'target_id');
+    }
 }

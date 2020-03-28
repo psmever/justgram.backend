@@ -11,7 +11,7 @@ use \App\Models\JustGram\UsersMaster;
 use \App\Models\JustGram\CloudinaryImageMaster;
 use \App\Models\JustGram\UserProfiles;
 use \App\Models\JustGram\EmailAuth;
-
+use \App\Models\JustGram\Follows;
 /**
  * 사용자 관련 Trait 모음.
  * Trait UserTrait
@@ -25,22 +25,14 @@ trait UserTrait {
 		BaseModelTrait::controlOneDataResult as controlOneDataResult;
 	}
 
-	public function getEmailAuthCodeInfo(string $authCode = NULL) {
-//		$result = \App\Models\JustGram\EmailAuth::whereHas('users',function (Builder $query) {
-//			$query->where('user_state', 'A10000');
-//			$query->where('user_active', 'Y');
-//		})->where('auth_code', $authCode)->get();
-
+    public function getEmailAuthCodeInfo(string $authCode = NULL)
+    {
 		$result = EmailAuth::with('users')->where('auth_code', $authCode);
-
-//		$this->printQueryLog();
 
 		if($result->get()->isNotEmpty()) {
 			return [
 				'state' => true,
-//				'data' => $result->first()->attributesToArray()
 				'data' => $result->first()->toArray()
-//				'data' => $result->attributesToArray()
 			];
 		} else {
 			return [
@@ -55,19 +47,20 @@ trait UserTrait {
      * @param string $user_name
      * @return void
      */
-    public function checkExitsUserName(string $user_name) {
+    public function checkExitsUserName(string $user_name)
+    {
         $taskResult = UsersMaster::where('user_name', $user_name)->get();
         if($taskResult->isNotEmpty()) {
 
-			$userInfo = $taskResult->first();
+            $userInfo = $taskResult->first();
 
 			return [
 				'state' => true,
 				'data' => [
-                    'user_id' => $userInfo->id,
-                    'user_uuid' => $userInfo->user_uuid,
-					'user_state' => $userInfo->user_state,
-					'user_active' => $userInfo->user_active,
+                    'user_id' => $userInfo['id'],
+                    'user_uuid' => $userInfo['user_uuid'],
+					'user_state' => $userInfo['user_state'],
+					'user_active' => $userInfo['user_active'],
 				]
 			];
 		} else {
@@ -113,10 +106,10 @@ trait UserTrait {
 		}
 	}
 
-	public function saveUserProfile(string $user_uuid, array $profileInfo) : array {
+	public function saveUserProfile(string $user_id, array $profileInfo) : array {
 		// 있으면 업데이트 없으면 생성.
 		$result = UserProfiles::updateOrCreate([
-                'user_uuid' => $user_uuid
+                'user_id' => $user_id
             ],[
                 'name' => $profileInfo['name'],
                 'web_site' => $profileInfo['web_site'],
@@ -147,9 +140,9 @@ trait UserTrait {
 		}
     }
 
-    public function updateUsersProfileActive(string $user_uuid) : array
+    public function updateUsersProfileActive(string $user_id) : array
     {
-        $result = UsersMaster::where("user_uuid", $user_uuid)->update(["profile_active" => "Y"]);
+        $result = UsersMaster::where("id", $user_id)->update(["profile_active" => "Y"]);
 
         if($result) {
 			return ['state' => true];
@@ -158,9 +151,9 @@ trait UserTrait {
 		}
     }
 
-    public function getUserProfileData(string $user_uuid) : array
+    public function getUserProfileData(string $user_id) : array
     {
-        $result = UserProfiles::where("user_uuid", $user_uuid);
+        $result = UserProfiles::where("user_id", $user_id);
 
         if($result->get()->isNotEmpty()) {
             return [
@@ -175,6 +168,7 @@ trait UserTrait {
     public function secondGetUserProfileData(int $user_id) : array {
 
         $User = UsersMaster::find($user_id);
+
         $profile = $User->profile;
         $profile_image = $User->profileImage->where('image_category', 'AA22010');
 
@@ -220,7 +214,7 @@ trait UserTrait {
      * @return array
      */
     public function updateUsersMasterProfileImage(array $params) : array {
-        $task = UsersMaster::where("user_uuid", $params['user_uuid'])->update(['profile_image' => $params['id']]);
+        $task = UsersMaster::where("id", $params['user_id'])->update(['profile_image' => $params['id']]);
 
         if($task) {
 			return ['state' => true];
@@ -229,6 +223,12 @@ trait UserTrait {
 		}
     }
 
+    /**
+     * 사용자 프로필 이미지
+     *
+     * @param string $id
+     * @return void
+     */
     public function getUserProfileImageUrl(string $id) {
         $task = CloudinaryImageMaster::where("id", $id);
 
@@ -247,5 +247,64 @@ trait UserTrait {
                 'state' => false
             ];
 		}
+    }
+
+    /**
+     * 팔로우 등록되어 있는지 체크.
+     *
+     * @param integer $user_id
+     * @param integer $target_user_id
+     * @return void
+     */
+    public function checkExistsFollowTarget(int $user_id, int $target_user_id)
+    {
+        return Follows::where('user_id', $user_id)->where('target_id', $target_user_id)->exists();
+    }
+
+    /**
+     * 팔로우 등록.
+     *
+     * @param integer $user_id
+     * @param integer $target_user_id
+     * @return void
+     */
+    public function createFollowTarget(int $user_id, int $target_user_id)
+    {
+        return Follows::create([
+            'user_id' => $user_id,
+            'target_id' => $target_user_id,
+        ]);
+    }
+
+    /**
+     * 팔로우 삭제.
+     *
+     * @param integer $user_id
+     * @param integer $target_user_id
+     * @return void
+     */
+    public function deleteFollowTarget(int $user_id, int $target_user_id)
+    {
+        return Follows::where('user_id', $user_id)->where('target_id', $target_user_id)->delete();
+    }
+
+    /**
+     * 내 팔로우 리스트.
+     *
+     * @param integer $user_id
+     * @return object
+     */
+    public function taskMakeUserFollow(int $user_id) : object
+    {
+        return UsersMaster::with(['follow', 'follow.target' => function($query) use ($user_id) {
+            $query->select('id', 'user_name', 'profile_image', 'user_uuid');
+            $query->with(['profileImage' => function($query) {
+                $query->where('image_category', 'A22010');
+                $query->select('id', 'url', 'secure_url');
+            }]);
+            $query->withCount(['mefollowing' => function($query) use ($user_id) {
+                $query->where('target_id', $user_id);
+            }]);
+        }])->where('id', $user_id)->orderBy('created_at', 'DESC')->get();
     }
 }

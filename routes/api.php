@@ -25,7 +25,6 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
 
 		Route::post('register', 'PassportController@register')->name('register');
 		Route::post('login', 'PassportController@login')->name('login');
-		Route::post('gettoken', 'PassportController@gettoken')->name('getoken'); // 토큰 요청 (테스트)
 
         Route::group(['prefix' => 'system', 'as' => 'system.'], function () {
             Route::get('server', 'SystemController@server')->name('server'); // 서버 상태 확인.
@@ -35,6 +34,13 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
 
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             Route::get('{user_uuid}/profile', 'UserController@profile')->name('profile'); // 사용자 프로필 데이터 전달.
+
+            Route::group(['middleware' => 'auth:api'], function () {
+                Route::get('follow', 'UserController@follow_index')->name('follow.index'); // 사용자 팔로우 리스트.
+                Route::post('follow', 'UserController@follow_create')->name('follow.create'); // 사용자 팔로우 추가.
+                Route::delete('follow', 'UserController@follow_delete')->name('follow.delete'); // 사용자 팔로오 삭제.
+            });
+
         });
 
         Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
@@ -54,7 +60,7 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
                     Route::put('', 'ProfileController@update')->name('update'); // 사용자 프로필 정보 업데이트.
                     Route::put('image', 'ProfileController@image_update')->name('image.update'); // 사용자 프로필 업데이트.
                 });
-			});
+            });
 		});
 	});
 });

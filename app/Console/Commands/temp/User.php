@@ -47,8 +47,11 @@ class User extends Command
      */
     public function handle()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
         $this->start();
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
         echo PHP_EOL;
     }
 
@@ -111,9 +114,10 @@ class User extends Command
             'email_verified_at' => date('Y-m-d H:i:s'),
         ];
         DB::table('tbl_users_master')->insert($userMaster);
+        $user_id = DB::getPdo()->lastInsertId();
 
         $emailAuth = [
-            'user_uuid' => $uuid,
+            'user_id' => $user_id,
             'auth_code' => Str::random(80),
             'verified_at' => date('Y-m-d H:i:s'),
         ];
@@ -121,7 +125,7 @@ class User extends Command
 
         $user_name = $makeName();
         $profileMaster = [
-            'user_uuid' => $uuid,
+            'user_id' => $user_id,
             'name' => $user_name,
             'web_site' => 'http://www.justgram.pe.kr',
             'bio' => "귀하다고 생각하고 귀하게 여기면 귀하지 않은 것이 없고,\n\n

@@ -71,8 +71,6 @@ class AuthController extends BaseController
 			$viewData['state'] = false;
 		}
 
-//		print_r($viewData);
-
 		return view('front.v1.auth/email_auth', $viewData);
 	}
 }

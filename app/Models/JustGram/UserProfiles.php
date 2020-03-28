@@ -13,7 +13,7 @@ class UserProfiles extends Model
 	 *
 	 * @var string
 	 */
-	protected $primaryKey = 'user_uuid';
+	protected $primaryKey = 'user_id';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -21,7 +21,7 @@ class UserProfiles extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_uuid', 'name', 'web_site', 'bio', 'phone_number', 'gender'
+		'user_id', 'name', 'web_site', 'bio', 'phone_number', 'gender'
 	];
 
 	/**
@@ -35,6 +35,6 @@ class UserProfiles extends Model
 
 	public function users()
 	{
-		return $this->belongsTo(UserProfiles::class, 'user_uuid' , 'user_uuid');
+		return $this->belongsTo(UserProfiles::class, 'user_id' , 'user_id');
     }
 }

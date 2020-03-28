@@ -38,7 +38,7 @@ class PostRepository implements PostRepositoryInterface
         $User = Auth::user();
 
         $postTask = self::createPost([
-            'user_uuid' => $User->user_uuid,
+            'user_id' => $User->id,
             'contents' => $request->input('contents')
         ]);
 
@@ -75,7 +75,7 @@ class PostRepository implements PostRepositoryInterface
             $imageInfo = json_decode(html_entity_decode(stripslashes($request->input('upload_image'))));
 
             $imageTask = self::setUserPostImageCloudinaryData([
-                'user_uuid' => $User->user_uuid,
+                'user_id' => $User->id,
                 'public_id' => $imageInfo->public_id,
                 'signature' => $imageInfo->signature,
                 'version' => $imageInfo->version,
@@ -182,7 +182,7 @@ class PostRepository implements PostRepositoryInterface
 
                     return [
                         'comment_id' => $element['id'],
-                        'user_uuid' => $element['user_uuid'],
+                        'user_id' => $element['user_id'],
                         'contents' => $element['contents'],
                         'created_at' => $element['created_at'],
                         'user' => $user($element['user'])
@@ -193,7 +193,7 @@ class PostRepository implements PostRepositoryInterface
 
             return [
                 'post_id' => $element['id'],
-                'user_uuid' => $element['user_uuid'],
+                'user_id' => $element['user_id'],
                 'contents' => $element['contents'],
                 'user_info' => $user($element['user']),
                 'tags' => $hash_tag($element['tag']),
@@ -232,11 +232,11 @@ class PostRepository implements PostRepositoryInterface
 			];
         }
 
-        $User = Auth::user();
+        $user_id = Auth::id();
 
         $createTask = self::createPostsComment([
             'post_id' => $request->input('post_id'),
-            'user_uuid' => $User->user_uuid,
+            'user_id' => $user_id,
             'contents' => $request->input('contents'),
         ]);
 

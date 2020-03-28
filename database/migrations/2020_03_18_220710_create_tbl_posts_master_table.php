@@ -15,12 +15,12 @@ class CreateTblPostsMasterTable extends Migration
     {
         Schema::create('tbl_posts_master', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('user_uuid', 50)->nullable(false)->comment('사용자 uuid');
+            $table->unsignedBigInteger('user_id')->nullable(false)->comment('사용자 id');
             $table->text('contents')->nullable(false)->comment('글 내용.');
             $table->enum('post_active', ['Y', 'N'])->default('Y')->comment('글상태.');
             $table->timestamps();
 
-            $table->foreign('user_uuid')->references('user_uuid')->on('tbl_users_master')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('tbl_users_master')->onDelete('cascade');
         });
     }
 

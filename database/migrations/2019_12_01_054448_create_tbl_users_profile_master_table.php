@@ -15,7 +15,7 @@ class CreateTblUsersProfileMasterTable extends Migration
     {
         Schema::create('tbl_users_profile_master', function (Blueprint $table) {
 
-	        $table->string('user_uuid', 50)->primary()->comment('사용자 uuid');
+	        $table->unsignedBigInteger('user_id')->primary()->comment('사용자 id');
 
 	        $table->string('name', 255)->nullable();
 	        $table->string('web_site', 255)->nullable();
@@ -25,7 +25,7 @@ class CreateTblUsersProfileMasterTable extends Migration
 
             $table->timestamps();
 
-	        $table->foreign('user_uuid')->references('user_uuid')->on('tbl_users_master')->onDelete('cascade');
+	        $table->foreign('user_id')->references('id')->on('tbl_users_master')->onDelete('cascade');
 	        $table->foreign('gender')->references('code_id')->on('tbl_codes_master')->onDelete('cascade');
         });
     }

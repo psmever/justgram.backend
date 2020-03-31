@@ -58,18 +58,57 @@ class UserRepository implements UserRepositoryInterface
      * @return void
      */
     public function getUserProfileData() {
-        $taskResult = self::secondGetUserProfileData($this->UserID);
-        if($taskResult['state']) {
+        $task = self::secondGetUserProfileData($this->UserID);
+        if(!$task['state']) {
             return [
-                'state' => true,
-                'data' => $taskResult['data']
-            ];
-        } else {
-            return [
-                'state' => true,
+                'state' => false,
                 'message' => __('messages.exits.data'),
             ];
         }
+
+        $returnObject = function() use ($task) {
+            $data = $task['data'];
+            return [
+                'user_uuid' => $data['user_uuid'],
+                'user_name' => $data['user_name'],
+                'email' => $data['email'],
+                'profile_image' => [
+                    'url' => $data['profile_image']['url'],
+                    'secure_url' => $data['profile_image']['secure_url'],
+                ],
+                'count_info' => [
+                    "posts" => $data['posts_count'],
+                    "followers" => $data['followers_count'],
+                    "following" => $data['following_count'],
+                ],
+                'profile' => [
+                    'name' => $data['profile']['name'],
+                    'web_site' => $data['profile']['web_site'],
+                    'bio' => $data['profile']['bio'],
+                    'gender' => $data['profile']['gender'],
+                    'phone_number' => $data['profile']['phone_number'],
+                ],
+                'posts' => array_map(function($element){
+                    return [
+                        'post_id' => $element['id'],
+                        'image' => [
+                            'id' => $element['image']['cloudinary']['id'],
+                            'url' => $element['image']['cloudinary']['url'],
+                            'secure_url' => $element['image']['cloudinary']['secure_url'],
+                        ],
+                        'count' => [
+                            'comment_count' => rand(0,100),
+                            'heart_count' => rand(0,1000)
+                        ]
+                    ];
+                },$data['posts'])
+            ];
+        };
+
+        return [
+            'state' => true,
+            'data' => $returnObject()
+        ];
     }
 
     /**
@@ -149,15 +188,72 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 팔로우 리스트
+     * Following 리스트
      *
      * @return void
      */
-    public function makeFollowsList()
+    public function makeFollowingList(string $user_name)
     {
-        $user_id = Auth::id();
+        $checkResult = self::checkExitsUserName($user_name);
 
-        $task = self::taskMakeUserFollow($user_id);
+        if ($checkResult['state'] == false) {
+            return [
+                "state" => false,
+                "message" => __('messages.exits.user'),
+            ];
+        }
+        $user_id = $checkResult['data']['user_id'];
+
+        $task = self::taskMakeUserFollowing($user_id);
+
+        if(!$task->isNotEmpty()) {
+            return [
+                'state' => false,
+                'message' => __('messages.exits.data')
+            ];
+        }
+
+        $taskFirstToArray = $task->first()->toArray();
+        return [
+            'state' => true,
+            'data' => [
+                'user_id' => $taskFirstToArray['id'],
+                'user_uuid' => $taskFirstToArray['user_uuid'],
+                'user_name' => $taskFirstToArray['user_name'],
+                'email' => $taskFirstToArray['email'],
+                'following_list' => array_map(function($element) {
+                   return [
+                       'user_id' => $element['target_id'],
+                       'created_at' => $element['created_at'],
+                       'user_name' => $element['target']['user_name'],
+                       'user_uuid' => $element['target']['user_uuid'],
+                       'user_profile_name' => $element['target']['profile']['name'],
+                       'profile_image' => $element['target']['profile_image']['secure_url'],
+                       'mefollowing' => ($element['target']['mefollowing_count']) ? true : false,
+                   ];
+                }, $taskFirstToArray['following'])
+            ]
+        ];
+    }
+
+    /**
+     * Followers 리스트
+     *
+     * @return void
+     */
+    public function makeFollowersList(string $user_name)
+    {
+        $checkResult = self::checkExitsUserName($user_name);
+
+        if ($checkResult['state'] == false) {
+            return [
+                "state" => false,
+                "message" => __('messages.exits.user'),
+            ];
+        }
+        $user_id = $checkResult['data']['user_id'];
+
+        $task = self::taskMakeUserFollowers($user_id);
 
         if(!$task->isNotEmpty()) {
             return [
@@ -175,16 +271,17 @@ class UserRepository implements UserRepositoryInterface
                 'user_uuid' => $taskFirstToArray['user_uuid'],
                 'user_name' => $taskFirstToArray['user_name'],
                 'email' => $taskFirstToArray['email'],
-                'follow_list' => array_map(function($element) {
+                'followers_list' => array_map(function($element) {
                    return [
-                       'user_id' => $element['target_id'],
+                       'user_id' => $element['user_id'],
                        'created_at' => $element['created_at'],
-                       'user_name' => $element['target']['user_name'],
-                       'user_uuid' => $element['target']['user_uuid'],
-                       'profile_image' => $element['target']['profile_image']['secure_url'],
-                       'mefollowing' => ($element['target']['mefollowing_count']) ? true : false,
+                       'user_name' => $element['user']['user_name'],
+                       'user_uuid' => $element['user']['user_uuid'],
+                       'user_profile_name' => $element['user']['profile']['name'],
+                       'profile_image' => $element['user']['profile_image']['secure_url'],
+                       'targetfollowing' => ($element['user']['targetfollowing_count']) ? true : false,
                    ];
-                }, $taskFirstToArray['follow'])
+                }, $taskFirstToArray['followers'])
             ]
         ];
     }

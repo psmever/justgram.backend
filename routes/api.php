@@ -36,7 +36,8 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
             Route::get('{user_uuid}/profile', 'UserController@profile')->name('profile'); // 사용자 프로필 데이터 전달.
 
             Route::group(['middleware' => 'auth:api'], function () {
-                Route::get('follow', 'UserController@follow_index')->name('follow.index'); // 사용자 팔로우 리스트.
+                Route::get('{user_uuid}/following', 'UserController@following_index')->name('following.index'); // 사용자 following 리스트.
+                Route::get('{user_uuid}/followers', 'UserController@followers_index')->name('followers.index'); // 사용자 followers 리스트.
                 Route::post('follow', 'UserController@follow_create')->name('follow.create'); // 사용자 팔로우 추가.
                 Route::delete('follow', 'UserController@follow_delete')->name('follow.delete'); // 사용자 팔로오 삭제.
             });

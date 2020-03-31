@@ -43,4 +43,14 @@ class Follows extends Model
     {
         return $this->hasOne(UsersMaster::class, 'id', 'target_id');
     }
+
+    /**
+     * 관계 사용자정보.
+     *
+     * @return void
+     */
+    public function user()
+    {
+        return $this->hasOne(UsersMaster::class, 'id', 'user_id');
+    }
 }

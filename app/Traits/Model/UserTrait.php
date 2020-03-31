@@ -165,7 +165,30 @@ trait UserTrait {
         }
     }
 
-    public function secondGetUserProfileData(int $user_id) : array {
+    public function secondGetUserProfileData(int $user_id) : array
+    {
+        $task = UsersMaster::with(['profile' =>function($query) {
+            $query->select('user_id', 'name', 'web_site', 'bio', 'gender', 'phone_number');
+        }, 'profileImage'=> function($query){
+            $query->select('id', 'url', 'secure_url');
+        }, 'posts' => function($query){
+            $query->with('image', 'image.cloudinary');
+        }])->withCount(['posts','following', 'followers'])->where('id', $user_id)->get();
+
+        if($task->isEmpty()) {
+            return [
+                'state' => false,
+            ];
+        }
+
+        return [
+            'state' => true,
+            'data' => $task->first()->toArray()
+        ];
+
+    }
+
+    public function OLD_secondGetUserProfileData(int $user_id) : array {
 
         $User = UsersMaster::find($user_id);
 
@@ -289,21 +312,44 @@ trait UserTrait {
     }
 
     /**
-     * 내 팔로우 리스트.
+     * 사용자 팔로잉 리스트.
      *
      * @param integer $user_id
      * @return object
      */
-    public function taskMakeUserFollow(int $user_id) : object
+    public function taskMakeUserFollowing(int $user_id) : object
     {
-        return UsersMaster::with(['follow', 'follow.target' => function($query) use ($user_id) {
+        return UsersMaster::with(['following', 'following.target' => function($query) use ($user_id) {
             $query->select('id', 'user_name', 'profile_image', 'user_uuid');
             $query->with(['profileImage' => function($query) {
                 $query->where('image_category', 'A22010');
                 $query->select('id', 'url', 'secure_url');
+            }, 'profile' => function($query) {
+                $query->select('user_id', 'name');
             }]);
             $query->withCount(['mefollowing' => function($query) use ($user_id) {
                 $query->where('target_id', $user_id);
+            }]);
+        }])->where('id', $user_id)->orderBy('created_at', 'DESC')->get();
+    }
+
+    /**
+     * 사용자 팔로워 리스트.
+     *
+     * @param integer $user_id
+     * @return object
+     */
+    public function taskMakeUserFollowers(int $user_id) : object
+    {
+        return UsersMaster::with(['followers', 'followers.user' => function($query) use ($user_id) {
+            $query->select('id', 'user_name', 'profile_image', 'user_uuid');
+            $query->with(['profileImage' => function($query) {
+                $query->where('image_category', 'A22010');
+                $query->select('id', 'url', 'secure_url');
+            }, 'profile' => function($query) {
+                $query->select('user_id', 'name');
+            }]);
+            $query->withCount(['targetfollowing' => function($query) use ($user_id) {
             }]);
         }])->where('id', $user_id)->orderBy('created_at', 'DESC')->get();
     }

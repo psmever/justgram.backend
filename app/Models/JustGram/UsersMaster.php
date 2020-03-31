@@ -40,7 +40,7 @@ class UsersMaster extends BaseAuthModel implements MustVerifyEmail
 	 */
 	protected $casts = [
 		'email_verified_at' => 'datetime',
-	];
+    ];
 
     /**
      * 이메일 인증 테이블.
@@ -62,6 +62,10 @@ class UsersMaster extends BaseAuthModel implements MustVerifyEmail
         return $this->hasOne(UserProfiles::class, 'user_id', 'id');
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Posts::class, 'user_id', 'id');
+    }
     /**
      * 관계 - 프로필 이미지.
      *
@@ -77,10 +81,10 @@ class UsersMaster extends BaseAuthModel implements MustVerifyEmail
      *
      * @return void
      */
-    public function follow()
-    {
-        return $this->hasMany(Follows::class, 'user_id', 'id');
-    }
+    // public function follow()
+    // {
+    //     return $this->hasMany(Follows::class, 'user_id', 'id');
+    // }
 
     /**
      * 관계 - 팔로잉.
@@ -89,17 +93,37 @@ class UsersMaster extends BaseAuthModel implements MustVerifyEmail
      */
     public function following()
     {
-        return $this->hasOne(Follows::class, 'user_id', 'id');
+        return $this->hasMany(Follows::class, 'user_id', 'id');
     }
 
     /**
-     * 관계 - 나를 팔로우 하고 있는지
+     * 관계 나를 팔로워 한 사람.
+     *
+     * @return void
+     */
+    public function followers()
+    {
+        return $this->hasMany(Follows::class, 'target_id', 'id');
+    }
+
+    /**
+     * 관계 - 내가 팔러우 하고 있는지.
      *
      * @return void
      */
     public function mefollowing()
     {
         return $this->hasOne(Follows::class, 'user_id', 'id');
+    }
+
+    /**
+     * 관계 나를 팔러우 하고 있는지.
+     *
+     * @return void
+     */
+    public function targetfollowing()
+    {
+        return $this->hasOne(Follows::class, 'target_id', 'id');
     }
 
     /**

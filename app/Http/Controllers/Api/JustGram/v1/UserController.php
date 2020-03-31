@@ -47,14 +47,34 @@ class UserController extends BaseController
     }
 
     /**
-     * 사용자 팔로우 리스트
+     * 사용자 following 리스트
      *
      * @param Request $request
      * @return void
      */
-    public function follow_index(Request $request)
+    public function following_index(Request $request, string $user_name)
     {
-        $task = $this->user->makeFollowsList();
+        $task = $this->user->makeFollowingList($user_name);
+        if($task['state']) {
+		    return BaseController::firstSuccessResponse([
+                'data' => $task['data']
+            ]);
+	    } else {
+		    return BaseController::defaultErrorResponse([
+			    'message' => $task['message']
+		    ]);
+	    }
+    }
+
+    /**
+     * 사용자 followers 리스트
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function followers_index(Request $request, string $user_name)
+    {
+        $task = $this->user->makeFollowersList($user_name);
         if($task['state']) {
 		    return BaseController::firstSuccessResponse([
                 'data' => $task['data']

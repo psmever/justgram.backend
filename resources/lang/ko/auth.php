@@ -18,7 +18,8 @@ return [
 		'failed' => '정확한 로그인 정보가 아닙니다.',
 		'success' => '로그인이 완료 되었습니다.',
 		'not_active_user' => '중지된 사용자 입니다.',
-		'wait_user' => '인증 대기 중인 사용자 입니다.',
+        'wait_user' => '인증 대기 중인 사용자 입니다.',
+        'need_login' => '로그인이 필요한 서비스 입니다.',
 	],
 	'email_auth' => [
 		'failed_auth_email_code' => '존재 하지 않은 인증 코드 입니다.',

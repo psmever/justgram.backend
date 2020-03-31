@@ -76,7 +76,7 @@ class Handler extends ExceptionHandler
         // 인증 에러.
         if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
             return response()->json([
-                'error_message' => __('auth.need_login'),
+                'error_message' => __('auth.login.need_login'),
             ], 401);
         }
 

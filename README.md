@@ -54,7 +54,6 @@ php artisan config:clear && php artisan optimize && composer dump-autoload
 ```
 
 ## Local Develop Server.
-
 ```bash
 php artisan serve
 ```

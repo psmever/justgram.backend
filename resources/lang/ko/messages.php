@@ -19,7 +19,6 @@ return [
 	'error' => [
         'normal' => '',
         'already' => '이미 등록 되어 있습니다.',
-
     ],
 
     'exits' => [

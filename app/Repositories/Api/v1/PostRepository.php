@@ -131,7 +131,7 @@ class PostRepository implements PostRepositoryInterface
         if(!$posts['state']) {
             return [
                 'state' => false,
-                'message' => __('messages.exits_value.posts')
+                'message' => __('messages.exits.data')
             ];
         }
 

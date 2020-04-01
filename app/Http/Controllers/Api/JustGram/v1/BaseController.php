@@ -62,7 +62,7 @@ class BaseController extends Controller
 			$response['error'] = __('messages.default.error');
 		}
 
-		$code = (isset($params['code']) && $params['code']) ? $params['code'] : 401;
+		$code = (isset($params['code']) && $params['code']) ? $params['code'] : 400;
 
 		if(!empty($errorMessages)){
 			$response['data'] = $errorMessages;

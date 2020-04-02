@@ -3,6 +3,7 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Routing\Route;
 
 trait OauthTrait {
 
@@ -72,5 +73,34 @@ trait OauthTrait {
             'access_token' => $tokenRequestResult->access_token,
             'refresh_token' => $tokenRequestResult->refresh_token
         ];
+    }
+
+    /**
+     * router 에서 auth:api 우회 했을때 토큰은 확인 가능하지만 Auth:id() 가 안먹혀서
+     * 강제로 하나 만듬.
+     *
+     * @param [type] $request
+     * @return void
+     */
+    public static function getUserInfoByBearerToken ($request)
+    {
+        if(!$request->headers->get('authorization') || $request->headers->get('request-client-type')) {
+            return false;
+        }
+
+        $client = Request::create('/api/justgram/v1/my/token/info', 'GET');
+
+        $client->headers->set('Request-Client-Type', $request->headers->get('request-client-type'));
+        $client->headers->set('Accept', $request->headers->get('accept'));
+        $client->headers->set('Content-Type', $request->headers->get('content-type'));
+        $client->headers->set('Authorization', $request->headers->get('authorization'));
+
+        $taskResult = app()->handle($client);
+
+        if($taskResult->status() !== 200) {
+            return false;
+        }
+
+        return json_decode($taskResult->getContent());
     }
 }

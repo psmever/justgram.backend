@@ -84,7 +84,7 @@ trait OauthTrait {
      */
     public static function getUserInfoByBearerToken ($request)
     {
-        if(!$request->headers->get('authorization') || $request->headers->get('request-client-type')) {
+        if(!$request->headers->get('authorization') || !$request->headers->get('request-client-type')) {
             return false;
         }
 

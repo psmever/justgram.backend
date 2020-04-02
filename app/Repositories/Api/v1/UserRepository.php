@@ -20,6 +20,27 @@ class UserRepository implements UserRepositoryInterface
 
     }
 
+    public function getTokenInfo($request)
+    {
+        $User = Auth::user();
+        if(!$User) {
+            return [
+                'state' => false,
+                'message' => __('messages.exits_value.user')
+            ];
+        }
+
+        return [
+            'state' => true,
+            'data' => [
+                'user_id' => $User->id,
+                'user_uuid' => $User->user_uuid,
+            ]
+        ];
+
+
+    }
+
     /**
      * 사용자 체크.
      *
@@ -97,8 +118,8 @@ class UserRepository implements UserRepositoryInterface
                             'secure_url' => $element['image']['cloudinary']['secure_url'],
                         ],
                         'count' => [
-                            'comment_count' => rand(0,100),
-                            'heart_count' => rand(0,1000)
+                            'comment_count' => $element['comment_count'],
+                            'heart_count' => $element['hearts_count'],
                         ]
                     ];
                 },$data['posts'])

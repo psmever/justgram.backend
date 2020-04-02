@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 //});
 
 
-//Auth::routes(['verify' => true]);
+// Auth::routes(['verify' => true]);
 Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgram.'], function () {
+
 	Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
 
 		Route::post('register', 'PassportController@register')->name('register');
@@ -44,18 +45,19 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
 
         });
 
-        Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
-            Route::get('', 'PostController@index')->name('index');
-        });
-
+        Route::get('post', 'PostController@index')->name('index');
 
 		Route::group(['middleware' => 'auth:api'], function () {
             Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 리프레쉬 요청 (테스트).
 
             Route::post('post', 'PostController@create')->name('post.create'); // 글등록.
             Route::post('post/comment', 'PostController@comment_create')->name('post.comment.create'); // 포스트 댓글 등록.
+            Route::post('post/heart', 'PostController@heart_create')->name('post.heart.create'); // 글 하트 추가
+            Route::delete('post/heart', 'PostController@heart_delete')->name('post.heart.delete'); // 글 하트 삭제
 
             Route::group(['prefix' => 'my', 'as' => 'my.'], function () {
+                Route::get('token/info', 'UserController@token_info')->name('token.info'); // 토큰으로 사용자 정보
+
                 Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
                     Route::get('', 'ProfileController@me')->name('get'); // 사용자 프로필 데이터 전달.
                     Route::put('', 'ProfileController@update')->name('update'); // 사용자 프로필 정보 업데이트.

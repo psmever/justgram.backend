@@ -7,13 +7,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 use App\Traits\Model\PostsTrait;
+use App\Traits\OauthTrait;
 use App\Traits\Model\CloudinaryTrait;
 use Carbon\Carbon;
 use App\Helpers\MasterHelper;
 
+class classOauthTrait {
+    use OauthTrait;
+}
+
 class PostRepository implements PostRepositoryInterface
 {
-    use CloudinaryTrait, PostsTrait;
+    use CloudinaryTrait, PostsTrait, OauthTrait;
 
 	public function start()
 	{
@@ -126,7 +131,15 @@ class PostRepository implements PostRepositoryInterface
 
     public function attemptGetPostList(Request $request)
     {
-        $posts = self::getPostListMaster();
+        /**
+         * router 에서 사용자 체크를 안하기떄문에
+         * 토큰이 있는지 확인하고 있으면 토큰을 이용 사용자 정보를 가지고 온다.
+         */
+        $User = classOauthTrait::getUserInfoByBearerToken($request);
+
+        $user_id = ($User) ? $User->user_id : "";
+
+        $posts = self::getPostListMaster($user_id);
 
         if(!$posts['state']) {
             return [
@@ -135,9 +148,7 @@ class PostRepository implements PostRepositoryInterface
             ];
         }
 
-
         $returnObject = array_map( function ($element) {
-            // print_r($element);
             $user = function($user) {
                 return [
                     'user_id' => $user['id'],
@@ -195,6 +206,8 @@ class PostRepository implements PostRepositoryInterface
                 'post_id' => $element['id'],
                 'user_id' => $element['user_id'],
                 'contents' => $element['contents'],
+                'myheart' => ($element['myheart_count']) ? true : false,
+                'hearts_count' => $element['hearts_count'],
                 'user_info' => $user($element['user']),
                 'tags' => $hash_tag($element['tag']),
                 'image' => $image_info($element['image']),
@@ -244,6 +257,73 @@ class PostRepository implements PostRepositoryInterface
             return [
                 'state' => false,
                 'message' => __('messages.default.error')
+            ];
+        }
+
+        return ['state' => true];
+    }
+
+    public function attemtPostAddHeart($request)
+    {
+        $validator = FacadesValidator::make($request->all(), [
+            'post_id' => 'required',
+        ]);
+
+        if( $validator->fails() ) {
+            $errorMessage = $validator->getMessageBag()->all();
+			return [
+				'state' => false,
+				'message' => $errorMessage[0]
+			];
+        }
+
+        $user_id = Auth::id();
+        $post_id = $request->input('post_id');
+
+        if(!self::existsPost($post_id)) {
+            return [
+                'state' => false,
+                'message' => __("messages.exits.data")
+            ];
+        }
+
+        if(!self::addPostsHeart($user_id, $post_id)) {
+            return [
+                'state' => false,
+                'messages' => __('messages.default.error')
+            ];
+        }
+
+        return ['state' => true];
+    }
+    public function attemtPostDeleteHeart($request)
+    {
+        $validator = FacadesValidator::make($request->all(), [
+            'post_id' => 'required',
+        ]);
+
+        if( $validator->fails() ) {
+            $errorMessage = $validator->getMessageBag()->all();
+			return [
+				'state' => false,
+				'message' => $errorMessage[0]
+			];
+        }
+
+        $user_id = Auth::id();
+        $post_id = $request->input('post_id');
+
+        if(!self::existsPost($post_id)) {
+            return [
+                'state' => false,
+                'message' => __("messages.exits.data")
+            ];
+        }
+
+        if(!self::deletePostsHeart($user_id, $post_id)) {
+            return [
+                'state' => false,
+                'messages' => __('messages.default.error')
             ];
         }
 

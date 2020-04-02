@@ -55,4 +55,27 @@ class PostController extends BaseController
 		    ]);
 	    }
     }
+
+    public function heart_create(Request $request)
+    {
+        $task = $this->post->attemtPostAddHeart($request);
+        if($task['state']) {
+		    return BaseController::defaultSuccessResponse([]);
+	    } else {
+		    return BaseController::defaultErrorResponse([
+			    'message' => $task['message']
+		    ]);
+	    }
+    }
+    public function heart_delete(Request $request)
+    {
+        $task = $this->post->attemtPostDeleteHeart($request);
+        if($task['state']) {
+		    return BaseController::defaultSuccessResponse([]);
+	    } else {
+		    return BaseController::defaultErrorResponse([
+			    'message' => $task['message']
+		    ]);
+	    }
+    }
 }

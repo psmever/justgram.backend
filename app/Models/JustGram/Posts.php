@@ -51,5 +51,15 @@ class Posts extends BaseModel
         return $this->hasMany(PostsComments::class, 'post_id', 'id');
     }
 
+    public function myheart()
+    {
+        return $this->hasMany(PostsHeart::class, 'post_id' ,'id');
+    }
+
+    public function hearts()
+    {
+        return $this->hasMany(PostsHeart::class, 'post_id' ,'id');
+    }
+
 
 }

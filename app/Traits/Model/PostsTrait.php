@@ -10,6 +10,7 @@ use \App\Models\JustGram\Posts;
 use \App\Models\JustGram\PostsTag;
 use \App\Models\JustGram\PostsImage;
 use \App\Models\JustGram\PostsComments;
+use \App\Models\JustGram\PostsHeart;
 
 /**
  * posts 관련 트레이트.
@@ -20,7 +21,12 @@ trait PostsTrait {
     // 모델 공통 Trait
 	use BaseModelTrait {
 		BaseModelTrait::controlOneDataResult as controlOneDataResult;
-	}
+    }
+
+    public function existsPost($post_id)
+    {
+        return Posts::where('id', $post_id)->exists();
+    }
 
     public function createPost(array $params)
     {
@@ -64,13 +70,17 @@ trait PostsTrait {
         return $task->id;
     }
 
-    public function getPostListMaster()
+    public function getPostListMaster($user_id = null)
     {
         return self::controlDataObjectResult(Posts::with(['user', 'user.profileImage' => function($query) {
             $query->where('image_category', 'A22010');
         }, 'tag', 'image', 'image.cloudinary', 'comment' => function($query) {
             $query->orderBy('id', 'desc');
-        }, 'comment.user'])->where('post_active', 'Y')->latest()->get());
+        }, 'comment.user'])->withCount(['myheart'=> function($q) use ($user_id) {
+            if($user_id) {
+                $q->where('user_id', $user_id);
+            }
+        }, 'hearts'])->where('post_active', 'Y')->latest()->get());
     }
 
     public function createPostsComment(array $params)
@@ -86,5 +96,24 @@ trait PostsTrait {
         }
 
         return $task->id;
+    }
+
+    public function addPostsHeart(int $user_id, int $post_id) : int
+    {
+        $task = PostsHeart::create([
+            'user_id' => $user_id,
+            'post_id' => $post_id,
+        ]);
+
+        if(!$task) {
+            return false;
+        }
+
+        return $task->id;
+    }
+
+    public function deletePostsHeart(int $user_id, int $post_id) : bool
+    {
+        return PostsHeart::where('user_id', $user_id)->where('post_id', $post_id)->delete();
     }
 }

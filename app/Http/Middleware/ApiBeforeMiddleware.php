@@ -24,10 +24,9 @@ class ApiBeforeMiddleware
     {
 	    $clientType = $request->header('request-client-type');
 
-	    if(empty($clientType) || !($clientType == "A02001" || $clientType == "A02002" || $clientType == "A02003"))
-	    {
-		    throw new \App\Exceptions\CustomException(__('auth.client_failed'));
-	    }
+        if(empty($clientType) || !($clientType == "A02001" || $clientType == "A02002" || $clientType == "A02003")) {
+            throw new \App\Exceptions\CustomException(__('auth.client_failed'));
+        }
 
         //TODO: 우선 로그 저장 하기로.. 추후에 주석을 하든 세분화 해야함.
         $logid = date('Ymdhis');

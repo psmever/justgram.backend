@@ -121,4 +121,19 @@ class UserController extends BaseController
 		    ]);
 	    }
     }
+
+    public function token_info(Request $request)
+    {
+        $task = $this->user->getTokenInfo($request);
+        if($task['state']) {
+		    return BaseController::firstSuccessResponse([
+                'data' => $task['data']
+            ]);
+	    } else {
+		    return BaseController::defaultErrorResponse([
+			    'message' => $task['message']
+		    ]);
+	    }
+
+    }
 }

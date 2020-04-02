@@ -173,6 +173,7 @@ trait UserTrait {
             $query->select('id', 'url', 'secure_url');
         }, 'posts' => function($query){
             $query->with('image', 'image.cloudinary');
+            $query->withCount(['hearts', 'comment']);
         }])->withCount(['posts','following', 'followers'])->where('id', $user_id)->get();
 
         if($task->isEmpty()) {

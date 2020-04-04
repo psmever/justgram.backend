@@ -85,7 +85,7 @@ class PassportRepository implements PassportRepositoryInterface
         $emailObject->auth_code = $auth_code;
         $emailObject->auth_url = url('/front/v1/auth/email_auth?code='.$auth_code);
 
-        Mail::to("psmever@gmail.com")->send(new EmailMaster($emailObject));
+        Mail::to(trim($request->input('email')))->send(new EmailMaster($emailObject));
 
         if(Mail::failures()) {
             return [

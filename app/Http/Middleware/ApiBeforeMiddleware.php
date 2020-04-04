@@ -42,7 +42,7 @@ class ApiBeforeMiddleware
         $logMessage = "ID:${logid} Current_url:${current_url} RouteName:${logRoutename} RouteAction:${logRouteAction} Header: {$logHeaderInfo} Body: ${logBodyInfo}";
         Log::channel('requestlog')->error($logMessage);
 
-        $request->merge(array_map('trim', $request->all()));
+        // $request->merge(array_map('trim', $request->all()));
         return $next($request);
     }
 }

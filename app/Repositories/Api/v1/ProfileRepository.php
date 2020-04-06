@@ -96,7 +96,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 			{
 				return [
 					'state' => false,
-					'message' => _('messages.default.error')
+					'message' => __('messages.default.error')
 				];
 			}
 		}
@@ -207,7 +207,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
                 return [
                     'state' => true,
-                    'message' => _('messages.default.do_success')
+                    'message' => __('messages.default.do_success')
                 ];
 
             } else {
@@ -218,7 +218,7 @@ class ProfileRepository implements ProfileRepositoryInterface
         } else {
             return [
                 'state' => false,
-                'message' => _('messages.default.error')
+                'message' => __('messages.default.error')
             ];
         }
     }
@@ -270,7 +270,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 		{
 			return [
 				'state' => false,
-				'message' => _('messages.default.error')
+				'message' => __('messages.default.error')
 			];
 		}
     }
@@ -284,7 +284,7 @@ class ProfileRepository implements ProfileRepositoryInterface
         } else {
             return [
 				'state' => false,
-				'message' => _('messages.default.error')
+				'message' => __('messages.default.error')
 			];
         }
 

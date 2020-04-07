@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 use Carbon\Carbon;
 
@@ -35,11 +34,7 @@ class AuthServiceProvider extends ServiceProvider
 	    }, ['prefix' => 'api/v1/oauth']);
 
 	    // TODO: TokenTime Test...
-        // Passport::tokensExpireIn(Carbon::now()->addMinutes(30));
-        Passport::tokensExpireIn(Carbon::now()->addDays(1));
+        Passport::tokensExpireIn(Carbon::now()->addMinutes(1));
 	    Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
-
-//	    Passport::tokensExpireIn(Carbon::now()->addMinutes(1));
-//	    Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(2));
     }
 }

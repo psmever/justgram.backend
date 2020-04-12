@@ -73,6 +73,9 @@
             "php artisan migrate",
             "php artisan passport:install",
             "chmod -R 777 public/"
+        ],
+        "test" : [
+            "vendor/bin/phpunit"
         ]
     }
 }

@@ -10,7 +10,6 @@ class SystemTest extends TestCase
 {
     protected $defaultHeader;
 
-
     public function setUp(): void{
         parent::setUp();
         $this->defaultHeader = TestCase::getDefaultHeaders();
@@ -23,8 +22,6 @@ class SystemTest extends TestCase
      */
     public function testExample()
     {
-
-
         $response = $this->get('/');
 
         $response->assertStatus(200);

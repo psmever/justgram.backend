@@ -18,4 +18,4 @@ yarn-error.log
 
 # composer.lock
 
-/app/Console/Commands/Test
+/app/Console/Commands/Tests

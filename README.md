@@ -63,6 +63,11 @@ php artisan serve
 http://127.0.0.1:8000 || http://localhost:8000/
 ```
 
+### laravel Testing
+```bash
+php artisan migrate:refresh --env=testing --database=testing
+composer test
+```
 
 ## Heroku Dep
 
@@ -70,8 +75,6 @@ http://127.0.0.1:8000 || http://localhost:8000/
 heroku config:set LARAVEL_COMMANDS='php artisan migrate:refresh --seed && php artisan passport:install'
 heroku run php artisan migrate:refresh --seed
 heroku run php artisan passport:install
-
-
 ```
 
 ## Contributing

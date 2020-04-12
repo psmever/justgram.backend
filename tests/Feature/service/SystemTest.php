@@ -40,7 +40,7 @@ class SystemTest extends TestCase
     {
         $response = $this->withHeaders($this->defaultHeader)->json('GET', '/api/justgram/v1/system/server');
         $response
-            ->assertStatus(201)
+            ->assertStatus(200)
             ->assertJson([
                 'message' => __('messages.default.success'),
             ]);

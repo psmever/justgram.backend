@@ -5,6 +5,7 @@ namespace Tests\Feature\service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Artisan;
 
 class SystemTest extends TestCase
 {
@@ -13,6 +14,9 @@ class SystemTest extends TestCase
     public function setUp(): void{
         parent::setUp();
         $this->defaultHeader = TestCase::getDefaultHeaders();
+        Artisan::call('migrate',['-vvv' => true]);
+        Artisan::call('passport:install',['-vvv' => true]);
+        Artisan::call('db:seed',['-vvv' => true]);
     }
 
     /**

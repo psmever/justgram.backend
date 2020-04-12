@@ -56,4 +56,15 @@ class SystemTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * 사이트 데이터 체크.
+     *
+     * @return void
+     */
+    public function testGetSiteData()
+    {
+        $response = $this->withHeaders($this->defaultHeader)->json('GET', '/api/justgram/v1/system/sitedata');
+        $response->assertStatus(200);
+    }
+
 }

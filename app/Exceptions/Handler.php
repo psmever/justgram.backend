@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
     {
         $logid = date('Ymdhis'); // 로그 고유값.
 
-        $logRoute = Route::current();
+        // $logRoute = Route::current();
         $logRoutename = Route::currentRouteName();
         $logRouteAction = Route::currentRouteAction();
 
@@ -81,18 +81,6 @@ class Handler extends ExceptionHandler
         }
 
         /**
-         * 기타.
-         */
-        if ($exception instanceof \App\Exceptions\CustomException) // 기타 Exception
-	    {
-            $logHeaderInfo = json_encode($request->header());
-            $logMessage = "ID:{$logid} ExceptionName: CustomException Current_url:${current_url} RouteName:${logRoutename} RouteAction:${logRouteAction} Message:{$exception->getMessage()} File:{$exception->getFile()} Line:{$exception->getLine()} Code:{$exception->getCode()} Header: {$logHeaderInfo}";
-            Log::channel('customexceptionlog')->error($logMessage);
-
-		    return $exception->render($request, $exception);
-        }
-
-        /**
          * 페이지 없는 요청 일떄.
          */
         if ($request->wantsJson() && $exception instanceof NotFoundHttpException)
@@ -104,6 +92,18 @@ class Handler extends ExceptionHandler
 		    return response()->json([
                 'error_message' => '알수 없는 요청 입니다.',
             ], 404);
+        }
+
+        /**
+         * 기타.
+         */
+        if ($exception instanceof \App\Exceptions\CustomException) // 기타 Exception
+	    {
+            $logHeaderInfo = json_encode($request->header());
+            $logMessage = "ID:{$logid} ExceptionName: CustomException Current_url:${current_url} RouteName:${logRoutename} RouteAction:${logRouteAction} Message:{$exception->getMessage()} File:{$exception->getFile()} Line:{$exception->getLine()} Code:{$exception->getCode()} Header: {$logHeaderInfo}";
+            Log::channel('customexceptionlog')->error($logMessage);
+
+		    return $exception->render($request, $exception);
         }
 
         // ajax 요청 일떄.

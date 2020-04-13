@@ -63,8 +63,10 @@ trait OauthTrait {
         $tokenRequest = Request::create('/api/v1/oauth/token', 'POST', $dataObject);
         $tokenRequestResult = json_decode(app()->handle($tokenRequest)->getContent());
 
-        if(isset($tokenRequestResult->error_message) && $tokenRequestResult->error_message) {
-            throw new \App\Exceptions\CustomException($tokenRequestResult->error_message);
+        // print_r($tokenRequestResult);
+
+        if(isset($tokenRequestResult->error) && $tokenRequestResult->error) {
+            throw new \App\Exceptions\CustomException(__('auth.bad_token'));
         }
 
         return [

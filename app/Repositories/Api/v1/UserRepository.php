@@ -78,12 +78,28 @@ class UserRepository implements UserRepositoryInterface
      *
      * @return void
      */
-    public function getUserProfileData() {
+    public function getUserProfileData()
+    {
         $task = self::secondGetUserProfileData($this->UserID);
+        // print_r($task);
         if(!$task['state']) {
             return [
                 'state' => false,
                 'message' => __('messages.exits.data'),
+            ];
+        }
+
+        if(!isset($task['data']['profile_image'])) {
+            return [
+                'state' => false,
+                'message' => __('messages.exits.profile_image_data'),
+            ];
+        }
+
+        if(!isset($task['data']['profile'])) {
+            return [
+                'state' => false,
+                'message' => __('messages.exits.profile_data'),
             ];
         }
 
@@ -122,7 +138,7 @@ class UserRepository implements UserRepositoryInterface
                             'heart_count' => $element['hearts_count'],
                         ]
                     ];
-                },$data['posts'])
+                }, $data['posts'])
             ];
         };
 

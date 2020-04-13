@@ -11,9 +11,13 @@ class SystemTest extends TestCase
 {
     protected $defaultHeader;
 
-    public function setUp(): void{
+    public function setUp(): void
+    {
         parent::setUp();
         $this->defaultHeader = TestCase::getDefaultHeaders();
+        // $this->artisan('migrate:refresh', ['--seed' => '', '--database' => 'testing'])->run();
+
+        // Artisan::call('migrate:refresh');
         Artisan::call('migrate',['-vvv' => true]);
         Artisan::call('passport:install',['-vvv' => true]);
         Artisan::call('db:seed',['-vvv' => true]);

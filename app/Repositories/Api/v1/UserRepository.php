@@ -56,7 +56,7 @@ class UserRepository implements UserRepositoryInterface
             ];
         }
 
-        $checkResult = self::checkExitsUserName($user_name);
+        $checkResult = UserTrait::checkExitsUserName($user_name);
 
         if ($checkResult['state'] == false) {
             return [
@@ -80,7 +80,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getUserProfileData()
     {
-        $task = self::secondGetUserProfileData($this->UserID);
+        $task = UserTrait::secondGetUserProfileData($this->UserID);
         // print_r($task);
         if(!$task['state']) {
             return [
@@ -171,7 +171,7 @@ class UserRepository implements UserRepositoryInterface
         $user_id = Auth::id();
         $target_user_id = $request->input('target_user_id');
 
-        $checkTask = self::checkExistsFollowTarget($user_id, $target_user_id);
+        $checkTask = UserTrait::checkExistsFollowTarget($user_id, $target_user_id);
         if($checkTask) {
             return [
                 'state' => false,
@@ -179,7 +179,7 @@ class UserRepository implements UserRepositoryInterface
             ];
         }
 
-        $createTask = self::createFollowTarget($user_id, $target_user_id);
+        $createTask = UserTrait::createFollowTarget($user_id, $target_user_id);
 
         return [
             'state' => true,
@@ -209,7 +209,7 @@ class UserRepository implements UserRepositoryInterface
         $user_id = Auth::id();
         $target_user_id = $request->input('target_user_id');
 
-        $checkTask = self::checkExistsFollowTarget($user_id, $target_user_id);
+        $checkTask = UserTrait::checkExistsFollowTarget($user_id, $target_user_id);
         if(!$checkTask) {
             return [
                 'state' => false,
@@ -217,7 +217,7 @@ class UserRepository implements UserRepositoryInterface
             ];
         }
 
-        $deleteTask = self::deleteFollowTarget($user_id, $target_user_id);
+        $deleteTask = UserTrait::deleteFollowTarget($user_id, $target_user_id);
 
         return [
             'state' => true,
@@ -231,7 +231,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function makeFollowingList(string $user_name)
     {
-        $checkResult = self::checkExitsUserName($user_name);
+        $checkResult = UserTrait::checkExitsUserName($user_name);
 
         if ($checkResult['state'] == false) {
             return [
@@ -241,7 +241,7 @@ class UserRepository implements UserRepositoryInterface
         }
         $user_id = $checkResult['data']['user_id'];
 
-        $task = self::taskMakeUserFollowing($user_id);
+        $task = UserTrait::taskMakeUserFollowing($user_id);
 
         if(!$task->isNotEmpty()) {
             return [
@@ -280,7 +280,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function makeFollowersList(string $user_name)
     {
-        $checkResult = self::checkExitsUserName($user_name);
+        $checkResult = UserTrait::checkExitsUserName($user_name);
 
         if ($checkResult['state'] == false) {
             return [
@@ -290,7 +290,7 @@ class UserRepository implements UserRepositoryInterface
         }
         $user_id = $checkResult['data']['user_id'];
 
-        $task = self::taskMakeUserFollowers($user_id);
+        $task = UserTrait::taskMakeUserFollowers($user_id);
 
         if(!$task->isNotEmpty()) {
             return [

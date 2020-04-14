@@ -16,7 +16,7 @@ trait MasterTrait
      *
      * @return array
      */
-    public function getCodesList() : array
+    public static function getCodesList() : array
     {
         $codeList = array();
 

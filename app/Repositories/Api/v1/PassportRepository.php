@@ -19,11 +19,7 @@ use Illuminate\Support\Facades\DB;
 
 class PassportRepository implements PassportRepositoryInterface
 {
-    use UserTrait, OauthTrait {
-        OauthTrait::getNewToken as getNewTokenTrait;
-        OauthTrait::getRefreshToken as getRefreshTokenTrait;
-        UserTrait::getUserProfileImageUrl as getUserProfileImageUrlTrait;
-    }
+    use UserTrait, OauthTrait;
 
 	public function start()
 	{
@@ -119,7 +115,7 @@ class PassportRepository implements PassportRepositoryInterface
 
         $user = Auth::user();
 
-        $tokenResult = $this->getNewTokenTrait($request->input('email'), $request->input('password'));
+        $tokenResult = OauthTrait::getNewToken($request->input('email'), $request->input('password'));
 
         $user_name = $user['user_name'];
         $user_state = $user['user_state'];
@@ -145,7 +141,7 @@ class PassportRepository implements PassportRepositoryInterface
         }
 
         if(!empty($profile_image)) {
-            $profileImageResult = self::getUserProfileImageUrlTrait($profile_image);
+            $profileImageResult = UserTrait::getUserProfileImageUrl($profile_image);
             if($profileImageResult['state'] == true) {
                 $profile_image_url = $profileImageResult["data"]["secure_url"];
             }
@@ -178,7 +174,7 @@ class PassportRepository implements PassportRepositoryInterface
 			];
         }
 
-        $taskResult = self::getRefreshTokenTrait($request->input('refresh_token'));
+        $taskResult = OauthTrait::getRefreshToken($request->input('refresh_token'));
 
         return [
             'state' => true,

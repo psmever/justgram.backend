@@ -14,7 +14,7 @@ trait OauthTrait {
      * @param string $password
      * @return void
      */
-    public function getNewToken(string $email, string $password) {
+    public static function getNewToken(string $email, string $password) {
 
         $client = DB::table('oauth_clients')->where('password_client', true)->first();
 
@@ -48,7 +48,7 @@ trait OauthTrait {
      * @param string $refresh_token
      * @return void
      */
-    public function getRefreshToken(string $refresh_token) {
+    public static function getRefreshToken(string $refresh_token) {
 
         $client = DB::table('oauth_clients')->where('password_client', true)->first();
 

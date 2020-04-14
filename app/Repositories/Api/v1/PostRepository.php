@@ -12,14 +12,9 @@ use App\Traits\Model\CloudinaryTrait;
 use Carbon\Carbon;
 use App\Helpers\MasterHelper;
 
-class classOauthTrait {
-    use OauthTrait;
-}
-
 class PostRepository implements PostRepositoryInterface
 {
-    use CloudinaryTrait, PostsTrait, OauthTrait;
-
+    use CloudinaryTrait, OauthTrait, PostsTrait;
 	public function start()
 	{
     }
@@ -42,7 +37,7 @@ class PostRepository implements PostRepositoryInterface
 
         $User = Auth::user();
 
-        $postTask = self::createPost([
+        $postTask = PostsTrait::createPost([
             'user_id' => $User->id,
             'contents' => $request->input('contents')
         ]);
@@ -59,7 +54,7 @@ class PostRepository implements PostRepositoryInterface
 
         //테그 처리.
         try {
-            $tagsTask = self::createTags([
+            $tagsTask = PostsTrait::createTags([
                 'post_id' => $post_id,
                 'hash_tag' => implode(',', json_decode(html_entity_decode(stripslashes($request->input('tags')))))
             ]);
@@ -79,7 +74,7 @@ class PostRepository implements PostRepositoryInterface
 
             $imageInfo = json_decode(html_entity_decode(stripslashes($request->input('upload_image'))));
 
-            $imageTask = self::setUserPostImageCloudinaryData([
+            $imageTask = CloudinaryTrait::setUserPostImageCloudinaryData([
                 'user_id' => $User->id,
                 'public_id' => $imageInfo->public_id,
                 'signature' => $imageInfo->signature,
@@ -108,7 +103,7 @@ class PostRepository implements PostRepositoryInterface
         $postImage_id = $imageTask;
 
 
-        $postImageTask = self::createPostImage([
+        $postImageTask = PostsTrait::createPostImage([
             'post_id' =>  $post_id,
             'image_id' => $postImage_id
         ]);
@@ -135,11 +130,11 @@ class PostRepository implements PostRepositoryInterface
          * router 에서 사용자 체크를 안하기떄문에
          * 토큰이 있는지 확인하고 있으면 토큰을 이용 사용자 정보를 가지고 온다.
          */
-        $User = classOauthTrait::getUserInfoByBearerToken($request);
+        $User = OauthTrait::getUserInfoByBearerToken($request);
 
         $user_id = ($User) ? $User->user_id : "";
 
-        $posts = self::getPostListMaster($user_id);
+        $posts = PostsTrait::getPostListMaster($user_id);
 
         if(!$posts['state']) {
             return [
@@ -247,7 +242,7 @@ class PostRepository implements PostRepositoryInterface
 
         $user_id = Auth::id();
 
-        $createTask = self::createPostsComment([
+        $createTask = PostsTrait::createPostsComment([
             'post_id' => $request->input('post_id'),
             'user_id' => $user_id,
             'contents' => $request->input('contents'),
@@ -280,14 +275,14 @@ class PostRepository implements PostRepositoryInterface
         $user_id = Auth::id();
         $post_id = $request->input('post_id');
 
-        if(!self::existsPost($post_id)) {
+        if(!PostsTrait::existsPost($post_id)) {
             return [
                 'state' => false,
                 'message' => __("messages.exits.data")
             ];
         }
 
-        if(!self::addPostsHeart($user_id, $post_id)) {
+        if(!PostsTrait::addPostsHeart($user_id, $post_id)) {
             return [
                 'state' => false,
                 'messages' => __('messages.default.error')
@@ -313,14 +308,14 @@ class PostRepository implements PostRepositoryInterface
         $user_id = Auth::id();
         $post_id = $request->input('post_id');
 
-        if(!self::existsPost($post_id)) {
+        if(!PostsTrait::existsPost($post_id)) {
             return [
                 'state' => false,
                 'message' => __("messages.exits.data")
             ];
         }
 
-        if(!self::deletePostsHeart($user_id, $post_id)) {
+        if(!PostsTrait::deletePostsHeart($user_id, $post_id)) {
             return [
                 'state' => false,
                 'messages' => __('messages.default.error')

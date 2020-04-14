@@ -18,14 +18,8 @@ use \App\Models\JustGram\Follows;
  * @package App\Traits\Model
  */
 trait UserTrait {
-	// use BaseModelTrait;
 
-    // 모델 공통 Trait
-	use BaseModelTrait {
-		BaseModelTrait::controlOneDataResult as controlOneDataResult;
-	}
-
-    public function getEmailAuthCodeInfo(string $authCode = NULL)
+    public static function getEmailAuthCodeInfo(string $authCode = NULL)
     {
 		$result = EmailAuth::with('users')->where('auth_code', $authCode);
 
@@ -47,7 +41,7 @@ trait UserTrait {
      * @param string $user_name
      * @return void
      */
-    public function checkExitsUserName(string $user_name)
+    public static function checkExitsUserName(string $user_name)
     {
         $taskResult = UsersMaster::where('user_name', $user_name)->get();
         if($taskResult->isNotEmpty()) {
@@ -70,7 +64,7 @@ trait UserTrait {
 		}
     }
 
-	public function doEmailAuthVertified(string $authCode = NULL) : bool {
+	public static function doEmailAuthVertified(string $authCode = NULL) : bool {
 		$authInfo = EmailAuth::with('users')->where('auth_code',$authCode)->first();
 
 		$time = \Carbon\Carbon::now();
@@ -86,7 +80,7 @@ trait UserTrait {
 		}
 	}
 
-	public function getUserInfo(string $userUID = NULL) {
+	public static function getUserInfo(string $userUID = NULL) {
 		$result = UsersMaster::where('user_uuid', $userUID)->get();
 
 		if($result->isNotEmpty()) {
@@ -106,7 +100,7 @@ trait UserTrait {
 		}
 	}
 
-	public function saveUserProfile(string $user_id, array $profileInfo) : array {
+	public static function saveUserProfile(string $user_id, array $profileInfo) : array {
 		// 있으면 업데이트 없으면 생성.
 		$result = UserProfiles::updateOrCreate([
                 'user_id' => $user_id
@@ -125,7 +119,7 @@ trait UserTrait {
 		}
     }
 
-    public function updateUserProfileImage($user_id = NULL, $file_path = NULL) : array
+    public static function updateUserProfileImage($user_id = NULL, $file_path = NULL) : array
     {
         $task = UsersMaster::find($user_id);
 
@@ -140,7 +134,7 @@ trait UserTrait {
 		}
     }
 
-    public function updateUsersProfileActive(string $user_id) : array
+    public static function updateUsersProfileActive(string $user_id) : array
     {
         $result = UsersMaster::where("id", $user_id)->update(["profile_active" => "Y"]);
 
@@ -151,7 +145,7 @@ trait UserTrait {
 		}
     }
 
-    public function getUserProfileData(string $user_id) : array
+    public static function getUserProfileData(string $user_id) : array
     {
         $result = UserProfiles::where("user_id", $user_id);
 
@@ -165,7 +159,7 @@ trait UserTrait {
         }
     }
 
-    public function secondGetUserProfileData(int $user_id) : array
+    public static function secondGetUserProfileData(int $user_id) : array
     {
         $task = UsersMaster::with(['profile' =>function($query) {
             $query->select('user_id', 'name', 'web_site', 'bio', 'gender', 'phone_number');
@@ -189,7 +183,7 @@ trait UserTrait {
 
     }
 
-    public function OLD_secondGetUserProfileData(int $user_id) : array {
+    public static function OLD_secondGetUserProfileData(int $user_id) : array {
 
         $User = UsersMaster::find($user_id);
 
@@ -237,7 +231,7 @@ trait UserTrait {
      * @param array $params
      * @return array
      */
-    public function updateUsersMasterProfileImage(array $params) : array {
+    public static function updateUsersMasterProfileImage(array $params) : array {
         $task = UsersMaster::where("id", $params['user_id'])->update(['profile_image' => $params['id']]);
 
         if($task) {
@@ -253,7 +247,7 @@ trait UserTrait {
      * @param string $id
      * @return void
      */
-    public function getUserProfileImageUrl(string $id) {
+    public static function getUserProfileImageUrl(string $id) {
         $task = CloudinaryImageMaster::where("id", $id);
 
         if($task) {
@@ -280,7 +274,7 @@ trait UserTrait {
      * @param integer $target_user_id
      * @return void
      */
-    public function checkExistsFollowTarget(int $user_id, int $target_user_id)
+    public static function checkExistsFollowTarget(int $user_id, int $target_user_id)
     {
         return Follows::where('user_id', $user_id)->where('target_id', $target_user_id)->exists();
     }
@@ -292,7 +286,7 @@ trait UserTrait {
      * @param integer $target_user_id
      * @return void
      */
-    public function createFollowTarget(int $user_id, int $target_user_id)
+    public static function createFollowTarget(int $user_id, int $target_user_id)
     {
         return Follows::create([
             'user_id' => $user_id,
@@ -307,7 +301,7 @@ trait UserTrait {
      * @param integer $target_user_id
      * @return void
      */
-    public function deleteFollowTarget(int $user_id, int $target_user_id)
+    public static function deleteFollowTarget(int $user_id, int $target_user_id)
     {
         return Follows::where('user_id', $user_id)->where('target_id', $target_user_id)->delete();
     }
@@ -318,7 +312,7 @@ trait UserTrait {
      * @param integer $user_id
      * @return object
      */
-    public function taskMakeUserFollowing(int $user_id) : object
+    public static function taskMakeUserFollowing(int $user_id) : object
     {
         return UsersMaster::with(['following', 'following.target' => function($query) use ($user_id) {
             $query->select('id', 'user_name', 'profile_image', 'user_uuid');
@@ -340,7 +334,7 @@ trait UserTrait {
      * @param integer $user_id
      * @return object
      */
-    public function taskMakeUserFollowers(int $user_id) : object
+    public static function taskMakeUserFollowers(int $user_id) : object
     {
         return UsersMaster::with(['followers', 'followers.user' => function($query) use ($user_id) {
             $query->select('id', 'user_name', 'profile_image', 'user_uuid');

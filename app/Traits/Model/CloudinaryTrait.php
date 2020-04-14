@@ -24,7 +24,7 @@ trait CloudinaryTrait {
 		BaseModelTrait::controlOneDataResult as controlOneDataResult;
 	}
 
-    public function setUserProfileImageCloudinaryData(array $params) : array
+    public static function setUserProfileImageCloudinaryData(array $params) : array
     {
         // 있으면 업데이트 없으면 생성.
 		$task = CloudinaryImageMaster::updateOrCreate([
@@ -54,7 +54,7 @@ trait CloudinaryTrait {
 		}
     }
 
-    public function setUserPostImageCloudinaryData(array $params)
+    public static function setUserPostImageCloudinaryData(array $params)
     {
         // 있으면 업데이트 없으면 생성.
 		$task = CloudinaryImageMaster::create([

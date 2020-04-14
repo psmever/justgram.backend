@@ -13,9 +13,7 @@ use App\Traits\Model\CloudinaryTrait;
 
 class ProfileRepository implements ProfileRepositoryInterface
 {
-    use UserTrait,CloudinaryTrait {
-        UserTrait::saveUserProfile as saveUserProfile;
-    }
+    use UserTrait,CloudinaryTrait;
 
 	public function start()
 	{
@@ -76,7 +74,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 				];
 			}
 
-            $result = self::saveUserProfile($UserData->id, [
+            $result = UserTrait::saveUserProfile($UserData->id, [
                 'name' => $request->get('name'),
                 'web_site' => $request->get('web_site'),
                 'bio' => $request->get('bio'),
@@ -86,7 +84,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
 			if($result['state'])
 			{
-                self::updateUsersProfileActive($UserData->id);
+                UserTrait::updateUsersProfileActive($UserData->id);
 
 				return [
 					'state' => true
@@ -121,7 +119,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
         if($UserData)
 		{
-            $profileInfo = self::getUserProfileData(Auth::id());
+            $profileInfo = UserTrait::getUserProfileData(Auth::id());
 
             $data = (isset($profileInfo['data']) && $profileInfo['data']) ? $profileInfo['data'] : [];
 
@@ -196,11 +194,11 @@ class ProfileRepository implements ProfileRepositoryInterface
             $params = $request->all();
             $params['user_id'] = $UserData->id;
 
-            $result = self::setUserProfileImageCloudinaryData($params);
+            $result = CloudinaryTrait::setUserProfileImageCloudinaryData($params);
 
             if($result['state'] == true) {
 
-                self::updateUsersMasterProfileImage([
+                UserTrait::updateUsersMasterProfileImage([
                     "user_id" => Auth::id(),
                     "id" => $result['id']
                 ]);
@@ -255,7 +253,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
             if($uploadFileName)
             {
-                $this->updateUserProfileImage($UserData['id'], $uploadFileName);
+                UserTrait::updateUserProfileImage($UserData['id'], $uploadFileName);
             }
 
             return [

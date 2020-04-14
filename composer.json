@@ -75,7 +75,7 @@
             "chmod -R 777 public/"
         ],
         "test" : [
-            "vendor/bin/phpunit"
+            "vendor/bin/phpunit --testdox --process-isolation tests"
         ]
     }
 }

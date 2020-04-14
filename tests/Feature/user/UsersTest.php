@@ -406,6 +406,5 @@ class UsersTest extends TestCase
         // followers 리스트
         $response = $this->withHeaders($this->defaultHeader)->getjson('/api/justgram/v1/user/mingun78/followers');
         $response->assertStatus(200);
-
     }
 }

@@ -16,19 +16,15 @@ use \App\Models\JustGram\PostsHeart;
  * posts 관련 트레이트.
  */
 trait PostsTrait {
-	// use BaseModelTrait;
 
-    // 모델 공통 Trait
-	use BaseModelTrait {
-		BaseModelTrait::controlOneDataResult as controlOneDataResult;
-    }
+    use BaseModelTrait;
 
-    public function existsPost($post_id)
+    public static function existsPost($post_id)
     {
         return Posts::where('id', $post_id)->exists();
     }
 
-    public function createPost(array $params)
+    public static function createPost(array $params)
     {
         $task = Posts::create([
             'user_id' => $params['user_id'],
@@ -42,7 +38,7 @@ trait PostsTrait {
         return $task->id;
     }
 
-    public function createTags(array $params)
+    public static function createTags(array $params)
     {
         $task = PostsTag::create([
             'post_id' => $params['post_id'],
@@ -56,7 +52,7 @@ trait PostsTrait {
         return $task->id;
     }
 
-    public function createPostImage(array $params)
+    public static function createPostImage(array $params)
     {
         $task = PostsImage::create([
             'post_id' => $params['post_id'],
@@ -70,9 +66,9 @@ trait PostsTrait {
         return $task->id;
     }
 
-    public function getPostListMaster($user_id = null)
+    public static function getPostListMaster($user_id = null)
     {
-        return self::controlDataObjectResult(Posts::with(['user', 'user.profileImage' => function($query) {
+        return BaseModelTrait::controlDataObjectResult(Posts::with(['user', 'user.profileImage' => function($query) {
             $query->where('image_category', 'A22010');
         }, 'tag', 'image', 'image.cloudinary', 'comment' => function($query) {
             $query->orderBy('id', 'desc');
@@ -83,7 +79,7 @@ trait PostsTrait {
         }, 'hearts'])->where('post_active', 'Y')->latest()->get());
     }
 
-    public function createPostsComment(array $params)
+    public static function createPostsComment(array $params)
     {
         $task = PostsComments::create([
             'post_id' => $params['post_id'],
@@ -98,7 +94,7 @@ trait PostsTrait {
         return $task->id;
     }
 
-    public function addPostsHeart(int $user_id, int $post_id) : int
+    public static function addPostsHeart(int $user_id, int $post_id) : int
     {
         $task = PostsHeart::create([
             'user_id' => $user_id,
@@ -112,7 +108,7 @@ trait PostsTrait {
         return $task->id;
     }
 
-    public function deletePostsHeart(int $user_id, int $post_id) : bool
+    public static function deletePostsHeart(int $user_id, int $post_id) : bool
     {
         return PostsHeart::where('user_id', $user_id)->where('post_id', $post_id)->delete();
     }

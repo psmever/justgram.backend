@@ -1,13 +1,10 @@
 <?php
 namespace App\Repositories\Api\v1;
 
-
 use App\Traits\Model\MasterTrait;
 
 class SystemRepository implements SystemRepositoryInterface
 {
-    use MasterTrait;
-
     public function start()
     {
 
@@ -22,7 +19,7 @@ class SystemRepository implements SystemRepositoryInterface
     {
         $returnData = array();
 
-        $codes = self::getCodesList();
+        $codes = MasterTrait::getCodesList();
 
         if($codes['state'])
         {

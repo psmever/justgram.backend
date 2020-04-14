@@ -41,7 +41,10 @@ class UsersTest extends TestCase
             "email" => "mingun78@naver.com",
             "password" => "1212"
         ]);
-        $response->assertStatus(401);
+        // $response->dump();
+        if(!$response->assertStatus(401)) {
+            $response->dump();
+        }
 
         // $results = DB::table('tbl_users_master')->get()->toArray();
         // print_r($results);
@@ -111,6 +114,7 @@ class UsersTest extends TestCase
 
         // 내 프로필
         $response = $this->withHeaders($this->defaultHeader)->getjson('/api/justgram/v1/my/profile', []);
+        // $response->dump();
         $response->assertStatus(200);
 
         // 사용자 프로필 ( 프로필 이미지 없을때.)
@@ -162,6 +166,7 @@ class UsersTest extends TestCase
             "access_mode" => "public",
             "original_filename" => "unnamed"
         ]);
+        // $response->dump();
         $response->assertStatus(200);
 
         // 사용자 프로필 데이터 없을떄.
@@ -248,6 +253,7 @@ class UsersTest extends TestCase
 
         // 글 등록 안했을떄.
         $response = $this->withHeaders($this->defaultHeader)->getjson('/api/justgram/v1/post', []);
+        // $response->dump();
         $response->assertStatus(400);
 
 

@@ -94,8 +94,18 @@ class PassportController extends BaseController
 
 	public function token_refresh(Request $request)
 	{
-		$result = $this->passport->attemptTokenRefresh($request);
+        $result = $this->passport->attemptTokenRefresh($request);
 
-		return response()->json($result['data'], 200);
+        if($result['state'])
+		{
+			return response()->json($result['data'], 200);
+		}
+		else
+		{
+			return $this->defaultErrorResponse([
+				'message' => $result['message'],
+				'code' => 401
+			]);
+		}
 	}
 }

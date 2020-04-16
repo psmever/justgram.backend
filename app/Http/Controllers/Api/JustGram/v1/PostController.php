@@ -37,7 +37,7 @@ class PostController extends BaseController
                 'data' => $task['data']
             ]);
 	    } else {
-		    return BaseController::defaultErrorResponse([
+		    return BaseController::defaultSuccessResponse([
 			    'message' => $task['message']
 		    ]);
 	    }

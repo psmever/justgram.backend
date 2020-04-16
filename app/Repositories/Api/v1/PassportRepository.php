@@ -165,21 +165,19 @@ class PassportRepository implements PassportRepositoryInterface
 
 	public function attemptTokenRefresh(Request $request) : array
 	{
-        $UserData = Auth::user();
+        $refresh_token = empty($request->input('refresh_token')) ? '' : $request->input('refresh_token');
 
-        if (!$UserData) {
+        if(empty($refresh_token)) {
             return [
-				'state' => false,
-				'message' => __('auth.failed')
-			];
+                'state' => false,
+                'message' => __('auth.bad_token')
+            ];
         }
 
-        $taskResult = OauthTrait::getRefreshToken($request->input('refresh_token'));
-
+        $taskResult = OauthTrait::getRefreshToken($refresh_token);
         return [
             'state' => true,
             'data' => $taskResult
         ];
 	}
-
 }

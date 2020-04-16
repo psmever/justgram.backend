@@ -68,6 +68,7 @@ http://127.0.0.1:8000 || http://localhost:8000/
 php artisan migrate:refresh --env=testing --database=testing
 composer test
 ./vendor/bin/phpunit --testdox --process-isolation tests
+./vendor/bin/phpunit-watcher watch --stop-on-failure
 ```
 
 ## Heroku Dep

@@ -25,7 +25,9 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
 	Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
 
 		Route::post('register', 'PassportController@register')->name('register');
-		Route::post('login', 'PassportController@login')->name('login');
+        Route::post('login', 'PassportController@login')->name('login');
+
+        Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 리프레쉬 요청 (테스트).
 
         Route::group(['prefix' => 'system', 'as' => 'system.'], function () {
             Route::get('server', 'SystemController@server')->name('server'); // 서버 상태 확인.
@@ -48,7 +50,7 @@ Route::group(['namespace' => 'JustGram', 'prefix' => 'justgram', 'as' => 'justgr
         Route::get('post', 'PostController@index')->name('index');
 
 		Route::group(['middleware' => 'auth:api'], function () {
-            Route::post('token/refresh', 'PassportController@token_refresh')->name('token.refresh'); // 토큰 리프레쉬 요청 (테스트).
+
 
             Route::post('post', 'PostController@create')->name('post.create'); // 글등록.
             Route::post('post/comment', 'PostController@comment_create')->name('post.comment.create'); // 포스트 댓글 등록.

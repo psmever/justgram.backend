@@ -107,6 +107,8 @@ class UsersTest extends TestCase
         $refresh_token = $response['refresh_token'];
 
 
+        $this->defaultHeader['Authorization'] = 'Bearer '.$access_token;
+
         // 내 토큰 정보.
         $response = $this->withHeaders($this->defaultHeader)->getjson('/api/justgram/v1/my/token/info', []);
         $response->assertStatus(200);
@@ -254,7 +256,7 @@ class UsersTest extends TestCase
         // 글 등록 안했을떄.
         $response = $this->withHeaders($this->defaultHeader)->getjson('/api/justgram/v1/post', []);
         // $response->dump();
-        $response->assertStatus(400);
+        $response->assertStatus(200);
 
 
         $response = $this->withHeaders($this->defaultHeader)->postjson('/api/justgram/v1/post', [

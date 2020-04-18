@@ -2,6 +2,7 @@
 namespace App\Repositories\Api\v1;
 
 use App\Traits\Model\MasterTrait;
+use Illuminate\Support\Facades\App;
 
 class SystemRepository implements SystemRepositoryInterface
 {
@@ -54,6 +55,7 @@ class SystemRepository implements SystemRepositoryInterface
 
         return [
             // 'code_list' => json_encode($codelists)
+            'system_environment' => App::environment(),
             'code_list' => $codelists
         ];
     }

@@ -48,12 +48,12 @@ class PassportRepository implements PassportRepositoryInterface
 			];
 		}
 
-		$newUserUUID = MasterHelper::GenerateUUID();
+        $newUserUUID = MasterHelper::GenerateUUID();
 
 		$createResult = UsersMaster::create([
 			'user_uuid' => $newUserUUID,
 			'user_type' => $request->header('request-client-type'),
-			'user_name' => preg_replace("/[^a-z0-9]/i", "", strtolower($request->input('username'))), // 소문자, 및 숫자만.
+			'user_name' => MasterHelper::setUserName($request->input('user_name')),
 			'email' => $request->input('email'),
 			'password' => bcrypt($request->input('password')),
         ]);

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateTblUsersMasterTable extends Migration
 {
@@ -46,10 +47,10 @@ class CreateTblUsersMasterTable extends Migration
     public function down()
     {
 	    Schema::table('tbl_users_master', function (Blueprint $table) {
-		    $table->dropForeign('tbl_users_master_user_level_foreign');
-		    $table->dropForeign('tbl_users_master_user_state_foreign');
-		    $table->dropForeign('tbl_users_master_user_type_foreign');
-		    $table->dropColumn(['user_type', 'user_state', 'user_level', ]);
+		    if(DB::getDriverName() !== 'sqlite') $table->dropForeign('tbl_users_master_user_level_foreign');
+		    if(DB::getDriverName() !== 'sqlite') $table->dropForeign('tbl_users_master_user_state_foreign');
+		    if(DB::getDriverName() !== 'sqlite') $table->dropForeign('tbl_users_master_user_type_foreign');
+		    if(DB::getDriverName() !== 'sqlite') $table->dropColumn(['user_type', 'user_state', 'user_level', ]);
 	    });
 
         Schema::dropIfExists('tbl_users_master');

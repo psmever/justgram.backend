@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class AddTblUsersMasterForeignKeyProfileImage extends Migration
 {
@@ -29,8 +30,8 @@ class AddTblUsersMasterForeignKeyProfileImage extends Migration
     {
         Schema::table('tbl_users_master', function($table)
         {
-            $table->dropForeign('tbl_users_master_profile_image_foreign');
-            $table->dropColumn('profile_image');
+            if(DB::getDriverName() !== 'sqlite') $table->dropForeign('tbl_users_master_profile_image_foreign');
+            if(DB::getDriverName() !== 'sqlite') $table->dropColumn('profile_image');
         });
     }
 }

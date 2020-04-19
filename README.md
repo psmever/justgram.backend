@@ -65,10 +65,18 @@ http://127.0.0.1:8000 || http://localhost:8000/
 
 ### laravel Testing
 ```bash
-php artisan migrate:refresh --env=testing --database=testing
+php artisan config:cache --env=testing
+php artisan migrate:refresh --env=testing --database=sqlite_testing
 composer test
 ./vendor/bin/phpunit --testdox --process-isolation tests
 ./vendor/bin/phpunit-watcher watch --stop-on-failure
+```
+
+### Factory
+```bash
+php artisan make:factory UserMasterFactory --model=Model/JustGram/UsersMaster
+php artisan make:factory CloudinaryImageMasterFactory --model=Model/JustGram/CloudinaryImageMaster
+php artisan make:factory UserProfilesFactory --model=Model/JustGram/UserProfiles
 ```
 
 ## Heroku Dep
@@ -79,6 +87,10 @@ heroku run php artisan migrate:refresh --seed
 heroku run php artisan passport:install
 ```
 
+## usen email auth
+```bash
+http://localhost:8000/front/v1/auth/email_auth?code=mMtsNk8aEOc6VHqwqJVgiCiAk0dVpkzQmIvAo8YasNBVub7if5XWBsy650DITHbL4onse2idPmI7JcwX
+```
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

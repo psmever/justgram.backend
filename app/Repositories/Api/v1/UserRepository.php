@@ -265,7 +265,7 @@ class UserRepository implements UserRepositoryInterface
                        'user_name' => $element['target']['user_name'],
                        'user_uuid' => $element['target']['user_uuid'],
                        'user_profile_name' => $element['target']['profile']['name'],
-                       'profile_image' => $element['target']['profile_image']['secure_url'],
+                       'profile_image' => (empty($element['target']['profile_image']['secure_url'])) ? NULL : $element['target']['profile_image']['secure_url'],
                        'mefollowing' => ($element['target']['mefollowing_count']) ? true : false,
                    ];
                 }, $taskFirstToArray['following'])

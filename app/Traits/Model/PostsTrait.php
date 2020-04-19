@@ -70,7 +70,7 @@ trait PostsTrait {
     {
         return BaseModelTrait::controlDataObjectResult(Posts::with(['user', 'user.profileImage' => function($query) {
             $query->where('image_category', 'A22010');
-        }, 'tag', 'image', 'image.cloudinary', 'comment' => function($query) {
+        }, 'tag', 'image' => function($query) {$query->whereNotNull('id');}, 'image.cloudinary', 'comment' => function($query) {
             $query->orderBy('id', 'desc');
         }, 'comment.user'])->withCount(['myheart'=> function($q) use ($user_id) {
             if($user_id) {

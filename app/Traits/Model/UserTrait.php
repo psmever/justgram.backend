@@ -168,6 +168,7 @@ trait UserTrait {
         }, 'posts' => function($query){
             $query->with('image', 'image.cloudinary');
             $query->withCount(['hearts', 'comment']);
+            $query->orderBy('id', 'desc');
         }])->withCount(['posts','following', 'followers'])->where('id', $user_id)->get();
 
         if($task->isEmpty()) {

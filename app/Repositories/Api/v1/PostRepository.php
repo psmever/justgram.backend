@@ -15,8 +15,10 @@ use App\Helpers\MasterHelper;
 class PostRepository implements PostRepositoryInterface
 {
     use CloudinaryTrait, OauthTrait, PostsTrait;
+
 	public function start()
 	{
+
     }
 
     public function attemptCreate(Request $request) : array
@@ -162,6 +164,10 @@ class PostRepository implements PostRepositoryInterface
             };
 
             $image_info = function($image) {
+
+                if(empty($image)) {
+                    return [];
+                }
 
                 $cloudinary = function($cloudinary) {
                     return [

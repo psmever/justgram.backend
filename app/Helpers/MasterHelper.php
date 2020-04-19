@@ -142,4 +142,9 @@ class MasterHelper
         return self::_convertTimeToString($timestamp);
     }
 
+    // 사용자 이름
+    public static function setUserName($user_name) : string
+    {
+        return preg_replace("/[^a-z0-9]/i", "_", strtolower($user_name));
+    }
 }

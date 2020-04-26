@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
 	    }, ['prefix' => 'api/v1/oauth']);
 
 	    // TODO: TokenTime Test...
-        Passport::tokensExpireIn(Carbon::now()->addMinutes(1));
-	    Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
+        Passport::tokensExpireIn(Carbon::now()->addMinutes(60));
+	    Passport::refreshTokensExpireIn(Carbon::now()->addDays(7));
     }
 }

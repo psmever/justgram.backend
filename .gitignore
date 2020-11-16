@@ -1,6 +1,9 @@
 # Default
 /node_modules
+yarn-error.log
 
+# environment
+.env
 
 # Editor
 .vscode

@@ -1,5 +1,6 @@
 # Default
 /node_modules
+/build
 yarn-error.log
 
 # environment

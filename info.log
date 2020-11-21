@@ -1,9 +1,0 @@
-{
-  message: 'Request recieved',
-  level: 'info',
-  transationId: 'one',
-  correlationId: 'one',
-  request: {},
-  operation: 'demoFunction',
-  timestamp: '2020-11-20T23:13:34.163Z'
-}

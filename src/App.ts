@@ -1,6 +1,7 @@
 import * as express from 'express';
-import TestRoute from './routes/TestRoute';
+import {logger} from 'src/lib/logger';
 
+import TestRoute from './routes/TestRoute';
 import authRoute from './routes/v1/AuthRoute';
 
 
@@ -12,6 +13,10 @@ const mainRouter = (_req: express.Request, res: express.Response) => {
 
 const setupApp = (): express.Express => {
     const app = express();
+    app.use((req, res, next) => {
+        // console.log(res)
+        next();
+    });
 
     app.get('/', mainRouter);
 

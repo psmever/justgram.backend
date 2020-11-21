@@ -1,14 +1,13 @@
 {
     "name": "justgram.backend",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "./src/App.ts",
     "repository": "https://github.com/psmever/justgram.backend.git",
     "author": "psmever <psmever@gmail.com>",
     "license": "MIT",
     "scripts": {
         "prestart": "tsc",
-        "start2": "nodemon --exec ts-node build/www.js",
-        "start": "nodemon --watch src --delay 1 --exec 'ts-node' src/www.ts",
+        "start": "nodemon --watch src --delay 1 --exec 'ts-node' src/Server.ts",
         "build": "webpack --config webpack.config.js"
     },
     "devDependencies": {
@@ -23,7 +22,9 @@
         "webpack-cli": "^4.2.0"
     },
     "dependencies": {
+        "@types/dotenv": "^8.2.0",
         "@types/winston": "^2.4.4",
+        "dotenv": "^8.2.0",
         "esm": "^3.2.25",
         "express": "^4.17.1",
         "source-map-support": "^0.5.19",

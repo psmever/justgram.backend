@@ -7,7 +7,7 @@
     "license": "MIT",
     "scripts": {
         "prestart": "tsc",
-        "start": "nodemon --watch src --delay 1 --exec 'ts-node -r tsconfig-paths/register' ./src/Server.ts",
+        "start": "cp cfg/local.env .env && nodemon --watch src --delay 1 --exec 'ts-node -r tsconfig-paths/register' ./src/Server.ts",
         "build": "webpack --config webpack.config.js"
     },
     "devDependencies": {

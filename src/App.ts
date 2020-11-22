@@ -3,8 +3,11 @@ import * as path from 'path';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 
-import TestRoute from './routes/TestRoute';
-import authRoute from './routes/v1/AuthRoute';
+import TestRoute from 'src/routes/TestRoute';
+import SystemRoute from 'src/routes/SystemRoute';
+
+
+import authRoute from 'src/routes/v1/AuthRoute';
 
 const app = express();
 
@@ -29,6 +32,9 @@ const setupApp = (): express.Express => {
 
     app.get('/', mainRouter);
     app.use('/api/test', TestRoute);
+
+    app.use('/api/system', SystemRoute);
+
     app.use('/api/v1/auth', authRoute);
 
     return app;

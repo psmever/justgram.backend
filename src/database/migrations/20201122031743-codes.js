@@ -9,7 +9,7 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
 
-    await queryInterface.createTable('codess', {
+    await queryInterface.createTable('codes', {
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -19,12 +19,12 @@ module.exports = {
         group_id: {
             type: Sequelize.STRING(6),
             allowNull: false,
-            defaultValue: ''
+            defaultValue: '',
         },
         code_id: {
             type: Sequelize.STRING(6),
-            allowNull: false,
-            defaultValue: ''
+            defaultValue: '',
+            unique: true,
         },
         group_name: {
             type: Sequelize.STRING(100),

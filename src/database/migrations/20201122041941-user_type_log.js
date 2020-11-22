@@ -18,14 +18,34 @@ module.exports = {
         user_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
-            references: { model: 'users', key: 'id' }
         },
         user_type: {
             type: Sequelize.STRING(6),
             allowNull: false,
-            references: { model: 'codes', key: 'code_id' }
         },
-    });
+        created_at: {
+            type: Sequelize.DATE,
+            allowNull: false,
+            defalutValue: Sequelize.literal('now()'),
+        },
+        updated_at: {
+            type: Sequelize.DATE,
+            allowNull: false,
+            defalutValue: Sequelize.literal('now()'),
+        }
+    }).then(() => queryInterface.addIndex('user_type', ['user_id', 'user_type'], {
+        name: 'user_id_type'
+    })).then(() => queryInterface.addConstraint('user_type', {
+        fields: ['user_id'],
+        type: 'foreign key',
+        name: 'custom_fkey_user_type_user_id',
+        references: {
+            table: 'users',
+            field: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+    }))
   },
 
   down: async (queryInterface, Sequelize) => {

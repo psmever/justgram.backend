@@ -8,7 +8,10 @@
     "scripts": {
         "prestart": "tsc",
         "start": "cp cfg/local.env .env && nodemon --watch src --delay 1 --exec 'ts-node -r tsconfig-paths/register' ./src/Server.ts",
-        "build": "webpack --config webpack.config.js"
+        "build": "webpack --config webpack.config.js",
+        "db:reset": "sequelize db:drop && sequelize db:create &&sequelize db:migrate"
+
+
     },
     "devDependencies": {
         "@types/express": "^4.17.9",

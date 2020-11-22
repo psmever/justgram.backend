@@ -8,41 +8,33 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('user_profile', {
         id: {
+            type: Sequelize.INTEGER,
             allowNull: false,
             autoIncrement: true,
-            primaryKey: true,
-            type: Sequelize.INTEGER
+            primaryKey: true
         },
-        user_uuid: {
-            type: Sequelize.STRING,
+        user_id: {
+            type: Sequelize.INTEGER,
             allowNull: false,
-            defaultValue: ''
+            references: { model: 'users', key: 'id' }
         },
-        user_state: {
-            type: Sequelize.ENUM('Y', 'N'),
-            allowNull: false,
-            defaultValue: 'Y'
-        },
-        user_name: {
+        profile_name: {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        email: {
+        profile_website: {
             type: Sequelize.STRING,
-            allowNull: false,
-            unique: true,
-
-        },
-        password: {
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
-        email_verified_at: {
-            type: Sequelize.DATE,
             allowNull: true,
-            defalutValue: Sequelize.literal('now()'),
+        },
+        profile_bio: {
+            type: Sequelize.TEXT,
+            allowNull: true,
+        },
+        profile_gender: {
+            type: Sequelize.STRING(6),
+            allowNull: true
         },
         created_at: {
             type: Sequelize.DATE,
@@ -54,7 +46,27 @@ module.exports = {
             allowNull: false,
             defalutValue: Sequelize.literal('now()'),
         }
-    });
+    }).then(
+        return queryInterface.addConstraint('Images', ['postId'], {
+
+            type: 'foreign key',
+
+            name: 'custom_fkey_images',
+
+            references: { //Required field
+
+              table: 'Posts',
+
+              field: 'id'
+
+            },
+
+            onDelete: 'cascade',
+
+            onUpdate: 'cascade'
+
+          }
+    )
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -64,6 +76,5 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable('users');
   }
 };

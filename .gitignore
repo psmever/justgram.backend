@@ -4,8 +4,11 @@
 yarn-error.log
 /*.log
 
-# environment
+# environment config file
+cfg/*
+!cfg/sample.environment.env
 .env
+
 
 # Editor
 .vscode

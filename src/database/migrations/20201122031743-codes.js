@@ -11,36 +11,45 @@ module.exports = {
 
     await queryInterface.createTable('codes', {
         id: {
-            allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER
         },
         group_id: {
-            type: Sequelize.STRING(6),
-            allowNull: false,
-            defaultValue: '',
+            type: Sequelize.STRING(3),
+            allowNull: true,
+            defaultValue: null,
         },
         code_id: {
             type: Sequelize.STRING(6),
-            defaultValue: '',
+            defaultValue: null,
             unique: true,
         },
         group_name: {
             type: Sequelize.STRING(100),
-            allowNull: false,
-            defaultValue: ''
+            allowNull: true,
+            defaultValue: null
         },
         code_name: {
             type: Sequelize.STRING(100),
-            allowNull: false,
-            defaultValue: ''
+            allowNull: true,
+            defaultValue: null
         },
         active: {
             type: Sequelize.ENUM,
             values: ['Y', 'N'],
             allowNull: false,
             defaultValue: 'Y'
+        },
+        created_at: {
+            type: 'TIMESTAMP',
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+            allowNull: false
+        },
+        updated_at: {
+            type: 'TIMESTAMP',
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+            allowNull: false
         }
     });
   },

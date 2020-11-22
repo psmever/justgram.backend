@@ -22,14 +22,14 @@ module.exports = {
             allowNull: false,
         },
         created_at: {
-            type: Sequelize.DATE,
-            allowNull: false,
-            defalutValue: Sequelize.literal('now()'),
+            type: 'TIMESTAMP',
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+            allowNull: false
         },
         verified_at: {
-            type: Sequelize.DATE,
-            allowNull: false,
-            defalutValue: Sequelize.literal('now()'),
+            type: 'TIMESTAMP',
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+            allowNull: false
         }
     });
   },

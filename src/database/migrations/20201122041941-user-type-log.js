@@ -24,14 +24,14 @@ module.exports = {
             allowNull: false,
         },
         created_at: {
-            type: Sequelize.DATE,
-            allowNull: false,
-            defalutValue: Sequelize.literal('now()'),
+            type: 'TIMESTAMP',
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+            allowNull: false
         },
         updated_at: {
-            type: Sequelize.DATE,
-            allowNull: false,
-            defalutValue: Sequelize.literal('now()'),
+            type: 'TIMESTAMP',
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+            allowNull: false
         }
     }).then(() => queryInterface.addIndex('user_type', ['user_id', 'user_type'], {
         name: 'user_id_type'

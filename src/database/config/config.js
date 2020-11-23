@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+require("dotenv").config();
 const env = process.env;
 
 const development = {

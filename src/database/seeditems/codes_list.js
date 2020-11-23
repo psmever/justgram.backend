@@ -1,7 +1,4 @@
-
 const codes_list = [];
-
-
 
 const groups_list = [
 	{ "group_id" : "A10", "group_name" : "클라이언트 타입" },
@@ -27,7 +24,6 @@ groups_list.map(function(e) {
 	});
 });
 
-
 Object.keys(temp_codes_list).map(function(group_code) {
 	temp_codes_list[group_code].map(function(code) {
 		codes_list.push({
@@ -37,7 +33,6 @@ Object.keys(temp_codes_list).map(function(group_code) {
 		});
 	});
 });
-
 
 codes_list.sort(function(first, second) {
 	if(first.group_id > second.group_id) return 1;

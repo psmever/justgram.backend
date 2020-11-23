@@ -21,7 +21,11 @@ const messages = {
 	}
 };
 
+const serverPath = {
+	storage: "src/storage"
+};
 export {
 	statusCode,
-	messages
+	messages,
+	serverPath
 };

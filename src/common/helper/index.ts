@@ -1,1 +1,2 @@
-export * from './logger';
+export * from './Logger';
+export * from './Function';

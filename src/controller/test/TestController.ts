@@ -22,4 +22,6 @@ testRouter.get('/default', test, async (req: Request, res: Response, next: NextF
     res.json({
         name: 'test-default'
     });
+
+    next();
 });

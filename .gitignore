@@ -3,6 +3,7 @@
 /build
 yarn-error.log
 /*.log
+/logs/*
 
 # environment config file
 cfg/*

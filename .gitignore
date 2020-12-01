@@ -11,8 +11,7 @@ cfg/*
 
 
 # storage file
-storage/server_notice/*
-storage/app_version/*
+storage/server/*
 
 # Editor
 .vscode

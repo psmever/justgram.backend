@@ -1,27 +1,9 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { sample } from '@common';
 
-export const testRouter = Router();
+// 기본 테스트.
+export const Default = async (req: Request, res: Response, next: NextFunction) => {
+    res.json(sample);
 
-export const testRouterRootName = 'tests';
-
-/**
- * /api/tests/default
- */
-
-const test = (req: Request, res: Response, next: NextFunction) => {
     next();
 };
-
-testRouter.get('/default', test, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        // console.log(req);
-    } catch (error) {
-        // console.debug(error);
-    }
-
-    res.json({
-        name: 'test-default'
-    });
-
-    next();
-});

@@ -1,20 +1,20 @@
 import express, { Application } from 'express';
-import { Logger } from '@src/common';
+import { Logger } from '@common';
 require('dotenv').config();
 
-import { testRouter, testRouterRootName } from '@src/controller';
 import { RestAfterMiddleware, RestBeforeAfterMiddleware, RestMiddleware } from '@src/middlewares';
+import { TestsRouter, SystemsRouter } from '@src/routers';
 
 function addRouters(app: Application): void {
     const baseApiRoute = '/api';
     const baseRouteVersion = '/v1';
 
-    app.use(`${baseApiRoute}/${testRouterRootName}`, RestBeforeAfterMiddleware);
+    app.use(`${baseApiRoute}`, RestBeforeAfterMiddleware);
 
-    // Test Controller
-    app.use(`${baseApiRoute}/${testRouterRootName}`, RestMiddleware, testRouter);
+    app.use(`${baseApiRoute}/tests`, RestMiddleware, TestsRouter);
+    app.use(`${baseApiRoute}/systems`, RestMiddleware, SystemsRouter);
 
-    app.use(`${baseApiRoute}/${testRouterRootName}`, RestAfterMiddleware);
+    app.use(`${baseApiRoute}`, RestAfterMiddleware);
 }
 
 export function initServer(app: Application): void {

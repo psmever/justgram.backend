@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkStatus, checkNotice, appVersionCheck } from '@controllers/SystemController';
+import { checkStatus, checkNotice, appVersionCheck, baseData } from '@controllers/SystemController';
 
 export const SystemsRouter = Router();
 
@@ -11,3 +11,6 @@ SystemsRouter.get('/check-notice', checkNotice);
 
 // 앱 버전 체크.
 SystemsRouter.get('/check-app-version', appVersionCheck);
+
+// 기본 데이터.
+SystemsRouter.get('/base-data', baseData);

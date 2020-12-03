@@ -11,6 +11,11 @@ export function noCotentResponse(response: Response): Response {
     return response.status(204).json();
 }
 
+// 기본 성공.
+export function baseSuccessResponse(response: Response, payload: any): Response {
+    return response.status(200).json(payload);
+}
+
 // 서버 공지사항.
 export function baseNoticeResponse(response: Response, payload: ServerNoticeResponsePayload): Response {
     return response.status(200).json(payload);

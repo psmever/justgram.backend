@@ -15,8 +15,11 @@
         "build-src": "tsc -p ."
     },
     "dependencies": {
+        "@types/sequelize": "^4.28.9",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
+        "mysql2": "^2.2.5",
+        "sequelize": "^6.3.5",
         "winston": "^3.2.1"
     },
     "devDependencies": {

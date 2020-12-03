@@ -1,5 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { noCotentResponse, baseNoticeResponse, baseAppversionResponse } from '@common';
+import {
+    sample,
+    CodesList,
+    noCotentResponse,
+    baseNoticeResponse,
+    baseAppversionResponse,
+    baseSuccessResponse
+} from '@common';
 import * as fs from 'fs';
 
 // 기본 서버 상태 체크.
@@ -32,4 +39,9 @@ export const appVersionCheck = async (req: Request, res: Response, next: NextFun
             });
         }
     });
+};
+
+// 시스템 기본 데이터
+export const baseData = async (req: Request, res: Response, next: NextFunction) => {
+    baseSuccessResponse(res, CodesList);
 };

@@ -14,3 +14,4 @@ SystemsRouter.get('/check-app-version', appVersionCheck);
 
 // 기본 데이터.
 SystemsRouter.get('/base-data', baseData);
+SystemsRouter.get('/base-data2', baseData);

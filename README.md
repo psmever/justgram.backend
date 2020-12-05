@@ -9,7 +9,11 @@
 sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all
 
 > create model
-sequelize model:create  --name users --attributes "id:integer, user_id:string, password:string"
+sequelize model:create --name users --attributes "id:integer, user_id:string, password:string"
+
+>migration:create
+
+sequelize migration:create --name codes
 
 > seed
 sequelize seed:create --name codes

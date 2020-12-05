@@ -1,5 +1,5 @@
 {
-  "compilerOptions": {
+    "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Basic Options */
@@ -45,8 +45,8 @@
     "baseUrl": "./",                       /* Base directory to resolve non-absolute module names. */
     "paths": {
         "*": [
-            "node_modules/",
-            "src/types/*"
+        "node_modules/",
+        "src/types/*"
         ],
         "@root/*": ["./"],
         "@src/*": ["src/*"],
@@ -77,5 +77,10 @@
     "skipLibCheck": true,                     /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
     "resolveJsonModule": true /* Allow import json files. */
-  }
+    },
+    "exclude": [
+        "node_modules",
+        "cfg",
+        "database",
+    ]
 }

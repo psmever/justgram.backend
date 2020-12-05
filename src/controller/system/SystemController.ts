@@ -5,7 +5,7 @@ import {
     noCotentResponse,
     baseNoticeResponse,
     baseAppversionResponse,
-    baseSuccessResponse
+    baseSuccessResponse,
 } from '@common';
 import * as fs from 'fs';
 
@@ -22,7 +22,7 @@ export const checkNotice = async (req: Request, res: Response, next: NextFunctio
             noCotentResponse(res);
         } else {
             baseNoticeResponse(res, {
-                notice: notice.trim()
+                notice: notice.trim(),
             });
         }
     });
@@ -35,7 +35,7 @@ export const appVersionCheck = async (req: Request, res: Response, next: NextFun
             noCotentResponse(res);
         } else {
             baseAppversionResponse(res, {
-                version: appVersion.trim()
+                version: appVersion.trim(),
             });
         }
     });

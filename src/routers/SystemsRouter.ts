@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkStatus, checkNotice, appVersionCheck, baseData } from '@controllers/SystemController';
+import { checkStatus, checkNotice, appVersionCheck, baseData } from '@controller/system/SystemController';
 
 export const SystemsRouter = Router();
 

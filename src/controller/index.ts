@@ -1,2 +1,2 @@
 export * from './test/TestController';
-export * from './SystemController';
+export * from './system/SystemController';

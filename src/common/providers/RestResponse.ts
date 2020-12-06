@@ -3,7 +3,10 @@ import { AppHttpResponsePayload, ServerNoticeResponsePayload, ServerAppversionRe
 
 // 클라이언트 에러.
 export function clientErrorResponse(response: Response, payload: AppHttpResponsePayload): Response {
-    return response.status(412).json(payload);
+    return response.status(412).json({
+        status: false,
+        payload,
+    });
 }
 
 // 기본 내용없음.
@@ -13,7 +16,10 @@ export function noCotentResponse(response: Response): Response {
 
 // 기본 성공.
 export function baseSuccessResponse(response: Response, payload: any): Response {
-    return response.status(200).json(payload);
+    return response.status(200).json({
+        status: true,
+        payload,
+    });
 }
 
 // 서버 공지사항.

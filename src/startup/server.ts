@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import { Application } from 'express';
 import { Logger } from '@common';
 require('dotenv').config();
 
@@ -7,7 +7,7 @@ import { TestsRouter, SystemsRouter } from '@src/routers';
 
 function addRouters(app: Application): void {
     const baseApiRoute = '/api';
-    const baseRouteVersion = '/v1';
+    // const baseRouteVersion = '/v1';
 
     app.use(`${baseApiRoute}`, RestBeforeAfterMiddleware);
 

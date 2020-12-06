@@ -7,25 +7,25 @@ const logger = winston.createLogger({
     format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     transports: [
         new winston.transports.Console({
-            level: 'warn' /* error & warn logs will be logged to console. */
+            level: 'warn' /* error & warn logs will be logged to console. */,
         }),
         new winston.transports.File({
             filename: 'logs/errors.log',
             level: 'error' /* only error logs will be logged to the file. */,
             options: {
                 createDirectory: true /* Create directory and file if not exists. */,
-                flags: 'a' /* `a` for append to the file, `w` for overwrite file on every app-start, default is `w`. */
-            }
+                flags: 'a' /* `a` for append to the file, `w` for overwrite file on every app-start, default is `w`. */,
+            },
         }),
         new winston.transports.File({
             filename: 'logs/logs.log',
             level: 'info' /* error, warn, & info logs will be logged to the file. */,
             options: {
                 createDirectory: true /* Create directory and file if not exists. */,
-                flags: 'a' /* `a` for append to the file, `w` for overwrite file on every app-start, default is `w`. */
-            }
-        })
-    ]
+                flags: 'a' /* `a` for append to the file, `w` for overwrite file on every app-start, default is `w`. */,
+            },
+        }),
+    ],
 });
 
 /**
@@ -35,9 +35,9 @@ const consoleLogger = winston.createLogger({
     format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     transports: [
         new winston.transports.Console({
-            level: 'silly' /* error, warn, info, verbose, debug & silly logs will be logged to console. */
-        })
-    ]
+            level: 'silly' /* error, warn, info, verbose, debug & silly logs will be logged to console. */,
+        }),
+    ],
 });
 
 /**

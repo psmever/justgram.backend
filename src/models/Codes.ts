@@ -1,20 +1,7 @@
 /* eslint-disable */
-import {
-    Sequelize,
-    Model,
-    ModelDefined,
-    DataTypes,
-    HasManyGetAssociationsMixin,
-    HasManyAddAssociationMixin,
-    HasManyHasAssociationMixin,
-    Association,
-    HasManyCountAssociationsMixin,
-    HasManyCreateAssociationMixin,
-    Optional,
-} from 'sequelize';
+import { Model, DataTypes, Optional } from 'sequelize';
 import { sequelize } from '@src/instances/Sequelize';
 
-// These are all the attributes in the User model
 interface CodesAttributes {
     id: number;
     group_id: string;
@@ -24,15 +11,14 @@ interface CodesAttributes {
     active: 'Y' | 'N';
 }
 
-// Some attributes are optional in `User.build` and `User.create` calls
 type UserCreationAttributes = Optional<CodesAttributes, 'id'>;
 
 class Codes extends Model<CodesAttributes, UserCreationAttributes> implements CodesAttributes {
-    public id!: number; // Note that the `null assertion` `!` is required in strict mode.
+    public id!: number;
     public group_id!: string;
-    public code_id!: string | null; // for nullable fields
-    public group_name!: string | null; // for nullable fields
-    public code_name!: string | null; // for nullable fields
+    public code_id!: string | null;
+    public group_name!: string | null;
+    public code_name!: string | null;
     public active!: 'Y' | 'N';
 
     // timestamps!
@@ -76,7 +62,7 @@ Codes.init(
     },
     {
         tableName: 'codes',
-        sequelize, // passing the `sequelize` instance is required
+        sequelize,
         timestamps: false,
     }
 );

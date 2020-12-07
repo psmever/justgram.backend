@@ -1,14 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import Codes from '@src/models/Codes';
 import { baseSuccessResponse } from '@common';
+import { v4 as uuidv4 } from 'uuid';
 
 // 기본 테스트.
 export const Default = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const instance = await Codes.findByPk(1, {
-        rejectOnEmpty: true,
+    baseSuccessResponse(res, {
+        uuidv4: uuidv4(),
     });
-
-    baseSuccessResponse(res, instance);
 
     next();
 };

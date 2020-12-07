@@ -2,8 +2,6 @@ import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 dotenv.config();
 
-console.log(process.env.MYSQL_PORT);
-
 const config = {
     username: process.env.MYSQL_USERNAME ? process.env.MYSQL_USERNAME : '',
     password: process.env.MYSQL_PASSWORD ? process.env.MYSQL_PASSWORD : '',
@@ -13,13 +11,16 @@ const config = {
     port: process.env.MYSQL_PORT ? Number(process.env.MYSQL_PORT) : 3306,
 };
 
+/**
+ * https://sequelize.org/master
+ */
 export const sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
     dialect: 'mariadb',
     port: config.port,
 });
 
-sequelize.sync().then(
+sequelize.authenticate().then(
     function() {
         console.log('DB connection sucessful.');
     },

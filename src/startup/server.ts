@@ -14,7 +14,7 @@ function addRouters(app: Application): void {
     app.use(`${baseApiRoute}/tests`, RestMiddleware, TestsRouter);
     app.use(`${baseApiRoute}/systems`, RestMiddleware, SystemsRouter);
 
-    app.use(`${baseApiRoute}`, RestAfterMiddleware);
+    // app.use(`${baseApiRoute}`, RestAfterMiddleware);
 }
 
 export function initServer(app: Application): void {

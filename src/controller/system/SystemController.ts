@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { noCotentResponse, baseNoticeResponse, baseAppversionResponse, baseSuccessResponse, DeepMerge } from '@common';
 import * as fs from 'fs';
 import Codes from '@src/models/Codes';
+import Users from '@src/models/Users';
+import { sequelize } from '@src/instances/Sequelize';
+import { v4 as uuidv4 } from 'uuid';
 
 // 기본 서버 상태 체크.
 export const checkStatus = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -74,4 +77,34 @@ export const baseData = async (req: Request, res: Response, next: NextFunction):
     }
 
     next();
+};
+
+// 기본 유저 등록.
+export const defaultUser = async (req: Request, res: Response): Promise<void> => {
+    if (req) {
+        fs.readFile('storage/server/user.json', 'utf8', async function(err, user) {
+            const userJson = JSON.parse(user);
+            /* eslint-disable @typescript-eslint/camelcase */
+            const transaction = await sequelize.transaction();
+            try {
+                const task = await Users.create(
+                    {
+                        user_uuid: uuidv4(),
+                        user_name: userJson.user_name,
+                        user_password: userJson.user_password,
+                        user_email: userJson.user_email,
+                        active: 'Y',
+                        profile_active: 'Y',
+                    },
+                    { transaction }
+                );
+                // commit
+                await transaction.commit();
+                baseSuccessResponse(res, task);
+            } catch (err) {
+                console.log(err);
+                await transaction.rollback();
+            }
+        });
+    }
 };

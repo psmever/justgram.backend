@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkStatus, checkNotice, appVersionCheck, baseData } from '@controller/system/SystemController';
+import { checkStatus, checkNotice, appVersionCheck, baseData, defaultUser } from '@controller/system/SystemController';
 
 export const SystemsRouter = Router();
 
@@ -14,3 +14,6 @@ SystemsRouter.get('/check-app-version', appVersionCheck);
 
 // 기본 데이터.
 SystemsRouter.get('/base-data', baseData);
+
+// 기본 데이터.
+SystemsRouter.get('/default-user', defaultUser);

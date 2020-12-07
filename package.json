@@ -21,6 +21,7 @@
     "dependencies": {
         "@types/mysql": "^2.15.16",
         "@types/sequelize": "^4.28.9",
+        "@types/uuid": "^8.3.0",
         "dotenv": "^8.2.0",
         "eslint-loader": "^4.0.2",
         "express": "^4.17.1",
@@ -28,6 +29,7 @@
         "mysql2": "^2.2.5",
         "sequelize": "^6.3.5",
         "ts-loader": "^8.0.11",
+        "uuid": "^8.3.1",
         "webpack": "^5.10.0",
         "webpack-node-externals": "^2.5.2",
         "winston": "^3.2.1"

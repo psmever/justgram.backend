@@ -2,7 +2,7 @@
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		/**
+    /**
      * Add altering commands here.
      */
 		await queryInterface.createTable("users", {
@@ -36,7 +36,7 @@ module.exports = {
 				allowNull: false,
 				defaultValue: "Y"
 			},
-			profile_acive: {
+			profile_active: {
 				type: Sequelize.ENUM,
 				values: ["Y", "N"],
 				allowNull: false,
@@ -61,7 +61,7 @@ module.exports = {
 	},
 
 	down: async (queryInterface, Sequelize) => {
-		/**
+    /**
      * Add reverting commands here.
      *
      * Example:

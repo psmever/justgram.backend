@@ -1,11 +1,4 @@
 'use strict';
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
-const db = {};
-
-console.log(config);
-console.log(config.use_env_variable);
-
 
 const codes = require('../seeditems/codes-seed');
 
@@ -20,7 +13,6 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-
    var options = { raw: true };
    await queryInterface.sequelize.query("SET FOREIGN_KEY_CHECKS = 0").then(function () {
        return queryInterface.sequelize.query("truncate table codes", null, options);

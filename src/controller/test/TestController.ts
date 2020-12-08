@@ -8,6 +8,4 @@ export const Default = async (req: Request, res: Response, next: NextFunction): 
     baseSuccessResponse(res, {
         uuidv4: uuidv4(),
     });
-
-    next();
 };

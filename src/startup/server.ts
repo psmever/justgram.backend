@@ -1,9 +1,15 @@
 import { Application } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import passport from 'passport';
 import { Logger } from '@common';
-require('dotenv').config();
+import dotenv from 'dotenv';
+import Passport from '@src/middlewares/Passport';
+
+dotenv.config();
 
 import { RestAfterMiddleware, RestBeforeAfterMiddleware, RestMiddleware } from '@src/middlewares';
-import { TestsRouter, SystemsRouter } from '@src/routers';
+import { TestsRouter, SystemsRouter, AuthRouter } from '@src/routers';
 
 function addRouters(app: Application): void {
     const baseApiRoute = '/api';
@@ -13,12 +19,26 @@ function addRouters(app: Application): void {
 
     app.use(`${baseApiRoute}/tests`, RestMiddleware, TestsRouter);
     app.use(`${baseApiRoute}/systems`, RestMiddleware, SystemsRouter);
+    app.use(`${baseApiRoute}/auth`, RestMiddleware, AuthRouter);
 
-    // app.use(`${baseApiRoute}`, RestAfterMiddleware);
+    app.use(`${baseApiRoute}`, RestAfterMiddleware);
 }
 
 export function initServer(app: Application): void {
     addRouters(app);
+
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(
+        cors({
+            origin: 'http://localhost',
+        })
+    );
+
+    app.use(passport.initialize());
+
+    Passport(passport);
+
     return;
 }
 

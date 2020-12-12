@@ -46,7 +46,7 @@ export const appVersionCheck = async (req: Request, res: Response): Promise<void
 };
 
 // 시스템 기본 데이터
-export const baseData = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const baseData = async (req: Request, res: Response): Promise<void> => {
     const codeNameType = {};
     const codeGroupType = {};
 
@@ -75,8 +75,6 @@ export const baseData = async (req: Request, res: Response, next: NextFunction):
             });
         });
     }
-
-    next();
 };
 
 // 기본 유저 등록.

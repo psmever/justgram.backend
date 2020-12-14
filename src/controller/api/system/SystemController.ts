@@ -80,6 +80,25 @@ export const baseData = async (req: Request, res: Response): Promise<void> => {
 // 기본 유저 등록.
 export const defaultUser = async (req: Request, res: Response): Promise<void> => {
     if (req) {
+        const options = { raw: true };
+        await sequelize
+            .query('SET FOREIGN_KEY_CHECKS = 0')
+            .then(function() {
+                return sequelize.query('truncate table users', options);
+            })
+            .then(function() {
+                return sequelize.query('truncate table user_profile', options);
+            })
+            .then(function() {
+                return sequelize.query('truncate table user_email_auth', options);
+            })
+            .then(function() {
+                return sequelize.query('truncate table user_type', options);
+            })
+            .then(function() {
+                return sequelize.query('SET FOREIGN_KEY_CHECKS = 1', options);
+            });
+
         fs.readFile('storage/server/user.json', 'utf8', async function(err, user) {
             const userJson = JSON.parse(user);
             /* eslint-disable @typescript-eslint/camelcase */
@@ -91,6 +110,7 @@ export const defaultUser = async (req: Request, res: Response): Promise<void> =>
                         user_name: userJson.user_name,
                         user_password: userJson.user_password,
                         user_email: userJson.user_email,
+                        user_level: userJson.user_level,
                         active: 'Y',
                         profile_active: 'Y',
                     },

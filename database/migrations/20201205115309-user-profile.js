@@ -21,7 +21,7 @@ module.exports = {
 			},
 			profile_name: {
 				type: Sequelize.STRING,
-				allowNull: false,
+				allowNull: true,
 			},
 			profile_website: {
 				type: Sequelize.STRING,
@@ -32,7 +32,7 @@ module.exports = {
 			},
 			profile_gender: {
 				type: Sequelize.STRING(6),
-				allowNull: false
+				allowNull: true
 			},
 			createdAt: {
 				field: "created_at",

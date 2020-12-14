@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { isEmpty } from '@common';
 import { clientErrorResponse } from '@common';
+import { responseMessage } from '@src/common/providers/ResponseMessage';
 
 export const RestBeforeAfterMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -11,7 +12,7 @@ export const RestBeforeAfterMiddleware = async (req: Request, res: Response, nex
     // 클라이언트 타입 체크
     if (isEmpty(req.headers['request-client-type']) === true) {
         clientErrorResponse(res, {
-            error: '클라이언트 정보가 존재 하지 않습니다.',
+            message: responseMessage.error.clientTypeNotFound,
         });
         return;
     }
@@ -19,7 +20,7 @@ export const RestBeforeAfterMiddleware = async (req: Request, res: Response, nex
     // accept 체크
     if (isEmpty(req.headers['accept']) === true) {
         clientErrorResponse(res, {
-            error: '잘못된 요청 입니다.',
+            message: responseMessage.error.defaultClientError,
         });
         return;
     }
@@ -27,7 +28,7 @@ export const RestBeforeAfterMiddleware = async (req: Request, res: Response, nex
     // Content-type 체크
     if (isEmpty(req.headers['content-type']) === true) {
         clientErrorResponse(res, {
-            error: '잘못된 요청 입니다.',
+            message: responseMessage.error.defaultClientError,
         });
         return;
     }

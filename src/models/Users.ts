@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { Model, DataTypes, Optional } from 'sequelize';
 import { sequelize } from '@src/instances/Sequelize';
 
@@ -8,6 +7,7 @@ interface UsersAttributes {
     user_name: string | null;
     user_password: string | null;
     user_email: string | null;
+    user_level: string | null;
     active: 'Y' | 'N';
     profile_active: 'Y' | 'N';
     email_verified_at?: Date;
@@ -18,6 +18,7 @@ type UsersCreationAttributes = Optional<UsersAttributes, 'id'>;
 class Users extends Model<UsersAttributes, UsersCreationAttributes> implements UsersAttributes {
     public id!: number;
     public user_uuid!: string;
+    public user_level!: string;
     public user_name!: string | null;
     public user_password!: string | null;
     public user_email!: string | null;
@@ -40,6 +41,11 @@ Users.init(
         },
         user_uuid: {
             type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: '',
+        },
+        user_level: {
+            type: DataTypes.STRING(6),
             allowNull: false,
             defaultValue: '',
         },

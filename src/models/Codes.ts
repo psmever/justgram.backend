@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Model, DataTypes, Optional } from 'sequelize';
 import { sequelize } from '@src/instances/Sequelize';
 
@@ -11,9 +10,9 @@ interface CodesAttributes {
     active: 'Y' | 'N';
 }
 
-type UserCreationAttributes = Optional<CodesAttributes, 'id'>;
+type CodesCreationAttributes = Optional<CodesAttributes, 'id'>;
 
-class Codes extends Model<CodesAttributes, UserCreationAttributes> implements CodesAttributes {
+class Codes extends Model<CodesAttributes, CodesCreationAttributes> implements CodesAttributes {
     public id!: number;
     public group_id!: string;
     public code_id!: string | null;

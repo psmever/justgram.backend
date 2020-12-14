@@ -32,7 +32,19 @@ const logger = winston.createLogger({
  * A console only logger.
  */
 const consoleLogger = winston.createLogger({
-    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+    // format: winston.format.combine(winston.format.colorize(), winston.format.timestamp(), winston.format.json()),
+    format: winston.format.combine(
+        winston.format.colorize({ all: true }),
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.align(),
+        winston.format.printf(info => {
+            const { timestamp, level, message, ...extra } = info;
+
+            return `${timestamp} [${level}]: ${message} ${
+                Object.keys(extra).length ? JSON.stringify(extra, null, 2) : ''
+            }`;
+        })
+    ),
     transports: [
         new winston.transports.Console({
             level: 'silly' /* error, warn, info, verbose, debug & silly logs will be logged to console. */,

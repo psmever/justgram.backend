@@ -13,7 +13,7 @@
 		"@typescript-eslint"
 	],
     "rules": {
-        // "@typescript-eslint/camelcase": "off"
+        "@typescript-eslint/camelcase": "off",
         // "@typescript-eslint/explicit-function-return-type": "off",
 		// "@typescript-eslint/no-var-requires": 0,
 		"linebreak-style": [

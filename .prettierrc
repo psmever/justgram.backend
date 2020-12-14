@@ -14,5 +14,13 @@
     "semi": true,
     "trailingComma": "es5",
     "useTabs": false,
-    "vueIndentScriptAndStyle": false
+    "vueIndentScriptAndStyle": false,
+    "overrides": [
+        {
+          "files": "*.css",
+          "options": {
+            "parser": "css"
+          }
+        }
+      ]
 }

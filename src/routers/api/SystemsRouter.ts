@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { checkStatus, checkNotice, appVersionCheck, baseData, defaultUser } from '@controller/system/SystemController';
+import {
+    checkStatus,
+    checkNotice,
+    appVersionCheck,
+    baseData,
+    defaultUser,
+} from '@controller/api/system/SystemController';
 
 export const SystemsRouter = Router();
 

@@ -2,3 +2,4 @@ build/**
 cfg
 database
 webpack.config.js
+src/startup/resources/**

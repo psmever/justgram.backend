@@ -16,6 +16,11 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 				defaultValue: ""
+            },
+            user_level: {
+				type: Sequelize.STRING(6),
+				allowNull: true,
+				defaultValue: null
 			},
 			user_name: {
 				type: Sequelize.STRING,
@@ -57,7 +62,19 @@ module.exports = {
 				type: "TIMESTAMP",
 				defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
 			}
-		});
+		}).then(() => queryInterface.addIndex("users", ["user_uuid", "user_level", "user_email"], {
+			name: "user_uuid_level_email"
+		})).then(() => queryInterface.addConstraint("users", {
+			fields: ["user_level"],
+			type: "foreign key",
+			name: "custom_fkey_users_user_level",
+			references: {
+				table: "codes",
+				field: "code_id"
+			},
+			onDelete: "cascade",
+			onUpdate: "cascade"
+		}));
 	},
 
 	down: async (queryInterface, Sequelize) => {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Default } from '@controller/test/TestController';
+import { Default } from '@controller/api/test/TestController';
 import passport from 'passport';
 
 export const TestsRouter = Router();
